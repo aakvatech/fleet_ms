@@ -12,9 +12,21 @@ import json
 from frappe.utils import nowdate, cstr, cint, flt, comma_or, now
 from frappe import _, msgprint
 from vsd_fleet_ms.utils.dimension import set_dimension
+from vsd_fleet_ms.vsd_fleet_ms.doctype.requested_payment.requested_payment import request_funds
 
 class CargoRegistration(Document):
-	pass
+    def before_save(self):
+        if self.get('requested_fund'):
+            for row in self.get('requested_fund'):
+                if row.request_status == "Requested":
+                    funds_args = {
+                        "reference_doctype": 'Cargo Registration',
+                        "reference_docname": self.name,
+                        "company": self.company
+                    }
+                    request_funds(**funds_args)
+                    break 
+
 
 
 @frappe.whitelist()
@@ -28,27 +40,42 @@ def create_sales_invoice(doc, rows):
     for row in rows:
         description = ""
         trip_info = None
-        if row["transporter_type"] == "In House":
-            description += "<b>VEHICLE NUMBER: " + row["assigned_truck"]
-            if row["created_trip"]:
-                trip_info = "<BR>TRIP: " + row["created_trip"]
-        elif row["transporter_type"] == "Sub-Contractor":
-            description += "<b>VEHICLE NUMBER: " + row["truck_number"]
-            description += "<br><b>DRIVER NAME: " + row["driver_name"]
+        if row.get("transporter_type"):
+            if row["transporter_type"] == "In House":
+                description += "<b>VEHICLE NUMBER: " + row["assigned_truck"]
+                if row["created_trip"]:
+                    trip_info = "<BR>TRIP: " + row["created_trip"]
+            elif row["transporter_type"] == "Sub-Contractor":
+                description += "<b>VEHICLE NUMBER: " + row["truck_number"]
+                description += "<br><b>DRIVER NAME: " + row["driver_name"]
         if row["cargo_route"]:
             description += "<BR>ROUTE: " + row["cargo_route"]
         if trip_info:
             description += trip_info
-        item = frappe._dict({
+        if row["allow_bill_on_weight"] == 1:
+            item = frappe._dict({
+                    "item_code": row["service_item"],
+                    "qty": row.get("net_weight_tonne"),
+                    "uom": row["bill_uom"],
+                    "rate": row["rate"],
+                    "description": description,
+                    "cargo_id": row.get("name"),
+                }
+            )
+            item_row_per.append([row, item])
+            items.append(item)
+        else:
+            item = frappe._dict({
                 "item_code": row["service_item"],
                 "qty": 1,
-                "uom": frappe.get_value("Item", row["service_item"], "stock_uom"),
+                "uom": row["bill_uom"],
                 "rate": row["rate"],
                 "description": description,
-            }
-        )
-        item_row_per.append([row, item])
-        items.append(item)
+                "cargo_id": row.get("name"),
+                }
+            )
+            item_row_per.append([row, item])
+            items.append(item)
         
     invoice = frappe.get_doc(
         dict(

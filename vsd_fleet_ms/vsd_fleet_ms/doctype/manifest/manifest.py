@@ -3,6 +3,7 @@
 
 import frappe
 import json
+from frappe.query_builder import DocType
 from frappe.model.document import Document
 import datetime
 
@@ -27,6 +28,9 @@ class Manifest(Document):
 		if self.name:
 			self.update_cargo_registration_details()
 			self.update_trips()
+	
+	def on_submit(self):
+		self.set_truck_dimension()
 
 	def cargo_allocation(self):
 		if self.transporter_type == "Sub-Contractor":
@@ -129,6 +133,44 @@ class Manifest(Document):
 			self.trailer2_type = ''
 			self.trailer_3 = ''
 			self.trailer3_type = ''
+
+	def set_truck_dimension(self):
+		# Check if truck is settled as accounting dimension on transport settings
+		tr_settings = frappe.get_doc("Transport Settings")
+		has_si_truck_dimension = None
+		has_sii_truck_dimension = None
+		for d in tr_settings.accounting_dimension:
+			if (
+				not has_si_truck_dimension and
+				d.get("dimension_name") == "Truck" and
+				d.get("target_doctype") == "Sales Invoice"
+			):
+				has_si_truck_dimension = True
+			
+			if (
+				not has_sii_truck_dimension and
+				d.get("dimension_name") == "Truck" and
+				d.get("target_doctype") == "Sales Invoice Item"
+			):
+				has_sii_truck_dimension = True
+
+		if not has_si_truck_dimension and not has_sii_truck_dimension:
+			return
+		
+		# Set truck dimension on sales invoice and sales invoice item
+		for row in self.manifest_cargo_details:
+			invoice_id = frappe.db.get_value("Cargo Detail", row.cargo_id, "invoice")
+			invoice_doc = frappe.get_doc("Sales Invoice", invoice_id)
+
+			# if has_si_truck_dimension and not invoice_doc.truck:
+			# 	invoice_doc.truck = self.truck
+
+			if has_sii_truck_dimension:
+				for d in invoice_doc.items:
+					if row.cargo_id == d.cargo_id:
+						d.truck = self.truck
+
+			invoice_doc.save(ignore_permissions=True)
 
 
 @frappe.whitelist()

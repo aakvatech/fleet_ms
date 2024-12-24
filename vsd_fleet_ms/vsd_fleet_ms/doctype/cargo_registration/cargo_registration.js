@@ -86,6 +86,20 @@ frappe.ui.form.on('Cargo Detail', {
 			frm.refresh_field("cargo_details")
 		}
 	},
+	net_weight: function(frm, cdt, cdn){
+		var row = locals[cdt][cdn];
+		console.log("hi");
+		
+		// Convert kg to tonnes (1 tonne = 1000 kg)
+		if (row.net_weight) {
+			row.net_weight_tonne = row.net_weight / 1000;
+		} else {
+			row.net_weight_tonne = 0;
+		}
+
+		// Refresh the field in the child table
+		frm.refresh_field('cargo_details');
+	},
 	expected_offloading_date: function(frm, cdt, cdn){
 		var row = locals[cdt][cdn];
 		if (row.expected_offloading_date < row.loading_date){
@@ -324,3 +338,27 @@ function cargo_destination_city_filter(frm,cdt,cdn){
 		};
 	});
 }
+
+frappe.ui.form.on('Requested Fund Details', {
+    disburse_funds: function (frm, cdt, cdn) {
+        if (frm.is_dirty()) {
+            frappe.throw(__("Plase Save First"));
+            return;
+        }
+        const row = locals[cdt][cdn];
+        if (row.journal_entry) return;
+        frappe.call({
+            method: "vsd_fleet_ms.vsd_fleet_ms.doctype.trips.trips.create_fund_jl",
+            args: {
+                doc: frm.doc,
+                row: row
+            },
+            callback: function (data) {
+                frm.reload_doc();
+                // frappe.set_route('Form', data.message.doctype, data.message.name);
+                const new_url = `${window.location.origin}/app/journal-entry/${data.message.name}`;
+                window.open(new_url, '_blank');
+            }
+        });
+    }
+});
