@@ -16,18 +16,18 @@
   "tyre_specification",
   "image",
   "status",
-  "column_break_e1nwo",
+  "column_break_sikd1",
   "trailer_number",
   "manufacturing_year",
   "trailer_make",
   "trailer_type",
-  "section_break_wboyl",
   "number_of_axels",
-  "column_break_sikd1",
-  "suspension_type",
+  "compartment_details_section",
+  "compartment_details",
   "tab_break_0ioi6",
   "documents_section",
-  "trailer_documents"
+  "trailer_documents",
+  "suspension_type"
  ],
  "fields": [
   {
@@ -95,14 +95,6 @@
    "label": "Trailer Informations"
   },
   {
-   "fieldname": "column_break_e1nwo",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "section_break_wboyl",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "column_break_sikd1",
    "fieldtype": "Column Break"
   },
@@ -146,12 +138,25 @@
    "fieldname": "trailer_number",
    "fieldtype": "Data",
    "label": "Trailer Number"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "compartment_details_section",
+   "fieldtype": "Section Break",
+   "label": "Compartment Details"
+  },
+  {
+   "fieldname": "compartment_details",
+   "fieldtype": "Table",
+   "label": "Compartment Details",
+   "mandatory_depends_on": "eval:doc.trailer_type === \"Fuel Tanker\"",
+   "options": "Compartment Details"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-25 16:44:50.899761",
+ "modified": "2025-01-09 09:12:49.775636",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Trailers",
