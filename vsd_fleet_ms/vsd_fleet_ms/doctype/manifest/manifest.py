@@ -28,7 +28,53 @@ class Manifest(Document):
 		if self.name:
 			self.update_cargo_registration_details()
 			self.update_trips()
-	
+		self.validate_capacity()
+  
+	def validate_capacity(self):
+		# Fetch the default compartment capacity from Transport Settings
+		default_capacity = frappe.db.get_value("Transport Settings", "Transport Settings", "default_compartment_capacity")
+		
+		if not default_capacity:
+			frappe.throw("Default compartment capacity is not set in Transport Settings.")
+		
+		truck_capacity = 0
+		total_trailer_capacity = 0
+		
+		# Fetch capacities for the truck
+		truck_docs = frappe.get_doc('Truck', self.truck)
+		for truck_doc in truck_docs.compartment_details:
+			# Ensure capacity is converted to a float or integer
+			try:
+				compartment_capacity = float(truck_doc.capacity)
+			except ValueError:
+				frappe.throw(f"Invalid capacity value for truck compartment: {truck_doc.capacity}")
+			truck_capacity += compartment_capacity
+
+		# Fetch capacities for trailers
+		trailers = [self.trailer_1, self.trailer_2, self.trailer_3]
+		# frappe.throw(str(trailers))
+		for trailer in trailers:
+			if trailer:  # Ensure the trailer exists
+				trailer_docs = frappe.get_doc('Trailers', trailer)
+				for trailer_doc in trailer_docs.compartment_details:
+					try:
+						compartment_capacity = float(trailer_doc.capacity)
+					except ValueError:
+						frappe.throw(f"Invalid capacity value for trailer {trailer} compartment: {trailer_doc.capacity}")
+					total_trailer_capacity += compartment_capacity
+
+		# frappe.throw(str(default_capacity))
+		# Perform validation
+		total_capacity = truck_capacity + total_trailer_capacity
+		frappe.db.set_value("Manifest", self.name, "consolidated_weight", total_capacity)
+		
+		if total_capacity > float(default_capacity):
+			frappe.throw(
+				f"The combined capacity of the truck ({truck_capacity}) and trailers ({total_trailer_capacity}) "
+				f"exceeds the default limit of {default_capacity}."
+			)
+		self.consolidated_weight = total_capacity
+		
 	def on_submit(self):
 		self.set_truck_dimension()
 
@@ -171,6 +217,7 @@ class Manifest(Document):
 						d.truck = self.truck
 
 			invoice_doc.save(ignore_permissions=True)
+   
 
 
 @frappe.whitelist()

@@ -14,6 +14,7 @@
   "column_break_rcaxa",
   "expense_account_group",
   "cash_or_bank_account_group",
+  "default_compartment_capacity",
   "accounting_dimension_section",
   "accounting_dimension"
  ],
@@ -69,12 +70,17 @@
    "fieldname": "accounting_dimension",
    "fieldtype": "Table",
    "options": "Transport Accounting Dimension"
+  },
+  {
+   "fieldname": "default_compartment_capacity",
+   "fieldtype": "Int",
+   "label": "Default Compartment Capacity"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2023-05-16 15:56:23.614501",
+ "modified": "2025-01-10 09:32:21.295315",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Transport Settings",
