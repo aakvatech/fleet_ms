@@ -5,7 +5,7 @@ import frappe
 from frappe.model.document import Document
 
 class RoundTrip(Document):
-	def before_save(self):
+	def after_insert(self):
 		for trips in self.trip_details:
 			trip = frappe.get_doc("Trips",trips.trip_id)
 			if trip.round_trip != self.name:
