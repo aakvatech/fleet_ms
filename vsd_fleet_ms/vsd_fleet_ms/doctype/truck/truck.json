@@ -23,9 +23,12 @@
   "column_break_y9xcd",
   "manufacturing_year",
   "model",
+  "truck_type",
   "located_yard",
   "acquisition_odometer_reading",
   "trans_ms_current_trip",
+  "compartment_details_section",
+  "compartment_details",
   "section_break_pkgwx",
   "fuel_type",
   "trans_ms_maintain_stock",
@@ -239,12 +242,31 @@
   {
    "fieldname": "section_break_730cm",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "truck_type",
+   "fieldtype": "Select",
+   "label": "Truck Type",
+   "options": "\nSkeleton\nFuel"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "compartment_details_section",
+   "fieldtype": "Section Break",
+   "label": "Compartment Details"
+  },
+  {
+   "fieldname": "compartment_details",
+   "fieldtype": "Table",
+   "label": "Compartment Details",
+   "mandatory_depends_on": "eval:doc.truck_type === \"Fuel\"",
+   "options": "Compartment Details"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-25 16:44:36.452165",
+ "modified": "2025-01-08 17:31:38.541283",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Truck",

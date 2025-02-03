@@ -44,7 +44,9 @@
   "manifest_cargo_details",
   "section_break_smyta",
   "manifest_total_weight",
-  "amended_from"
+  "amended_from",
+  "column_break_ueee",
+  "consolidated_weight"
  ],
  "fields": [
   {
@@ -285,12 +287,21 @@
    "print_hide": 1,
    "read_only": 1,
    "report_hide": 1
+  },
+  {
+   "fieldname": "column_break_ueee",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "consolidated_weight",
+   "fieldtype": "Int",
+   "label": "Consolidated Weight"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-12 17:15:22.743578",
+ "modified": "2025-01-10 09:40:37.484494",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Manifest",
