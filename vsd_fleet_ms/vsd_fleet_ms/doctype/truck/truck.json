@@ -145,7 +145,7 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Idle\nUnder Maintenance\nOn Trip\nDisabled",
+   "options": "Idle\nUnder Maintenance\nOn Trip\nBreakdown\nDisabled",
    "read_only": 1
   },
   {
@@ -301,6 +301,10 @@
   {
    "color": "Green",
    "title": "On Trip"
+  },
+  {
+   "color": "Orange",
+   "title": "Breakdown"
   },
   {
    "color": "Red",

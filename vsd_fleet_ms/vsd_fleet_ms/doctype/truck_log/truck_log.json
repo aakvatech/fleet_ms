@@ -27,7 +27,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Vehicle Status",
-   "options": "Idle\nUnder Maintenance\nOn Trip\nDisabled",
+   "options": "Idle\nUnder Maintenance\nOn Trip\nBreakdown\nDisabled",
    "reqd": 1
   },
   {

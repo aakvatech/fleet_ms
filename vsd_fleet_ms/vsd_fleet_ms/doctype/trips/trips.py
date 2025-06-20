@@ -17,6 +17,61 @@ from erpnext.setup.utils import get_exchange_rate
 from vsd_fleet_ms.vsd_fleet_ms.doctype.requested_payment.requested_payment import request_funds
 
 class Trips(Document):
+    def before_save(self):
+        if not self.date:
+            self.date = datetime.datetime.now()
+        # validate_requested_funds(self)
+        self.validate_main_route_inputs()
+        self.update_truck_status()
+
+    def update_truck_status(self):
+        if self.transporter_type == "In House" and self.truck_number:
+            # Update truck status based on trip status
+            if self.trip_completed == 1:
+                # Check if truck has any other active trips before setting to Idle
+                other_active_trips = frappe.db.count('Trips', {
+                    'truck_number': self.truck_number,
+                    'trip_completed': 0,
+                    'name': ['!=', self.name],
+                    'docstatus': ['!=', 2]  # Exclude cancelled trips
+                })
+
+                if other_active_trips == 0:
+                    # Set truck to Idle when trip is completed and no other active trips
+                    frappe.db.set_value('Truck', self.truck_number, {
+                        'status': 'Idle',
+                        'trans_ms_current_trip': ''
+                    })
+                else:
+                    # If there are other active trips, just clear current trip reference
+                    frappe.db.set_value('Truck', self.truck_number, {
+                        'trans_ms_current_trip': ''
+                    })
+            elif self.trip_status == "Brake down":
+                # Set truck status to Breakdown
+                frappe.db.set_value('Truck', self.truck_number, {
+                    'status': 'Breakdown',
+                    'trans_ms_current_trip': self.name
+                })
+            else:
+                # Set truck to On Trip when assigned
+                frappe.db.set_value('Truck', self.truck_number, {
+                    'status': 'On Trip',
+                    'trans_ms_current_trip': self.name
+                })
+
+    def on_update(self):
+        # Update trip status based on completion
+        if self.trip_completed == 1 and self.trip_status != "Completed":
+            self.db_set("trip_status", "Completed")
+            # Update truck status when trip is completed
+            self.update_truck_status()
+        elif self.trip_status == "Brake down" and self.trip_completed == 1:
+            # If a breakdown trip is marked as completed, update status
+            self.db_set("trip_status", "Completed")
+            # Update truck status when breakdown trip is completed
+            self.update_truck_status()
+
     def before_submit(self):
         self.set_driver()
         self.validate_request_status()
@@ -125,6 +180,7 @@ class Trips(Document):
             self.date = datetime.datetime.now()
         # validate_requested_funds(self)
         self.validate_main_route_inputs()
+        self.update_truck_status()
 
     def validate_fuel_requests(self):
         make_request = False
@@ -453,7 +509,7 @@ def create_purchase_order(request_doc, item):
 @frappe.whitelist()
 def create_breakdown(docname):
     trip = frappe.get_doc("Trips", docname)
-    trip.trip_status = "Breakdown"
+    trip.trip_status = "Brake down"
     trip.status = "Not Re-Assigned"
     trip.breakdown_date = now()
     trip.save()

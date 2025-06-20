@@ -175,7 +175,7 @@
    "fieldname": "eta_end_of_trip",
    "fieldtype": "Data",
    "label": "ETA End Of Trip",
-   "read_only_depends_on": "eval:doc.trip_status == \"Breakdown\""
+   "read_only_depends_on": "eval:doc.trip_status == \"Brake down\""
   },
   {
    "fieldname": "section_break_ld7mf",
@@ -334,7 +334,7 @@
    "fieldtype": "Table",
    "label": "Location Update",
    "options": "Truck Trip Location Update",
-   "read_only_depends_on": "eval:doc.trip_status == \"Breakdown\""
+   "read_only_depends_on": "eval:doc.trip_status == \"Brake down\""
   },
   {
    "fieldname": "side_trips_tab",
@@ -374,14 +374,14 @@
    "fieldname": "phone_number",
    "fieldtype": "Data",
    "label": "Phone Number",
-   "read_only_depends_on": "eval:doc.trip_status == \"Breakdown\""
+   "read_only_depends_on": "eval:doc.trip_status == \"Brake down\""
   },
   {
    "depends_on": "eval:doc.transporter_type == \"In House\"",
    "fieldname": "licence_number",
    "fieldtype": "Data",
    "label": "Licence Number",
-   "read_only_depends_on": "eval:doc.trip_status == \"Breakdown\""
+   "read_only_depends_on": "eval:doc.trip_status == \"Brake down\""
   },
   {
    "fieldname": "section_break_7vc12",
@@ -552,11 +552,11 @@
    "fieldname": "trip_status",
    "fieldtype": "Select",
    "label": "Trip Status",
-   "options": "Pending\nCompleted\nBreakdown",
+   "options": "Pending\nCompleted\nBrake down",
    "read_only": 1
   },
   {
-   "depends_on": "eval:doc.trip_status == \"Breakdown\"",
+   "depends_on": "eval:doc.trip_status == \"Brake down\"",
    "fieldname": "vehicle_breakdown_tab",
    "fieldtype": "Tab Break",
    "label": "Vehicle Breakdown"
