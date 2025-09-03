@@ -125,6 +125,21 @@ class Trips(Document):
             self.date = datetime.datetime.now()
         # validate_requested_funds(self)
         self.validate_main_route_inputs()
+        self.calculate_totals()
+
+    def calculate_totals(self):
+        """Calculate total requested amount and total fuel requested"""
+        # Calculate total requested amount
+        total = 0
+        for row in self.requested_fund_accounts_table:
+            total = total + (row.request_amount or 0)
+        self.total_requested_amount = total
+        
+        # Calculate total fuel requested
+        total = 0
+        for row in self.fuel_request_history:
+            total = total + (row.quantity or 0)
+        self.total_fuel_requested = total
 
     def validate_fuel_requests(self):
         make_request = False
