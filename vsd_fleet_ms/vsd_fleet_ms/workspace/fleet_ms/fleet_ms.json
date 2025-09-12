@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"D_r2tq24Wk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">VSD Fleet</span>\",\"col\":12}},{\"id\":\"eEKQ_vxz6K\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"_FHA1FtdB9\",\"type\":\"card\",\"data\":{\"card_name\":\"Trips\",\"col\":4}},{\"id\":\"tiOnXE60vg\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}},{\"id\":\"fgOY4518ML\",\"type\":\"card\",\"data\":{\"card_name\":\"Transactions\",\"col\":4}},{\"id\":\"RRWILp0x3t\",\"type\":\"card\",\"data\":{\"card_name\":\"Transport Records\",\"col\":4}},{\"id\":\"Fvhi34VUqU\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}}]",
+ "content": "[{\"id\":\"jXwnsJvil0\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Active Trucks\",\"col\":4}},{\"id\":\"G8EkHN13E6\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Idle Trucks\",\"col\":3}},{\"id\":\"WQoT9AN7J1\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Completed Trips\",\"col\":4}},{\"id\":\"ClfVgiJBsi\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Active Trips\",\"col\":3}},{\"id\":\"q2QOU-UHg3\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Requested Payments\",\"col\":3}},{\"id\":\"zmWWdyEBaN\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Drivers\",\"col\":3}},{\"id\":\"x0AUY7DppD\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Fuel Requested\",\"col\":3}},{\"id\":\"D_r2tq24Wk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">VSD Fleet</span>\",\"col\":12}},{\"id\":\"eEKQ_vxz6K\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"_FHA1FtdB9\",\"type\":\"card\",\"data\":{\"card_name\":\"Trips\",\"col\":4}},{\"id\":\"tiOnXE60vg\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}},{\"id\":\"fgOY4518ML\",\"type\":\"card\",\"data\":{\"card_name\":\"Transactions\",\"col\":4}},{\"id\":\"RRWILp0x3t\",\"type\":\"card\",\"data\":{\"card_name\":\"Transport Records\",\"col\":4}},{\"id\":\"Fvhi34VUqU\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}}]",
  "creation": "2023-05-04 18:08:12.460715",
  "custom_blocks": [],
  "docstatus": 0,
@@ -139,8 +139,67 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "Transport Records",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Manifest",
+   "link_count": 0,
+   "link_to": "Manifest",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Truck Log",
+   "link_count": 0,
+   "link_to": "Truck Log",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Trip Report and Expenses",
+   "link_count": 0,
+   "link_to": "Trip Report and Expenses",
+   "link_type": "Report",
+   "onboard": 0,
+   "report_ref_doctype": "Trips",
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Fuel Expense By Trip",
+   "link_count": 0,
+   "link_to": "Fuel Expense By Trip",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "Transactions",
-   "link_count": 6,
+   "link_count": 7,
+   "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
   },
@@ -207,66 +266,48 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Transport Records",
-   "link_count": 2,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Manifest",
+   "label": "Fixed Expenses",
    "link_count": 0,
-   "link_to": "Manifest",
+   "link_to": "Fixed Expenses",
    "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Truck Log",
-   "link_count": 0,
-   "link_to": "Truck Log",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Reports",
-   "link_count": 2,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Trip Report and Expenses",
-   "link_count": 0,
-   "link_to": "Trip Report and Expenses",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Fuel Expense By Trip",
-   "link_count": 0,
-   "link_to": "Fuel Expense By Trip",
-   "link_type": "Report",
    "onboard": 0,
    "type": "Link"
   }
  ],
- "modified": "2024-05-06 12:10:09.083876",
+ "modified": "2025-09-03 10:49:31.306934",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Fleet MS",
- "number_cards": [],
+ "number_cards": [
+  {
+   "label": "Active Trucks",
+   "number_card_name": "Active Trucks"
+  },
+  {
+   "label": "Completed Trips",
+   "number_card_name": "Completed Trips"
+  },
+  {
+   "label": "Idle Trucks",
+   "number_card_name": "Idle Trucks"
+  },
+  {
+   "label": "Active Trips",
+   "number_card_name": "Trucks with Pending Trips"
+  },
+  {
+   "label": "Total Requested Payments",
+   "number_card_name": "Total Requested Payments"
+  },
+  {
+   "label": "Drivers",
+   "number_card_name": "Active Drivers"
+  },
+  {
+   "label": "Total Fuel Requested",
+   "number_card_name": "Total Fuel Requested"
+  }
+ ],
  "owner": "arnold@vvsdtz.com",
  "parent_page": "",
  "public": 1,
