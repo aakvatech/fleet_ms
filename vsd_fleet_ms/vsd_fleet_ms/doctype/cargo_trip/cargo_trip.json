@@ -1,148 +1,139 @@
 {
- "actions": [],
- "allow_rename": 1,
- "creation": "2025-06-20 13:25:26.058440",
- "doctype": "DocType",
- "editable_grid": 1,
- "engine": "InnoDB",
- "field_order": [
-  "truck_number",
-  "trailer",
-  "truck_capacity",
-  "loaded_volume",
-  "offloaded_volume",
-  "column_break_ojso",
-  "truck_driver",
-  "driver_name",
-  "cargo_type",
-  "loss",
-  "allowable_loss",
-  "column_break_tdnp",
-  "cargo_registration",
-  "cargo_registration_id",
-  "manifest",
-  "manifest_id",
-  "trip_id"
- ],
- "fields": [
-  {
-   "fieldname": "truck_number",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Truck Number",
-   "options": "Truck"
-  },
-  {
-   "fetch_from": "truck_number.trans_ms_default_trailer",
-   "fieldname": "trailer",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Trailer",
-   "options": "Trailers"
-  },
-  {
-   "fieldname": "truck_capacity",
-   "fieldtype": "Float",
-   "in_list_view": 1,
-   "label": "Capacity",
-   "precision": "0"
-  },
-  {
-   "fieldname": "loaded_volume",
-   "fieldtype": "Float",
-   "in_list_view": 1,
-   "label": "Loaded Volume",
-   "precision": "0"
-  },
-  {
-   "fieldname": "offloaded_volume",
-   "fieldtype": "Float",
-   "in_list_view": 1,
-   "label": "Offloaded Volume",
-   "precision": "0"
-  },
-  {
-   "fieldname": "column_break_ojso",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fetch_from": "truck_number.trans_ms_driver",
-   "fieldname": "truck_driver",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Truck Driver",
-   "options": "Truck Driver"
-  },
-  {
-   "fetch_from": "truck_number.custom_driver_name",
-   "fieldname": "driver_name",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Driver Name"
-  },
-  {
-   "fieldname": "cargo_type",
-   "fieldtype": "Link",
-   "label": "Cargo Type",
-   "options": "Cargo Types"
-  },
-  {
-   "fieldname": "loss",
-   "fieldtype": "Int",
-   "label": "Loss"
-  },
-  {
-   "fetch_from": "cargo_type.allowable_loss",
-   "fetch_if_empty": 1,
-   "fieldname": "allowable_loss",
-   "fieldtype": "Float",
-   "label": "Allowable Loss%",
-   "precision": "1"
-  },
-  {
-   "fieldname": "column_break_tdnp",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "cargo_registration",
-   "fieldtype": "Button",
-   "label": "Cargo Registration"
-  },
-  {
-   "fieldname": "cargo_registration_id",
-   "fieldtype": "Data",
-   "label": "Cargo Registration ID"
-  },
-  {
-   "fieldname": "manifest",
-   "fieldtype": "Button",
-   "label": "Manifest"
-  },
-  {
-   "fieldname": "manifest_id",
-   "fieldtype": "Data",
-   "label": "Manifest ID"
-  },
-  {
-   "fieldname": "trip_id",
-   "fieldtype": "Link",
-   "ignore_user_permissions": 1,
-   "label": "Trip Id",
-   "options": "Trips"
-  }
- ],
- "grid_page_length": 50,
- "index_web_pages_for_search": 1,
- "istable": 1,
- "links": [],
- "modified": "2025-08-26 10:29:29.193568",
- "modified_by": "Administrator",
- "module": "VSD Fleet MS",
- "name": "Cargo Trip",
- "owner": "Administrator",
- "permissions": [],
- "row_format": "Dynamic",
- "sort_field": "modified",
- "sort_order": "DESC",
- "states": []
+  "actions": [],
+  "allow_rename": 1,
+  "creation": "2025-06-20 13:25:26.058440",
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "truck_number",
+    "trailer",
+    "truck_capacity",
+    "loaded_volume",
+    "offloaded_volume",
+    "column_break_ojso",
+    "truck_driver",
+    "driver_name",
+    "cargo_type",
+    "loss",
+    "column_break_tdnp",
+    "cargo_registration",
+    "cargo_registration_id",
+    "manifest",
+    "manifest_id",
+    "trip_id"
+  ],
+  "fields": [
+    {
+      "fieldname": "truck_number",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Truck Number",
+      "options": "Truck"
+    },
+    {
+      "fetch_from": "truck_number.trans_ms_default_trailer",
+      "fieldname": "trailer",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Trailer",
+      "options": "Trailers"
+    },
+    {
+      "fieldname": "truck_capacity",
+      "fieldtype": "Float",
+      "in_list_view": 1,
+      "label": "Capacity",
+      "precision": "0"
+    },
+    {
+      "fieldname": "loaded_volume",
+      "fieldtype": "Float",
+      "in_list_view": 1,
+      "label": "Loaded Volume",
+      "precision": "0"
+    },
+    {
+      "fieldname": "offloaded_volume",
+      "fieldtype": "Float",
+      "in_list_view": 1,
+      "label": "Offloaded Volume",
+      "precision": "0"
+    },
+    {
+      "fieldname": "column_break_ojso",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fetch_from": "truck_number.trans_ms_driver",
+      "fieldname": "truck_driver",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Truck Driver",
+      "options": "Truck Driver"
+    },
+    {
+      "fetch_from": "truck_number.trans_ms__driver_name",
+      "fieldname": "driver_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Driver Name"
+    },
+    {
+      "fieldname": "cargo_type",
+      "fieldtype": "Link",
+      "label": "Cargo Type",
+      "options": "Cargo Types"
+    },
+    {
+      "fieldname": "loss",
+      "fieldtype": "Int",
+      "label": "Loss"
+    },
+    {
+      "fieldname": "column_break_tdnp",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "cargo_registration",
+      "fieldtype": "Button",
+      "label": "Cargo Registration"
+    },
+    {
+      "fieldname": "cargo_registration_id",
+      "fieldtype": "Data",
+      "label": "Cargo Registration ID"
+    },
+    {
+      "fieldname": "manifest",
+      "fieldtype": "Button",
+      "label": "Manifest"
+    },
+    {
+      "fieldname": "manifest_id",
+      "fieldtype": "Data",
+      "label": "Manifest ID"
+    },
+    {
+      "fieldname": "trip_id",
+      "fieldtype": "Link",
+      "ignore_user_permissions": 1,
+      "label": "Trip Id",
+      "options": "Trips"
+    }
+  ],
+  "grid_page_length": 50,
+  "index_web_pages_for_search": 1,
+  "istable": 1,
+  "links": [],
+  "modified": "2025-09-12 12:34:37.957754",
+  "modified_by": "Administrator",
+  "module": "VSD Fleet MS",
+  "name": "Cargo Trip",
+  "owner": "Administrator",
+  "permissions": [],
+  "row_format": "Dynamic",
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": []
 }
