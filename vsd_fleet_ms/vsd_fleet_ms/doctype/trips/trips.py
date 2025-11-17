@@ -188,18 +188,24 @@ class Trips(Document):
             frappe.throw("Loading Date must be set before Offloading Date")
 
     def validate_request_status(self):
+              # read single settings robustly
+        po_required = frappe.db.get_single_value("Transport Settings", "require_purchase_order_for_fuel") or 0
+        je_required = frappe.db.get_single_value("Transport Settings", "require_journal_entry_for_funds") or 0
+
         for row in self.fuel_request_history:
-            if row.status not in  ["Rejected", "Approved"]:
+            if row.status not in ["Rejected", "Approved"]:
                 frappe.throw("<b>All fuel requests must be on either approved or rejected before submitting the trip</b>")
-            
-            if row.status == "Approved" and not row.purchase_order:
+
+            # only require purchase_order when setting is enabled
+            if row.status == "Approved" and po_required and not row.purchase_order:
                 frappe.throw("<b>All approved fuel requests must have Purchase Order before submitting the trip</b>")
-        
+
         for row in self.requested_fund_accounts_table:
-            if row.request_status not in  ["Rejected", "Approved"]:
+            if row.request_status not in ["Rejected", "Approved"]:
                 frappe.throw("<b>All fund requests must be on either approved or rejected before submitting the trip</b>")
-            
-            if row.request_status == "Approved" and not row.journal_entry:
+
+            # only require journal entry when setting is enabled
+            if row.request_status == "Approved" and je_required and not row.journal_entry:
                 frappe.throw("<b>All approved fund requests must have a Journal Entry before submitting the trip</b>")
 
 
@@ -239,6 +245,11 @@ def create_vehicle_trip_from_manifest(args_array):
 def create_fund_jl(doc, row):
     doc = frappe.get_doc(json.loads(doc))
     row = frappe._dict(json.loads(row))
+        # check single-setting before forcing creation
+    je_required = frappe.db.get_single_value("Transport Settings", "require_journal_entry_for_funds") or 0
+    if not je_required:
+        frappe.msgprint(_("Automatic Journal Entry creation is disabled in Transport Settings"))
+        return None
     if row.journal_entry:
         frappe.throw("Journal Entry Already Created")
 
@@ -416,9 +427,12 @@ def create_stock_out_entry(doc, fuel_stock_out):
 
 @frappe.whitelist()
 def create_purchase_order(request_doc, item):
-    # frappe.throw(request_doc)
     item = frappe._dict(json.loads(item))
     request_doc = frappe._dict(json.loads(request_doc))
+    po_required = frappe.db.get_single_value("Transport Settings", "require_purchase_order_for_fuel") or 0
+    if not po_required:
+        frappe.msgprint(_("Automatic Purchase Order creation is disabled in Transport Settings"))
+        return None
     set_warehouse = frappe.get_value(
         "Truck", request_doc.truck_number, "trans_ms_fuel_warehouse"
     )
