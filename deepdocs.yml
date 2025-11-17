@@ -1,0 +1,7 @@
+target:
+  - url: "docs/"
+  - url: "examples/"
+
+include:  []
+
+reinit: "a-random-string"
