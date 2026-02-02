@@ -335,7 +335,7 @@ frappe.ui.form.on("Requested Fund Details", {
 
     // check Transport Settings before creating Journal Entry
     frappe.db
-      .get_value("Transport Settings", null, "require_journal_entry_for_funds")
+      .get_value("Transport Settings", "Transport Settings", "require_journal_entry_for_funds")
       .then((r) => {
         const je_required =
           r.message &&
