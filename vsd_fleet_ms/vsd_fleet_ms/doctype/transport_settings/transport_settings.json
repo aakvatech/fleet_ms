@@ -15,10 +15,11 @@
     "expense_account_group",
     "cash_or_bank_account_group",
     "default_compartment_capacity",
-    "accounting_dimension_section",
-    "accounting_dimension",
     "require_purchase_order_for_fuel",
-    "require_journal_entry_for_funds"
+    "require_journal_entry_for_funds",
+    "accounting_dimension_tab",
+    "accounting_dimension_section",
+    "accounting_dimension"
   ],
   "fields": [
     {
@@ -62,6 +63,11 @@
       "fieldtype": "Table MultiSelect",
       "label": "Cash or Bank Account Group",
       "options": "Transport Cash Account Group"
+    },
+    {
+      "fieldname": "accounting_dimension_tab",
+      "fieldtype": "Tab Break",
+      "label": "Accounting Dimension"
     },
     {
       "fieldname": "accounting_dimension_section",
