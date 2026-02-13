@@ -7,6 +7,7 @@ frappe.ui.form.on("Trips", {
     requested_total();
     rejected_total();
     fuel_amount();
+    set_service_ms_costing_visibility(frm);
     if (frm.doc.trip_completed == 0 && frm.doc.trip_status != "Breakdown") {
       frm.add_custom_button(
         __("Complete Trip"),
@@ -250,6 +251,32 @@ frappe.ui.form.on("Trips", {
     }
   },
 });
+
+function set_service_ms_costing_visibility(frm) {
+  frappe.db
+    .get_single_value("Transport Settings", "enable_service_ms")
+    .then((enabled) => {
+      const is_enabled = parseInt(enabled || 0, 10) === 1;
+      const fields = [
+        "costing_tab",
+        "costing_section",
+        "service_job_card",
+        "service_charges",
+        "spares_cost",
+      ];
+
+      fields.forEach((fieldname) => {
+        frm.set_df_property(fieldname, "hidden", is_enabled ? 0 : 1);
+      });
+
+      if (is_enabled && !frm.doc.service_job_card && frm.doc.docstatus == 0) {
+        frappe.show_alert({
+          message: __("Service MS is enabled. Select Service Job Card in Costing tab."),
+          indicator: "blue",
+        });
+      }
+    });
+}
 
 // frappe.ui.form.on('Side Trips', {
 // total_distance: function (frm, cdt, cdn) {
