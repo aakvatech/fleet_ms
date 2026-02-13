@@ -3,24 +3,17 @@
 
 frappe.ui.form.on('Cargo Registration', {
 	onload: function(frm){
-		
 		if(!frm.doc.posting_date) {
 			frm.set_value('posting_date', frappe.datetime.nowdate());
-			frm.set_df_property('posting_date', 'read_only', 1);
-			frm.refresh_field('posting_date')
-		}else{
-			frm.set_df_property('posting_date', 'read_only', 1);
-			frm.refresh_field('posting_date')
 		}
 	},
 	refresh: function(frm){
 		frm.doc.cargo_details.forEach(function(row) {
-			if (row.creation) {
+			if (!row.cargo_id) {
 				row.cargo_id = row.name;
-				frm.set_df_property('cargo_details','cargo_id', 'read_only', 1);
-				frm.refresh_field('cargo_details');
 			}
 		});
+		frm.refresh_field('cargo_details');
 		// frm.add_custom_button(__('Manifest'), function() {
 			// 	fetchManifestData();
 			// });
