@@ -82,6 +82,12 @@
   "trip_completed_date",
   "return_route",
   "connections_tab",
+  "costing_tab",
+  "costing_section",
+  "service_job_card",
+  "column_break_qtmsn",
+  "service_charges",
+  "spares_cost",
   "vehicle_breakdown_tab",
   "breakdown_date",
   "location",
@@ -518,6 +524,40 @@
    "fieldtype": "Tab Break",
    "label": "Connections",
    "show_dashboard": 1
+  },
+  {
+   "fieldname": "costing_tab",
+   "fieldtype": "Tab Break",
+   "label": "Costing"
+  },
+  {
+   "fieldname": "costing_section",
+   "fieldtype": "Section Break",
+   "label": "Costing Details"
+  },
+  {
+   "fieldname": "service_job_card",
+   "fieldtype": "Link",
+   "label": "Service Job Card",
+   "options": "Service Job Card"
+  },
+  {
+   "fieldname": "column_break_qtmsn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "service_job_card.service_charges",
+   "fieldname": "service_charges",
+   "fieldtype": "Currency",
+   "label": "Service Charges",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "service_job_card.spares_cost",
+   "fieldname": "spares_cost",
+   "fieldtype": "Currency",
+   "label": "Spares Cost",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_2erx7",

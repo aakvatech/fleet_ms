@@ -17,6 +17,7 @@
     "default_compartment_capacity",
     "require_purchase_order_for_fuel",
     "require_journal_entry_for_funds",
+    "enable_service_ms",
     "accounting_dimension_tab",
     "accounting_dimension_section",
     "accounting_dimension"
@@ -97,6 +98,13 @@
       "label": "Require Journal Entry For Funds",
       "default": 1,
       "description": "Require Journal Entry For Funds in Trip"
+    },
+    {
+      "fieldname": "enable_service_ms",
+      "fieldtype": "Check",
+      "label": "Enable Service MS Integration",
+      "default": 0,
+      "description": "Enable Fleet integration with Service MS"
     }
   ],
   "index_web_pages_for_search": 1,
