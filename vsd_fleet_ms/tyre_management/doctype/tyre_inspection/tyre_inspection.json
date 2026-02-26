@@ -1,0 +1,149 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "TYRE-INSP-.YYYY.-.#####",
+ "creation": "2026-02-18 11:50:00.000000",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "tyre",
+  "inspection_date",
+  "inspector",
+  "column_break_1",
+  "odometer_km",
+  "recommended_action",
+  "section_break_2",
+  "vehicle_type",
+  "vehicle",
+  "column_break_3",
+  "position",
+  "section_break_4",
+  "air_pressure",
+  "tread_depth",
+  "damage_notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "tyre",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Tyre",
+   "options": "Tyre Master",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "inspection_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Inspection Date",
+   "reqd": 1
+  },
+  {
+   "default": "Administrator",
+   "fieldname": "inspector",
+   "fieldtype": "Link",
+   "label": "Inspector",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "odometer_km",
+   "fieldtype": "Float",
+   "label": "Odometer/KM"
+  },
+  {
+   "fieldname": "recommended_action",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Recommended Action",
+   "options": "Observe\nRotate\nRepair\nReplace"
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break",
+   "label": "Current Assignment"
+  },
+  {
+   "fieldname": "vehicle_type",
+   "fieldtype": "Data",
+   "label": "Truck/Trailer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Data",
+   "label": "Truck/Trailer No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "position",
+   "fieldtype": "Link",
+   "label": "Position",
+   "options": "Tyre Position",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_4",
+   "fieldtype": "Section Break",
+   "label": "Inspection Details"
+  },
+  {
+   "fieldname": "air_pressure",
+   "fieldtype": "Float",
+   "label": "Air Pressure"
+  },
+  {
+   "fieldname": "tread_depth",
+   "fieldtype": "Float",
+   "label": "Tread Depth"
+  },
+  {
+   "fieldname": "damage_notes",
+   "fieldtype": "Small Text",
+   "label": "Visible Damage / Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-02-18 11:50:00.000000",
+ "modified_by": "Administrator",
+ "module": "Tyre Management",
+ "name": "Tyre Inspection",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "All",
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

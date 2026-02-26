@@ -1,0 +1,88 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"hdr-tyre\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Tyre Management</span>\",\"col\":12}},{\"id\":\"card-masters\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}}]",
+ "creation": "2026-02-18 12:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "dot-circle-o",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Tyre Management",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Masters",
+   "link_count": 5,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tyre Master",
+   "link_count": 0,
+   "link_to": "Tyre Master",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tyre Position",
+   "link_count": 0,
+   "link_to": "Tyre Position",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tyre Movement",
+   "link_count": 0,
+   "link_to": "Tyre Movement",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tyre Inspection",
+   "link_count": 0,
+   "link_to": "Tyre Inspection",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tyre Ledger",
+   "link_count": 0,
+   "link_to": "Tyre Ledger",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-02-18 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Tyre Management",
+ "name": "Tyre Management",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "Fleet MS",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 25.0,
+ "shortcuts": [],
+ "title": "Tyre Management"
+}
+
