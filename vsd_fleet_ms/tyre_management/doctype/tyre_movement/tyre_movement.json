@@ -1,0 +1,158 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "TYRE-MOV-.YYYY.-.#####",
+ "creation": "2026-02-18 11:45:00.000000",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "tyre_serial",
+  "movement_type",
+  "odometer_km",
+  "transaction_date",
+  "movement_details_section",
+  "from_vehicle_type",
+  "from_vehicle",
+  "from_position",
+  "column_break_1",
+  "to_vehicle_type",
+  "to_vehicle",
+  "to_position",
+  "service_job_card",
+  "section_break_remarks",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "tyre_serial",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Tyre Serial",
+   "options": "Tyre Master",
+   "reqd": 1
+  },
+  {
+   "fieldname": "movement_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Movement Type",
+   "options": "Installation\nRemoval\nPositional Change\nVehicle Transfer\nSend for Repair\nReturn from Repair\nScrap",
+   "reqd": 1
+  },
+  {
+   "fieldname": "odometer_km",
+   "fieldtype": "Float",
+   "label": "Odometer/KM"
+  },
+  {
+   "default": "Today",
+   "fieldname": "transaction_date",
+   "fieldtype": "Date",
+   "label": "Transaction Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "movement_details_section",
+   "fieldtype": "Section Break",
+   "label": "Movement Details"
+  },
+  {
+   "depends_on": "eval:doc.movement_type != 'Installation'",
+   "fieldname": "from_vehicle_type",
+   "fieldtype": "Select",
+   "label": "Source Truck/Trailer",
+   "options": "Truck\nTrailers"
+  },
+  {
+   "depends_on": "eval:doc.movement_type != 'Installation'",
+   "fieldname": "from_vehicle",
+   "fieldtype": "Dynamic Link",
+   "label": "Truck/Trailer No",
+   "options": "from_vehicle_type"
+  },
+  {
+   "depends_on": "eval:doc.movement_type != 'Installation'",
+   "fieldname": "from_position",
+   "fieldtype": "Link",
+   "label": "Source Position",
+   "options": "Tyre Position"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.movement_type == 'Installation' || doc.movement_type == 'Positional Change' || doc.movement_type == 'Vehicle Transfer' || doc.movement_type == 'Return from Repair'",
+   "fieldname": "to_vehicle_type",
+   "fieldtype": "Select",
+   "label": "To Truck/Trailer",
+   "options": "Truck\nTrailers"
+  },
+  {
+   "depends_on": "eval:doc.movement_type == 'Installation' || doc.movement_type == 'Positional Change' || doc.movement_type == 'Vehicle Transfer' || doc.movement_type == 'Return from Repair'",
+   "fieldname": "to_vehicle",
+   "fieldtype": "Dynamic Link",
+   "label": "To Truck/Trailer No",
+   "options": "to_vehicle_type"
+  },
+  {
+   "depends_on": "eval:doc.movement_type == 'Installation' || doc.movement_type == 'Positional Change' || doc.movement_type == 'Vehicle Transfer' || doc.movement_type == 'Return from Repair'",
+   "fieldname": "to_position",
+   "fieldtype": "Link",
+   "label": "Target Position",
+   "options": "Tyre Position"
+  },
+  {
+   "fieldname": "service_job_card",
+   "fieldtype": "Link",
+   "label": "Service Job Card",
+   "options": "Service Job Card",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_remarks",
+   "fieldtype": "Section Break",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-02-18 11:45:00.000000",
+ "modified_by": "Administrator",
+ "module": "Tyre Management",
+ "name": "Tyre Movement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "All",
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

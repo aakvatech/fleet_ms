@@ -109,6 +109,11 @@ app_license = "MIT"
 #		"on_trash": "method"
 #	}
 # }
+doc_events = {
+	"Service Job Card": {
+		"on_submit": "vsd_fleet_ms.utils.tyre_service_integration.create_tyre_movement_from_service_job_card"
+	}
+}
 
 # Scheduled Tasks
 # ---------------
