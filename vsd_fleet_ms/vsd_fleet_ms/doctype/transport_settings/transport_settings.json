@@ -7,6 +7,7 @@
   "editable_grid": 1,
   "engine": "InnoDB",
   "field_order": [
+    "company",
     "vehicle_fuel_parent_warehouse",
     "sales_item_group",
     "fuel_item_group",
@@ -17,12 +18,21 @@
     "default_compartment_capacity",
     "require_purchase_order_for_fuel",
     "require_journal_entry_for_funds",
+    "enforce_financial_booking_before_trip_submission",
+    "servicems_tab",
+    "servicems_section",
     "enable_service_ms",
     "accounting_dimension_tab",
     "accounting_dimension_section",
     "accounting_dimension"
   ],
   "fields": [
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "Company",
+      "options": "Company"
+    },
     {
       "fieldname": "vehicle_fuel_parent_warehouse",
       "fieldtype": "Link",
@@ -98,6 +108,13 @@
       "label": "Require Journal Entry For Funds",
       "default": 1,
       "description": "Require Journal Entry For Funds in Trip"
+    },
+    {
+      "fieldname": "enforce_financial_booking_before_trip_submission",
+      "fieldtype": "Check",
+      "label": "Enforce Financial Booking Before Trip Submission",
+      "default": 0,
+      "description": "Block trip submission until fund requests and fuel stockout are fully processed"
     },
     {
       "fieldname": "enable_service_ms",
