@@ -9,9 +9,10 @@ import datetime
 import json
 from frappe.model.document import Document
 from frappe.model.mapper import get_mapped_doc
-from frappe.utils import nowdate, now
+from frappe.utils import nowdate, now, cint
 from frappe import _, msgprint
 from vsd_fleet_ms.utils.dimension import set_dimension
+from vsd_fleet_ms.utils.fleet_company_fields import get_transport_company
 from erpnext.setup.utils import get_exchange_rate
 from vsd_fleet_ms.vsd_fleet_ms.doctype.requested_payment.requested_payment import request_funds
 
@@ -28,7 +29,7 @@ class Trips(Document):
 
     def onload(self):
         if not self.company:
-            self.company = frappe.defaults.get_user_default("Company") or frappe.defaults.get_global_default("company")
+            self.company = get_transport_company(self.company)
         if not self.fuel_stock_out:
             self.fuel_stock_out = self.total_fuel
 
@@ -41,6 +42,8 @@ class Trips(Document):
             self.requested_fund_accounts_table = []
 
     def validate(self):
+        self.sync_trip_status()
+        self.validate_active_trip_for_truck()
         if self.transporter_type == "In House":
             self.validate_fuel_requests()
             # self.set_permits()
@@ -112,6 +115,17 @@ class Trips(Document):
             self.date = datetime.datetime.now()
         self.validate_main_route_inputs()
 
+    def after_insert(self):
+        self.sync_truck_status()
+
+    def on_update(self):
+        self.sync_truck_status()
+
+    def on_update_after_submit(self):
+        self.sync_trip_status()
+        self.validate_active_trip_for_truck()
+        self.sync_truck_status()
+
     def validate_fuel_requests(self):
         make_request = False
         for request in self.get("fuel_request_history"):
@@ -134,6 +148,7 @@ class Trips(Document):
             else:
                 fuel_request = frappe.new_doc("Fuel Requests")
                 fuel_request.update({
+                    "company": get_transport_company(self.company),
                     "truck_plate_number": self.get("vehicle_plate_number"),
                     "customer": self.get("customer"),
                     "truck": self.get("vehicle_plate_number"),
@@ -177,6 +192,131 @@ class Trips(Document):
                 frappe.throw("<b>All fund requests must be on either approved or rejected before submitting the trip</b>")
             if row.request_status == "Approved" and je_required and not row.journal_entry:
                 frappe.throw("<b>All approved fund requests must have a Journal Entry before submitting the trip</b>")
+
+        enforce_financial_booking = (
+            frappe.db.get_single_value(
+                "Transport Settings",
+                "enforce_financial_booking_before_trip_submission",
+            )
+            or 0
+        )
+        if not enforce_financial_booking:
+            return
+
+        issues = []
+        if self.transporter_type == "In House":
+            if not self.stock_out_entry:
+                issues.append(_("Fuel stockout is not processed: Stock Out Entry is missing"))
+            elif frappe.db.get_value("Stock Entry", self.stock_out_entry, "docstatus") != 1:
+                issues.append(
+                    _("Fuel stockout is not processed: Stock Entry {0} is not submitted").format(
+                        self.stock_out_entry
+                    )
+                )
+
+        if po_required:
+            for row in self.fuel_request_history:
+                if row.status == "Approved" and row.purchase_order:
+                    if frappe.db.get_value("Purchase Order", row.purchase_order, "docstatus") != 1:
+                        issues.append(
+                            _("Fuel request row #{0}: Purchase Order {1} is not submitted").format(
+                                row.idx, row.purchase_order
+                            )
+                        )
+
+        if je_required:
+            for row in self.requested_fund_accounts_table:
+                if row.request_status == "Approved" and row.journal_entry:
+                    if frappe.db.get_value("Journal Entry", row.journal_entry, "docstatus") != 1:
+                        issues.append(
+                            _("Fund request row #{0}: Journal Entry {1} is not submitted").format(
+                                row.idx, row.journal_entry
+                            )
+                        )
+
+        if issues:
+            details = "<br>".join([f"- {frappe.utils.escape_html(i)}" for i in issues])
+            frappe.throw(
+                _(
+                    "<b>Trip submission blocked due to pending financial items:</b><br>{0}"
+                ).format(details)
+            )
+
+    def sync_trip_status(self):
+        if self.trip_status == "Breakdown":
+            return
+
+        self.trip_status = "Completed" if cint(self.trip_completed) == 1 else "Pending"
+
+    def get_truck_number(self):
+        if self.truck_number:
+            return self.truck_number
+        if self.manifest:
+            return frappe.db.get_value("Manifest", self.manifest, "truck")
+        return None
+
+    def validate_active_trip_for_truck(self):
+        truck_number = self.get_truck_number()
+        if self.transporter_type != "In House" or not truck_number:
+            return
+
+        if cint(self.trip_completed) == 1 or self.trip_status == "Breakdown":
+            return
+
+        filters = {
+            "truck_number": truck_number,
+            "trip_completed": 0,
+            "docstatus": ["!=", 2],
+        }
+        if self.name:
+            filters["name"] = ["!=", self.name]
+
+        active_trip = frappe.db.get_value("Trips", filters, "name", order_by="modified desc")
+        if active_trip:
+            frappe.throw(
+                _("Truck {0} is already on another trip: {1}").format(truck_number, active_trip)
+            )
+
+    def sync_truck_status(self):
+        truck_number = self.get_truck_number()
+        if self.transporter_type != "In House" or not truck_number:
+            return
+
+        if cint(self.trip_completed) == 0 and self.trip_status != "Breakdown":
+            frappe.db.set_value(
+                "Truck",
+                truck_number,
+                {"status": "On Trip", "trans_ms_current_trip": self.name},
+                update_modified=False,
+            )
+            return
+
+        other_active_trip = frappe.db.get_value(
+            "Trips",
+            {
+                "truck_number": truck_number,
+                "trip_completed": 0,
+                "docstatus": ["!=", 2],
+                "name": ["!=", self.name],
+            },
+            "name",
+            order_by="modified desc",
+        )
+
+        if other_active_trip:
+            frappe.db.set_value(
+                "Truck",
+                truck_number,
+                {"status": "On Trip", "trans_ms_current_trip": other_active_trip},
+                update_modified=False,
+            )
+        else:
+            frappe.db.set_value(
+                "Truck",
+                truck_number,
+                {"status": "Idle", "trans_ms_current_trip": ""},
+                update_modified=False,
+            )
 
 
 # ------------------ Whitelisted Functions ------------------ #
