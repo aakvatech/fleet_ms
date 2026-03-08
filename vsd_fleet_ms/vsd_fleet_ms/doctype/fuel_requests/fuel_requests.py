@@ -10,9 +10,12 @@ from frappe.model.document import Document
 from frappe import _, msgprint
 from frappe.model.mapper import get_mapped_doc
 from frappe.utils import nowdate
+from vsd_fleet_ms.utils.fleet_company_fields import get_transport_company
 
 class FuelRequests(Document):
     def onload(self):
+        if not self.company:
+            self.company = get_transport_company(self.company)
         trip = frappe.get_doc(self.reference_doctype, self.reference_docname)
         if not self.main_route:
             self.set("main_route", trip.route)
@@ -253,5 +256,7 @@ def make_stock_entry(source_name, target_doc=None):
         },
         target_doc,
     )
+    source_company = frappe.db.get_value("Fuel Requests", source_name, "company")
+    doc.company = get_transport_company(source_company)
     return doc
 
