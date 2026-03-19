@@ -7,6 +7,19 @@ from frappe.model.document import Document
 
 class TyreMaster(Document):
     def validate(self):
+        last_ledger = frappe.get_all(
+            "Tyre Ledger",
+            filters={"tyre": self.name},
+            fields=["transaction_type", "movement_type"],
+            order_by="creation desc",
+            limit=1,
+        )
+
+        if last_ledger:
+            ledger_row = last_ledger[0]
+            if ledger_row.get("movement_type") == "Scrap" or ledger_row.get("transaction_type") == "Scrap":
+                self.status = "Scrapped"
+
         if self.status == "Scrapped":
             self.current_vehicle_type = ""
             self.current_vehicle = ""

@@ -12,10 +12,12 @@ import json
 from frappe.utils import nowdate, cstr, cint, flt, comma_or, now
 from frappe import _, msgprint
 from vsd_fleet_ms.utils.dimension import set_dimension
+from vsd_fleet_ms.utils.document_links import sync_cargo_registration_links
 from vsd_fleet_ms.vsd_fleet_ms.doctype.requested_payment.requested_payment import request_funds
 
 class CargoRegistration(Document):
     def before_save(self):
+        sync_cargo_registration_links(self)
         if self.get('requested_fund'):
             for row in self.get('requested_fund'):
                 if row.request_status == "Requested":

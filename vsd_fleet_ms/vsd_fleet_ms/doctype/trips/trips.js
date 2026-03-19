@@ -3,7 +3,6 @@
 
 frappe.ui.form.on("Trips", {
   onload: function (frm) {
-    setFleetCompanyDefault(frm);
   },
   refresh: function (frm) {
     approved_total();
@@ -255,17 +254,6 @@ frappe.ui.form.on("Trips", {
     }
   },
 });
-
-const setFleetCompanyDefault = (frm) => {
-  if (!frm.is_new()) return;
-  frappe.db.get_single_value("Transport Settings", "company").then((company) => {
-    const fallback = (frappe.boot && frappe.boot.sysdefaults && frappe.boot.sysdefaults.company) || "";
-    const target_company = company || fallback;
-    if (target_company) {
-      frm.set_value("company", target_company);
-    }
-  });
-};
 
 function set_service_ms_costing_visibility(frm) {
   frappe.db

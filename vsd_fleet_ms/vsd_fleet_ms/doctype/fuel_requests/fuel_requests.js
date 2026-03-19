@@ -3,7 +3,6 @@
 
 frappe.ui.form.on('Fuel Requests', {
     onload: function (frm) {
-        setFleetCompanyDefault(frm);
         //Load the approve and reject buttons
         var html = '<button style="background-color: green; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.approve_request(\'' + frm + '\');">Approve</button> ';
         html += '<button style="background-color: red; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.reject_request(\'' + frm + '\');">Reject</button>';
@@ -13,13 +12,13 @@ frappe.ui.form.on('Fuel Requests', {
 
     refresh: function (frm, cdt, cdn) {
         if (frm.doc.requested_fuel.length > 0 && frm.doc.approved_requests.length < 1 && frm.doc.status != "Waiting Approval"){
-            frappe.db.set_value(frm.doc.doctype,frm.doc.name,"status","Waiting Approval")
+            frm.set_value("status", "Waiting Approval");
         }
         if (frm.doc.requested_fuel.length > 0 && frm.doc.approved_requests.length > 0 && frm.doc.status != "Partially Processed"){
-            frappe.db.set_value(frm.doc.doctype,frm.doc.name,"status","Partially Processed")
+            frm.set_value("status", "Partially Processed");
         }
         if (frm.doc.requested_fuel.length < 1 && frm.doc.approved_requests.length > 0 && frm.doc.status != "Fully Processed"){
-            frappe.db.set_value(frm.doc.doctype,frm.doc.name,"status","Fully Processed")
+            frm.set_value("status", "Fully Processed");
         }
         frm.events.show_hide_sections(frm);
 
@@ -130,17 +129,6 @@ cur_frm.cscript.approve_request = function (frm) {
     }
 };
 
-const setFleetCompanyDefault = (frm) => {
-    if (!frm.is_new()) return;
-    frappe.db.get_single_value("Transport Settings", "company").then((company) => {
-        const fallback = (frappe.boot && frappe.boot.sysdefaults && frappe.boot.sysdefaults.company) || "";
-        const target_company = company || fallback;
-        if (target_company) {
-            frm.set_value("company", target_company);
-        }
-    });
-};
-
 //For reject button
 cur_frm.cscript.reject_request = function (frm) {
     //cur_frm.cscript.populate_child(cur_frm.doc.reference_doctype, cur_frm.doc.reference_docname);
@@ -183,4 +171,3 @@ cur_frm.cscript.reject_request = function (frm) {
         show_alert("Error: Please select requests to process.");
     }
 };
-

@@ -2,7 +2,7 @@ from frappe import _
 
 def get_data():
     return {
-        'fieldname': 'purchase_invoice',
+        'fieldname': 'trip',
         'non_standard_fieldnames': {
             'Requested Payment': 'reference_docname',
             'Fuel Requests': 'reference_docname',
@@ -14,7 +14,7 @@ def get_data():
         'transactions': [
             {
                 'label': _('Reference'),
-                'items': ['Requested Payment', 'Fuel Requests']
+                'items': ['Cargo Registration', 'Requested Payment', 'Fuel Requests']
             },
         ]
     }

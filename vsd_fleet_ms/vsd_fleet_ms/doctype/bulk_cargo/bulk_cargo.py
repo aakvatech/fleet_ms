@@ -2,8 +2,6 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 from frappe.utils import nowdate, flt
-from vsd_fleet_ms.utils.fleet_company_fields import get_transport_company
-
 class BulkCargo(Document):
     def validate(self):
         """Called on Save; calculate totals but allow empty child table"""
@@ -150,15 +148,16 @@ def create_sales_invoice(name):
             "customer": bulk_cargo.customer_name,
             "currency": frappe.defaults.get_global_default("currency"),  # <-- fixed here
             "posting_date": nowdate(),
-            "company": get_transport_company(),
+            "company": bulk_cargo.company,
             "items": items
         })
 
         sales_invoice.insert(ignore_permissions=True)
         sales_invoice.save()
 
-        frappe.db.set_value("Bulk Cargo", name, "sales_invoice_id", sales_invoice.name)
-        frappe.db.commit()
+        bulk_cargo = frappe.get_doc("Bulk Cargo", name)
+        bulk_cargo.sales_invoice_id = sales_invoice.name
+        bulk_cargo.save(ignore_permissions=True)
 
         return {"status": "success", "invoice_name": sales_invoice.name, "rate": rate}
 

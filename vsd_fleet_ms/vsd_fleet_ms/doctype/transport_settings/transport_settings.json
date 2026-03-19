@@ -7,7 +7,6 @@
   "editable_grid": 1,
   "engine": "InnoDB",
   "field_order": [
-    "company",
     "vehicle_fuel_parent_warehouse",
     "sales_item_group",
     "fuel_item_group",
@@ -28,12 +27,6 @@
     "accounting_dimension"
   ],
   "fields": [
-    {
-      "fieldname": "company",
-      "fieldtype": "Link",
-      "label": "Company",
-      "options": "Company"
-    },
     {
       "fieldname": "vehicle_fuel_parent_warehouse",
       "fieldtype": "Link",
