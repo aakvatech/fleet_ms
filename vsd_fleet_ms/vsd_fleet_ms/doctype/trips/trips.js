@@ -269,10 +269,18 @@ function set_service_ms_costing_visibility(frm) {
       ];
 
       fields.forEach((fieldname) => {
-        frm.set_df_property(fieldname, "hidden", is_enabled ? 0 : 1);
+        if (frm.fields_dict && frm.fields_dict[fieldname]) {
+          frm.set_df_property(fieldname, "hidden", is_enabled ? 0 : 1);
+        }
       });
 
-      if (is_enabled && !frm.doc.service_job_card && frm.doc.docstatus == 0) {
+      if (
+        is_enabled &&
+        frm.fields_dict &&
+        frm.fields_dict.service_job_card &&
+        !frm.doc.service_job_card &&
+        frm.doc.docstatus == 0
+      ) {
         frappe.show_alert({
           message: __("Service MS is enabled. Select Service Job Card in Costing tab."),
           indicator: "blue",

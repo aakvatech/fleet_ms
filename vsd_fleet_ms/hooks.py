@@ -66,9 +66,11 @@ app_license = "MIT"
 # before_install = "vsd_fleet_ms.install.before_install"
 after_install = [
 	"vsd_fleet_ms.utils.service_job_card_tyre_fields.ensure_service_job_card_tyre_fields",
+	"vsd_fleet_ms.utils.trips_service_job_card_fields.ensure_trips_service_job_card_fields",
 ]
 after_migrate = [
 	"vsd_fleet_ms.utils.service_job_card_tyre_fields.ensure_service_job_card_tyre_fields",
+	"vsd_fleet_ms.utils.trips_service_job_card_fields.ensure_trips_service_job_card_fields",
 ]
 
 # Uninstallation
