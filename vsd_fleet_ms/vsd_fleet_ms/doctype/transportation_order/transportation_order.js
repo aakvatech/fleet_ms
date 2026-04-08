@@ -3,7 +3,6 @@
 
 frappe.ui.form.on('Transportation Order', {
 	onload: function (frm) {
-		setFleetCompanyDefault(frm);
 		frm.get_field("assign_transport").grid.cannot_add_rows = true;
 		$("*[data-fieldname='assign_transport']").find(".grid-remove-rows").hide();
 		$("*[data-fieldname='assign_transport']").find(".grid-remove-all-rows").hide();
@@ -227,17 +226,6 @@ frappe.ui.form.on('Transportation Order', {
 		}
 	},
 });
-
-const setFleetCompanyDefault = (frm) => {
-	if (!frm.is_new()) return;
-	frappe.db.get_single_value("Transport Settings", "company").then((company) => {
-		const fallback = (frappe.boot && frappe.boot.sysdefaults && frappe.boot.sysdefaults.company) || "";
-		const target_company = company || fallback;
-		if (target_company) {
-			frm.set_value("company", target_company);
-		}
-	});
-};
 
 
 frappe.ui.form.on("Transport Assignments", {

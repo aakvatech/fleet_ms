@@ -3,7 +3,6 @@
 
 frappe.ui.form.on("Trips", {
   onload: function (frm) {
-    setFleetCompanyDefault(frm);
   },
   refresh: function (frm) {
     approved_total();
@@ -13,7 +12,7 @@ frappe.ui.form.on("Trips", {
     set_service_ms_costing_visibility(frm);
     if (frm.doc.trip_completed == 0 && frm.doc.trip_status != "Breakdown") {
       frm.add_custom_button(
-        __("Complete Trip"),
+        __("Release Truck {0}", [frm.doc.truck_number]),
         function () {
           frm.set_value("trip_completed", 1);
           frm.set_value("trip_completed_date", frappe.datetime.nowdate());
@@ -256,17 +255,6 @@ frappe.ui.form.on("Trips", {
   },
 });
 
-const setFleetCompanyDefault = (frm) => {
-  if (!frm.is_new()) return;
-  frappe.db.get_single_value("Transport Settings", "company").then((company) => {
-    const fallback = (frappe.boot && frappe.boot.sysdefaults && frappe.boot.sysdefaults.company) || "";
-    const target_company = company || fallback;
-    if (target_company) {
-      frm.set_value("company", target_company);
-    }
-  });
-};
-
 function set_service_ms_costing_visibility(frm) {
   frappe.db
     .get_single_value("Transport Settings", "enable_service_ms")
@@ -281,10 +269,18 @@ function set_service_ms_costing_visibility(frm) {
       ];
 
       fields.forEach((fieldname) => {
-        frm.set_df_property(fieldname, "hidden", is_enabled ? 0 : 1);
+        if (frm.fields_dict && frm.fields_dict[fieldname]) {
+          frm.set_df_property(fieldname, "hidden", is_enabled ? 0 : 1);
+        }
       });
 
-      if (is_enabled && !frm.doc.service_job_card && frm.doc.docstatus == 0) {
+      if (
+        is_enabled &&
+        frm.fields_dict &&
+        frm.fields_dict.service_job_card &&
+        !frm.doc.service_job_card &&
+        frm.doc.docstatus == 0
+      ) {
         frappe.show_alert({
           message: __("Service MS is enabled. Select Service Job Card in Costing tab."),
           indicator: "blue",

@@ -3,7 +3,6 @@
 
 frappe.ui.form.on('Requested Payment', {
 	onload: function(frm){
-		setFleetCompanyDefault(frm);
 		//Load the approve and reject buttons
 		var html = '<button style="background-color: green; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.approve_request(\'' + frm + '\');">Approve</button> ';
 		html += '<button style="background-color: red; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.reject_request(\'' + frm + '\');">Reject</button>'
@@ -191,16 +190,6 @@ frappe.ui.form.on('Requested Payment', {
 	}
 });
 
-const setFleetCompanyDefault = (frm) => {
-	if (!frm.is_new()) return;
-	frappe.db.get_single_value("Transport Settings", "company").then((company) => {
-		const fallback = (frappe.boot && frappe.boot.sysdefaults && frappe.boot.sysdefaults.company) || "";
-		const target_company = company || fallback;
-		if (target_company) {
-			frm.set_value("company", target_company);
-		}
-	});
-};
 frappe.ui.form.on('Requested Fund Details', {
 
 	form_render (frm, cdt, cdn) {
@@ -647,4 +636,3 @@ cur_frm.cscript.populate_child = function(reference_doctype, reference_docname){
 		}
 	});
 };
-

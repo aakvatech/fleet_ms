@@ -12,7 +12,7 @@ from frappe.model.mapper import get_mapped_doc
 from frappe.utils import nowdate, now, cint
 from frappe import _, msgprint
 from vsd_fleet_ms.utils.dimension import set_dimension
-from vsd_fleet_ms.utils.fleet_company_fields import get_transport_company
+from vsd_fleet_ms.utils.document_links import sync_cargo_registration_links
 from erpnext.setup.utils import get_exchange_rate
 from vsd_fleet_ms.vsd_fleet_ms.doctype.requested_payment.requested_payment import request_funds
 
@@ -28,8 +28,6 @@ class Trips(Document):
                 frappe.throw(_("Stock Out Entry is not set"))
 
     def onload(self):
-        if not self.company:
-            self.company = get_transport_company(self.company)
         if not self.fuel_stock_out:
             self.fuel_stock_out = self.total_fuel
 
@@ -148,7 +146,7 @@ class Trips(Document):
             else:
                 fuel_request = frappe.new_doc("Fuel Requests")
                 fuel_request.update({
-                    "company": get_transport_company(self.company),
+                    "company": self.company,
                     "truck_plate_number": self.get("vehicle_plate_number"),
                     "customer": self.get("customer"),
                     "truck": self.get("vehicle_plate_number"),
@@ -339,6 +337,7 @@ def create_vehicle_trip_from_manifest(args_array):
             for row in cargo_registration.cargo_details:
                 if row.manifest_number == manifest.name:
                     row.created_trip = vehicle_trip.name
+                    sync_cargo_registration_links(cargo_registration)
                     cargo_registration.save()
                     break
 

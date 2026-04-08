@@ -17,8 +17,6 @@ from erpnext.accounts.utils import (
 )
 from erpnext.controllers.accounts_controller import set_balance_in_account_currency
 from erpnext.accounts.doctype.budget.budget import validate_expense_against_budget
-from vsd_fleet_ms.utils.fleet_company_fields import get_transport_company
-
 
 class RequestedPayment(Document):
     def onload(self):
@@ -717,8 +715,7 @@ def make_payment(source_name, target_doc=None, ignore_permissions=False):
     pe.mode_of_payment = "Cash"
     pe.party_type = "Employee"
     pe.allocate_payment_amount = 1
-    source_company = frappe.db.get_value("Requested Payment", source_name, "company")
-    pe.company = get_transport_company(source_company)
+    pe.company = frappe.db.get_value("Requested Payment", source_name, "company")
 
     return pe
 

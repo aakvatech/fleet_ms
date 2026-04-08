@@ -84,6 +84,12 @@ class TyreMovement(Document):
         self.update_tyre_master(tyre)
         self.create_ledger_entry()
 
+    def on_cancel(self):
+        self.delete_ledger_entries()
+        tyre = frappe.get_doc("Tyre Master", self.tyre_serial)
+        self.restore_tyre_master_from_ledger(tyre)
+        tyre.save(ignore_permissions=True)
+
     def update_tyre_master(self, tyre):
         movement_type = self.movement_type
 
@@ -142,3 +148,67 @@ class TyreMovement(Document):
         ledger.odometer_km = self.odometer_km
         ledger.remarks = self.remarks
         ledger.insert(ignore_permissions=True)
+
+    def delete_ledger_entries(self):
+        ledger_names = frappe.get_all(
+            "Tyre Ledger",
+            filters={
+                "reference_doctype": self.doctype,
+                "reference_name": self.name,
+            },
+            pluck="name",
+        )
+
+        for ledger_name in ledger_names:
+            frappe.delete_doc("Tyre Ledger", ledger_name, ignore_permissions=True)
+
+    def restore_tyre_master_from_ledger(self, tyre):
+        last_movement = frappe.get_all(
+            "Tyre Ledger",
+            filters={
+                "tyre": self.tyre_serial,
+                "transaction_type": "Movement",
+            },
+            fields=[
+                "movement_type",
+                "from_vehicle_type",
+                "from_vehicle",
+                "from_position",
+                "to_vehicle_type",
+                "to_vehicle",
+                "to_position",
+            ],
+            order_by="posting_date desc, creation desc",
+            limit=1,
+        )
+
+        if not last_movement:
+            tyre.status = "In Store"
+            tyre.current_vehicle_type = ""
+            tyre.current_vehicle = ""
+            tyre.position = ""
+            return
+
+        movement = last_movement[0]
+        movement_type = movement.get("movement_type")
+
+        if movement_type in ["Installation", "Positional Change", "Vehicle Transfer", "Return from Repair"]:
+            tyre.status = "In Service"
+            tyre.current_vehicle_type = movement.get("to_vehicle_type") or ""
+            tyre.current_vehicle = movement.get("to_vehicle") or ""
+            tyre.position = movement.get("to_position") or ""
+        elif movement_type == "Removal":
+            tyre.status = "In Store"
+            tyre.current_vehicle_type = ""
+            tyre.current_vehicle = ""
+            tyre.position = ""
+        elif movement_type == "Send for Repair":
+            tyre.status = "Under Repair"
+            tyre.current_vehicle_type = ""
+            tyre.current_vehicle = ""
+            tyre.position = ""
+        elif movement_type == "Scrap":
+            tyre.status = "Scrapped"
+            tyre.current_vehicle_type = ""
+            tyre.current_vehicle = ""
+            tyre.position = ""

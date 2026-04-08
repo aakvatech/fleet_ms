@@ -6,6 +6,7 @@ import json
 from frappe.query_builder import DocType
 from frappe.model.document import Document
 import datetime
+from vsd_fleet_ms.utils.document_links import sync_cargo_registration_links
 
 class Manifest(Document):
 	def onload(self):
@@ -66,14 +67,13 @@ class Manifest(Document):
 		# frappe.throw(str(default_capacity))
 		# Perform validation
 		total_capacity = truck_capacity + total_trailer_capacity
-		frappe.db.set_value("Manifest", self.name, "consolidated_weight", total_capacity)
+		self.consolidated_weight = total_capacity
 		
 		if total_capacity > float(default_capacity):
 			frappe.throw(
 				f"The combined capacity of the truck ({truck_capacity}) and trailers ({total_trailer_capacity}) "
 				f"exceeds the default limit of {default_capacity}."
 			)
-		self.consolidated_weight = total_capacity
 		
 	def on_submit(self):
 		self.set_truck_dimension()
@@ -268,6 +268,7 @@ def add_to_existing_manifest(args_array):
 			for row in cargo_registration.cargo_details:
 				if row.name == args_dict.get('cargo_id'):
 					row.manifest_number = args_dict.get('manifest')
+					sync_cargo_registration_links(cargo_registration)
 					cargo_registration.save()
 					break
 			
@@ -307,6 +308,7 @@ def create_new_manifest(args_array):
 			for row in cargo_registration.cargo_details:
 				if row.name == args_dict.get('cargo_id'):
 					row.manifest_number = manifest.name
+					sync_cargo_registration_links(cargo_registration)
 					cargo_registration.save()
 					break
 			

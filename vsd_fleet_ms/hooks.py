@@ -66,9 +66,11 @@ app_license = "MIT"
 # before_install = "vsd_fleet_ms.install.before_install"
 after_install = [
 	"vsd_fleet_ms.utils.service_job_card_tyre_fields.ensure_service_job_card_tyre_fields",
+	"vsd_fleet_ms.utils.trips_service_job_card_fields.ensure_trips_service_job_card_fields",
 ]
 after_migrate = [
 	"vsd_fleet_ms.utils.service_job_card_tyre_fields.ensure_service_job_card_tyre_fields",
+	"vsd_fleet_ms.utils.trips_service_job_card_fields.ensure_trips_service_job_card_fields",
 ]
 
 # Uninstallation
@@ -115,51 +117,6 @@ after_migrate = [
 #	}
 # }
 doc_events = {
-	"Trips": {
-		"validate": "vsd_fleet_ms.utils.fleet_company_fields.set_company_from_transport_settings",
-	},
-	"Fuel Requests": {
-		"validate": "vsd_fleet_ms.utils.fleet_company_fields.set_company_from_transport_settings",
-	},
-	"Cargo Registration": {
-		"validate": "vsd_fleet_ms.utils.fleet_company_fields.set_company_from_transport_settings",
-	},
-	"Transportation Order": {
-		"validate": "vsd_fleet_ms.utils.fleet_company_fields.set_company_from_transport_settings",
-	},
-	"Requested Payment": {
-		"validate": "vsd_fleet_ms.utils.fleet_company_fields.set_company_from_transport_settings",
-	},
-	"Sales Invoice": {
-		"validate": "vsd_fleet_ms.utils.fleet_company_fields.set_company_from_transport_settings",
-	},
-	"Sales Order": {
-		"validate": "vsd_fleet_ms.utils.fleet_company_fields.set_company_from_transport_settings",
-	},
-	"Purchase Invoice": {
-		"validate": "vsd_fleet_ms.utils.fleet_company_fields.set_company_from_transport_settings",
-	},
-	"Purchase Order": {
-		"validate": "vsd_fleet_ms.utils.fleet_company_fields.set_company_from_transport_settings",
-	},
-	"Purchase Receipt": {
-		"validate": "vsd_fleet_ms.utils.fleet_company_fields.set_company_from_transport_settings",
-	},
-	"Delivery Note": {
-		"validate": "vsd_fleet_ms.utils.fleet_company_fields.set_company_from_transport_settings",
-	},
-	"Stock Entry": {
-		"validate": "vsd_fleet_ms.utils.fleet_company_fields.set_company_from_transport_settings",
-	},
-	"Journal Entry": {
-		"validate": "vsd_fleet_ms.utils.fleet_company_fields.set_company_from_transport_settings",
-	},
-	"Payment Entry": {
-		"validate": "vsd_fleet_ms.utils.fleet_company_fields.set_company_from_transport_settings",
-	},
-	"Quotation": {
-		"validate": "vsd_fleet_ms.utils.fleet_company_fields.set_company_from_transport_settings",
-	},
 	"Service Job Card": {
 		"on_submit": "vsd_fleet_ms.utils.tyre_service_integration.create_tyre_movement_from_service_job_card"
 	}
