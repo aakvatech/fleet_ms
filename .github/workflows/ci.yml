@@ -1,22 +1,29 @@
-
 name: CI
 
 on:
-  push:
-    branches:
-      - develop
   pull_request:
+    paths-ignore:
+      - "**.css"
+      - "**.js"
+      - "**.md"
+      - "**.html"
+      - "**.csv"
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+
+permissions:
+  contents: read
 
 concurrency:
-  group: develop-vsd_fleet_ms-${{ github.event.number }}
+  group: ci-vsd_fleet_ms-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   tests:
+    name: Server Tests
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    name: Server
+    timeout-minutes: 45
 
     services:
       mariadb:
@@ -25,25 +32,58 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=5s --health-timeout=2s --health-retries=3
+
+      redis-cache:
+        image: redis:alpine
+        ports:
+          - 13000:6379
+
+      redis-queue:
+        image: redis:alpine
+        ports:
+          - 11000:6379
 
     steps:
-      - name: Clone
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Determine Frappe branch
+        run: |
+          REF_NAME="${GITHUB_BASE_REF:-${GITHUB_REF_NAME}}"
+          if [[ "$REF_NAME" =~ ^version-[0-9]+(-hotfix)?$ ]]; then
+            echo "FRAPPE_BRANCH=$REF_NAME" >> "$GITHUB_ENV"
+          else
+            echo "FRAPPE_BRANCH=version-15" >> "$GITHUB_ENV"
+          fi
+
+      - name: Install MariaDB client
+        run: sudo apt-get update && sudo apt-get -y install mariadb-client
 
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 14
+          node-version: 18
           check-latest: true
 
+      - name: Check for valid Python & Merge Conflicts
+        run: |
+          python -m compileall -q -f "${GITHUB_WORKSPACE}"
+          if grep -lr --exclude-dir=node_modules "^<<<<<<< " "${GITHUB_WORKSPACE}"; then
+            echo "Found merge conflicts"
+            exit 1
+          fi
+
+      - name: Add to Hosts
+        run: echo "127.0.0.1 test_site" | sudo tee -a /etc/hosts
+
       - name: Cache pip
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/*requirements.txt', '**/pyproject.toml', '**/setup.py', '**/setup.cfg') }}
@@ -53,38 +93,40 @@ jobs:
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: 'echo "::set-output name=dir::$(yarn cache dir)"'
+        run: echo "dir=$(yarn cache dir)" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+            ${{ runner.os }}-
 
-      - name: Setup
+      - name: Setup Bench
         run: |
           pip install frappe-bench
-          bench init --skip-redis-config-generation --skip-assets --python "$(which python)" ~/frappe-bench
+          bench init --skip-redis-config-generation --skip-assets --frappe-branch "$FRAPPE_BRANCH" --python "$(which python)" ~/frappe-bench
           mysql --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL character_set_server = 'utf8mb4'"
           mysql --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL collation_server = 'utf8mb4_unicode_ci'"
 
-      - name: Install
+      - name: Install Apps
         working-directory: /home/runner/frappe-bench
         run: |
-          bench get-app vsd_fleet_ms $GITHUB_WORKSPACE
-          bench setup requirements --dev
-          bench new-site --db-root-password root --admin-password admin test_site
-          bench --site test_site install-app vsd_fleet_ms
-          bench build
+          bench get-app erpnext --branch "$FRAPPE_BRANCH"
+          bench get-app vsd_fleet_ms "$GITHUB_WORKSPACE"
+
+      - name: Setup Test Site
+        working-directory: /home/runner/frappe-bench
         env:
-          CI: 'Yes'
+          CI: "Yes"
+        run: |
+          bench new-site --db-root-password root --admin-password admin test_site
+          bench --site test_site install-app erpnext
+          bench --site test_site install-app vsd_fleet_ms
+          bench --site test_site set-config allow_tests true
 
       - name: Run Tests
         working-directory: /home/runner/frappe-bench
-        run: |
-          bench --site test_site set-config allow_tests true
-          bench --site test_site run-tests --app vsd_fleet_ms
-        env:
-          TYPE: server
+        run: bench --site test_site run-tests --app vsd_fleet_ms
