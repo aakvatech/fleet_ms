@@ -1,0 +1,42 @@
+exclude: "node_modules|.git"
+default_stages: [pre-commit]
+fail_fast: false
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-ast
+      - id: debug-statements
+      - id: no-commit-to-branch
+        args:
+          - --branch
+          - main
+          - --branch
+          - master
+          - --branch
+          - develop
+          - --branch
+          - version-15
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.13.2
+    hooks:
+      - id: ruff
+        name: "Run ruff linter and apply fixes"
+        args: ["--fix"]
+        files: "^vsd_fleet_ms/.*\\.py$"
+        stages: [manual]
+      - id: ruff-format
+        name: "Format Python code"
+        files: "^vsd_fleet_ms/.*\\.py$"
+        stages: [manual]
+
+ci:
+  autoupdate_schedule: weekly
+  skip: []
+  submodules: false
