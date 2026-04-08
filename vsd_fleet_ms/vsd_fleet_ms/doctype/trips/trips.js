@@ -12,7 +12,7 @@ frappe.ui.form.on("Trips", {
     set_service_ms_costing_visibility(frm);
     if (frm.doc.trip_completed == 0 && frm.doc.trip_status != "Breakdown") {
       frm.add_custom_button(
-        __("Complete Trip"),
+        __("Release Truck {0}", [frm.doc.truck_number]),
         function () {
           frm.set_value("trip_completed", 1);
           frm.set_value("trip_completed_date", frappe.datetime.nowdate());
