@@ -5,7 +5,10 @@ import frappe
 from frappe.model.document import Document
 
 class RoundTrip(Document):
-	def before_save(self):
+	def after_insert(self):
+		self.sync_trip_links()
+
+	def on_update(self):
 		self.sync_trip_links()
 
 	def sync_trip_links(self):
