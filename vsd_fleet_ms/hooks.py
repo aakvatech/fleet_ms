@@ -142,6 +142,11 @@ doc_events = {
 #		"vsd_fleet_ms.tasks.monthly"
 #	],
 # }
+scheduler_events = {
+	"daily": [
+		"vsd_fleet_ms.utils.document_expiry.notify_expiring_documents",
+	],
+}
 
 # Testing
 # -------
