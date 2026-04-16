@@ -501,6 +501,9 @@ function fuel_amount() {
 
   if (cur_frm.doc.transporter_type !== "In House" || !cur_frm.doc.truck_number) {
     cur_frm.get_field("html4").wrapper.innerHTML = content;
+    if (cur_frm.fields_dict.custom_truck_tank_fuel_balance) {
+      cur_frm.get_field("custom_truck_tank_fuel_balance").wrapper.innerHTML = "";
+    }
     return;
   }
 
@@ -529,11 +532,12 @@ function fuel_amount() {
             if (b && b.message) {
               balance = b.message.actual_qty || 0;
             }
-            content +=
-              '<p class="text-muted small">Trip Tank Fuel Balance: <b>' +
-              balance.toLocaleString() +
-              "</b></p>";
-            cur_frm.get_field("html4").wrapper.innerHTML = content;
+            if (cur_frm.fields_dict.custom_truck_tank_fuel_balance) {
+              cur_frm.get_field("custom_truck_tank_fuel_balance").wrapper.innerHTML =
+                '<p class="text-muted small">Trip Tank Fuel Balance: <b>' +
+                balance.toLocaleString() +
+                "</b></p>";
+            }
           });
       });
     });
