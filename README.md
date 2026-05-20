@@ -122,7 +122,7 @@ Actual outcomes depend on clean master data, agreed approval roles, correct ERPN
 
 The previous README referenced this screenshot:
 
-![Fleet MS screenshot](https://github.com/user-attachments/assets/a71b25dc-ce4a-44fc-84dd-31493d104bf8)
+<img width="1672" height="941" alt="image" src="https://github.com/user-attachments/assets/411e29f6-80e6-42ad-87f8-5bc64c6fc69a" />
 
 Recommended screenshots before publishing:
 
