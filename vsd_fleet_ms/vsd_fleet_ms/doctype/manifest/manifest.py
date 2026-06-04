@@ -32,6 +32,10 @@ class Manifest(Document):
 		self.validate_capacity()
   
 	def validate_capacity(self):
+		if self.transporter_type != "In House":
+			self.consolidated_weight = 0
+			return
+			
 		# Fetch the default compartment capacity from Transport Settings
 		default_capacity = frappe.db.get_value("Transport Settings", "Transport Settings", "default_compartment_capacity")
 		
