@@ -498,5 +498,60 @@ function fuel_amount() {
     '<p class="text-muted small">Total Fuel Rejected: <b>' +
     rejected_fuel.toLocaleString() +
     "</b></p>";
+
+  if (cur_frm.doc.transporter_type !== "In House" || !cur_frm.doc.truck_number) {
+    cur_frm.get_field("html4").wrapper.innerHTML = content;
+    if (cur_frm.fields_dict.custom_truck_tank_fuel_balance) {
+      cur_frm.get_field("custom_truck_tank_fuel_balance").wrapper.innerHTML = "";
+    }
+    return;
+  }
+
   cur_frm.get_field("html4").wrapper.innerHTML = content;
+
+  frappe.db
+    .get_value("Truck", cur_frm.doc.truck_number, "trans_ms_fuel_warehouse")
+    .then((r) => {
+      var warehouse = null;
+      if (r && r.message) {
+        warehouse = r.message.trans_ms_fuel_warehouse;
+      }
+      if (!warehouse) {
+        return;
+      }
+
+      frappe.db.get_single_value("Transport Settings", "fuel_item").then((fuel_item) => {
+        if (!fuel_item) {
+          return;
+        }
+
+        frappe.db
+          .get_value("Bin", { item_code: fuel_item, warehouse: warehouse }, "actual_qty")
+          .then((b) => {
+            var balance = 0;
+            if (b && b.message) {
+              balance = b.message.actual_qty || 0;
+            }
+            if (cur_frm.fields_dict.custom_truck_tank_fuel_balance) {
+              cur_frm.get_field("custom_truck_tank_fuel_balance").wrapper.innerHTML =
+                '<p class="text-muted small">Trip Tank Fuel Balance: <b>' +
+                balance.toLocaleString() +
+                "</b></p>";
+            }
+          });
+      });
+    });
 }
+
+
+frappe.ui.form.on("Trips", {
+  stock_out_entry: function () {
+    fuel_amount();
+  },
+  fuel_request_history: function () {
+    fuel_amount();
+  },
+  total_fuel: function () {
+    fuel_amount();
+  },
+});

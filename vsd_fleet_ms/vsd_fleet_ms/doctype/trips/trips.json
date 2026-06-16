@@ -70,6 +70,7 @@
   "fuel_stock_out",
   "reduce_stock",
   "html4",
+  "custom_truck_tank_fuel_balance",
   "column_break_c2lwo",
   "stock_out_entry",
   "section_break_vefjo",
@@ -547,6 +548,11 @@
    "fieldname": "html4",
    "fieldtype": "HTML",
    "label": "Fuel Amount"
+  },
+  {
+   "fieldname": "custom_truck_tank_fuel_balance",
+   "fieldtype": "HTML",
+   "label": "Truck Tank Fuel Balance"
   },
   {
    "allow_on_submit": 1,
