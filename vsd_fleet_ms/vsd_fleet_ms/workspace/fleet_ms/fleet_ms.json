@@ -1,6 +1,11 @@
 {
- "charts": [],
- "content": "[{\"id\":\"jXwnsJvil0\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Active Trucks\",\"col\":4}},{\"id\":\"G8EkHN13E6\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Idle Trucks\",\"col\":3}},{\"id\":\"WQoT9AN7J1\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Completed Trips\",\"col\":4}},{\"id\":\"ClfVgiJBsi\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Active Trips\",\"col\":3}},{\"id\":\"q2QOU-UHg3\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Requested Payments\",\"col\":3}},{\"id\":\"zmWWdyEBaN\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Drivers\",\"col\":3}},{\"id\":\"x0AUY7DppD\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Fuel Requested\",\"col\":3}},{\"id\":\"D_r2tq24Wk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">VSD Fleet</span>\",\"col\":12}},{\"id\":\"eEKQ_vxz6K\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"_FHA1FtdB9\",\"type\":\"card\",\"data\":{\"card_name\":\"Trips\",\"col\":4}},{\"id\":\"tiOnXE60vg\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}},{\"id\":\"fgOY4518ML\",\"type\":\"card\",\"data\":{\"card_name\":\"Transactions\",\"col\":4}},{\"id\":\"RRWILp0x3t\",\"type\":\"card\",\"data\":{\"card_name\":\"Transport Records\",\"col\":4}},{\"id\":\"Fvhi34VUqU\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}}]",
+ "charts": [
+  {
+   "chart_name": "Trips per Month",
+   "label": "Trips per Month"
+  }
+ ],
+ "content": "[{\"id\":\"fleet_chart_1\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Trips per Month\",\"col\":12}},{\"id\":\"fleet_space_1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"fleet_head_1\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Quick Access</b></span>\",\"col\":12}},{\"id\":\"fleet_shortcut_1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Truck\",\"col\":3}},{\"id\":\"fleet_shortcut_2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Manifest\",\"col\":3}},{\"id\":\"fleet_shortcut_3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Trips\",\"col\":3}},{\"id\":\"fleet_shortcut_4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cargo Registration\",\"col\":3}},{\"id\":\"fleet_shortcut_5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Fuel Requests\",\"col\":3}},{\"id\":\"fleet_shortcut_6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Requested Payment\",\"col\":3}},{\"id\":\"fleet_shortcut_7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Round Trip\",\"col\":3}},{\"id\":\"fleet_shortcut_8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Trip Report and Expenses\",\"col\":3}},{\"id\":\"fleet_space_2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"fleet_head_2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Operations &amp; Analysis</b></span>\",\"col\":12}},{\"id\":\"fleet_card_1\",\"type\":\"card\",\"data\":{\"card_name\":\"Operations\",\"col\":4}},{\"id\":\"fleet_card_2\",\"type\":\"card\",\"data\":{\"card_name\":\"Trip Setup\",\"col\":4}},{\"id\":\"fleet_card_3\",\"type\":\"card\",\"data\":{\"card_name\":\"Fleet Masters\",\"col\":4}},{\"id\":\"fleet_card_4\",\"type\":\"card\",\"data\":{\"card_name\":\"Compliance &amp; Logs\",\"col\":4}},{\"id\":\"fleet_card_5\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"id\":\"fleet_card_6\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}}]",
  "creation": "2023-05-04 18:08:12.460715",
  "custom_blocks": [],
  "docstatus": 0,
@@ -15,132 +20,8 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Masters",
-   "link_count": 4,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Truck",
-   "link_count": 0,
-   "link_to": "Truck",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Trailer",
-   "link_count": 0,
-   "link_to": "Trailers",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Driver",
-   "link_count": 0,
-   "link_to": "Truck Driver",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Fuel UOM",
-   "link_count": 0,
-   "link_to": "Fuel UOM",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Settings",
-   "link_count": 1,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Transport Setting",
-   "link_count": 0,
-   "link_to": "Transport Settings",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Trips",
-   "link_count": 5,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Trip Location",
-   "link_count": 0,
-   "link_to": "Trip Locations",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Trip Location Type",
-   "link_count": 0,
-   "link_to": "Trip Locations Type",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Cargo Type",
-   "link_count": 0,
-   "link_to": "Cargo Types",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Trip Fixed Expense",
-   "link_count": 0,
-   "link_to": "Fixed Expenses",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Truck & Trailer Inspection",
-   "link_count": 0,
-   "link_to": "Truck and Trailer Inspection",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Transport Records",
-   "link_count": 2,
+   "label": "Operations",
+   "link_count": 6,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -157,55 +38,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Truck Log",
-   "link_count": 0,
-   "link_to": "Truck Log",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Reports",
-   "link_count": 2,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Trip Report and Expenses",
-   "link_count": 0,
-   "link_to": "Trip Report and Expenses",
-   "link_type": "Report",
-   "onboard": 0,
-   "report_ref_doctype": "Trips",
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Fuel Expense By Trip",
-   "link_count": 0,
-   "link_to": "Fuel Expense By Trip",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Transactions",
-   "link_count": 7,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Cargo Registration",
    "link_count": 0,
    "link_to": "Cargo Registration",
@@ -216,9 +48,19 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Vehicle Trips",
+   "label": "Trips",
    "link_count": 0,
    "link_to": "Trips",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Round Trip",
+   "link_count": 0,
+   "link_to": "Round Trip",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -246,9 +88,153 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Round Trip Details",
+   "label": "Trip Setup",
+   "link_count": 6,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Trip Routes",
    "link_count": 0,
-   "link_to": "Round Trip",
+   "link_to": "Trip Routes",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Trip Locations",
+   "link_count": 0,
+   "link_to": "Trip Locations",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Trip Locations Type",
+   "link_count": 0,
+   "link_to": "Trip Locations Type",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Transport Location",
+   "link_count": 0,
+   "link_to": "Transport Location",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Cargo Types",
+   "link_count": 0,
+   "link_to": "Cargo Types",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Fixed Expenses",
+   "link_count": 0,
+   "link_to": "Fixed Expenses",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Fleet Masters",
+   "link_count": 5,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Truck",
+   "link_count": 0,
+   "link_to": "Truck",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Truck Type",
+   "link_count": 0,
+   "link_to": "Truck Type",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Trailers",
+   "link_count": 0,
+   "link_to": "Trailers",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Truck Driver",
+   "link_count": 0,
+   "link_to": "Truck Driver",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Fuel UOM",
+   "link_count": 0,
+   "link_to": "Fuel UOM",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Compliance & Logs",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Truck and Trailer Inspection",
+   "link_count": 0,
+   "link_to": "Truck and Trailer Inspection",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Truck Log",
+   "link_count": 0,
+   "link_to": "Truck Log",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -266,9 +252,56 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Fixed Expenses",
+   "label": "Reports",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Trip Report and Expenses",
    "link_count": 0,
-   "link_to": "Fixed Expenses",
+   "link_to": "Trip Report and Expenses",
+   "link_type": "Report",
+   "onboard": 0,
+   "report_ref_doctype": "Trips",
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Fuel Expense By Trip",
+   "link_count": 0,
+   "link_to": "Fuel Expense By Trip",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Trips Report",
+   "link_count": 0,
+   "link_to": "Trips Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Settings",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Transport Settings",
+   "link_count": 0,
+   "link_to": "Transport Settings",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -278,42 +311,70 @@
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Fleet MS",
- "number_cards": [
-  {
-   "label": "Active Trucks",
-   "number_card_name": "Active Trucks"
-  },
-  {
-   "label": "Completed Trips",
-   "number_card_name": "Completed Trips"
-  },
-  {
-   "label": "Idle Trucks",
-   "number_card_name": "Idle Trucks"
-  },
-  {
-   "label": "Active Trips",
-   "number_card_name": "Trucks with Pending Trips"
-  },
-  {
-   "label": "Total Requested Payments",
-   "number_card_name": "Total Requested Payments"
-  },
-  {
-   "label": "Drivers",
-   "number_card_name": "Active Drivers"
-  },
-  {
-   "label": "Total Fuel Requested",
-   "number_card_name": "Total Fuel Requested"
-  }
- ],
+ "number_cards": [],
  "owner": "arnold@vvsdtz.com",
  "parent_page": "",
  "public": 1,
  "quick_lists": [],
  "roles": [],
  "sequence_id": 1.0,
- "shortcuts": [],
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Truck",
+   "link_to": "Truck",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Manifest",
+   "link_to": "Manifest",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Trips",
+   "link_to": "Trips",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Cargo Registration",
+   "link_to": "Cargo Registration",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "Requested Payment",
+   "link_to": "Requested Payment",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "Round Trip",
+   "link_to": "Round Trip",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Trip Report and Expenses",
+   "link_to": "Trip Report and Expenses",
+   "type": "Report"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Fuel Requests",
+   "link_to": "Fuel Requests",
+   "type": "DocType"
+  }
+ ],
  "title": "Fleet MS"
 }
