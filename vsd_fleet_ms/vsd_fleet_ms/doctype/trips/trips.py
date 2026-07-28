@@ -226,9 +226,18 @@ def create_fund_jl(doc, row):
         frappe.msgprint(_("Automatic Journal Entry creation is disabled in Transport Settings"))
         return None
 
-    if row.journal_entry:
+    live_doc = frappe.get_doc(doc.doctype, doc.name)
+    current_row = next(
+        (d for d in live_doc.requested_fund_accounts_table if d.name == row.name),
+        None,
+    )
+
+    if not current_row:
+        frappe.throw(_("Fund request row was not found"))
+
+    if current_row.journal_entry:
         frappe.throw("Journal Entry Already Created")
-    if row.request_status != "Approved":
+    if current_row.request_status != "Approved":
         frappe.throw("Fund Request is not Approved")
 
     accounts = []
@@ -236,35 +245,35 @@ def create_fund_jl(doc, row):
     multi_currency = 0
     exchange_rate = 1
 
-    if company_currency != row.request_currency:
+    if company_currency != current_row.request_currency:
         multi_currency = 1
-        exchange_rate = get_exchange_rate(row.request_currency, company_currency)
+        exchange_rate = get_exchange_rate(current_row.request_currency, company_currency)
 
-    debit_amount = row.request_amount * exchange_rate if row.request_currency != row.expense_account_currency else row.request_amount
-    debit_exchange_rate = exchange_rate if row.request_currency != row.expense_account_currency else 1
+    debit_amount = current_row.request_amount * exchange_rate if current_row.request_currency != current_row.expense_account_currency else current_row.request_amount
+    debit_exchange_rate = exchange_rate if current_row.request_currency != current_row.expense_account_currency else 1
 
-    credit_amt = row.request_amount * exchange_rate if row.request_currency != row.payable_account_currency else row.request_amount
-    credit_exchange_rate = exchange_rate if row.request_currency != row.payable_account_currency else 1
+    credit_amt = current_row.request_amount * exchange_rate if current_row.request_currency != current_row.payable_account_currency else current_row.request_amount
+    credit_exchange_rate = exchange_rate if current_row.request_currency != current_row.payable_account_currency else 1
 
     debit_row = dict(
-        account=row.expense_account,
+        account=current_row.expense_account,
         exchange_rate=debit_exchange_rate,
         debit_in_account_currency=debit_amount,
-        cost_center=row.cost_center,
+        cost_center=current_row.cost_center,
     )
     accounts.append(debit_row)
 
     credit_row = dict(
-        account=row.payable_account,
+        account=current_row.payable_account,
         exchange_rate=credit_exchange_rate,
         credit_in_account_currency=credit_amt,
-        cost_center=row.cost_center,
+        cost_center=current_row.cost_center,
     )
     accounts.append(credit_row)
 
     company = doc.company
     user_remark = f"ref Document: {doc.name}"
-    date = row.requested_date if row.requested_date else nowdate()
+    date = current_row.requested_date if current_row.requested_date else nowdate()
 
     jv_doc = frappe.get_doc(dict(
         doctype="Journal Entry",
@@ -276,14 +285,15 @@ def create_fund_jl(doc, row):
     ))
     jv_doc.flags.ignore_permissions = True
     frappe.flags.ignore_account_permission = True
-    set_dimension(doc, jv_doc)
+    set_dimension(live_doc, jv_doc)
     for account_row in jv_doc.accounts:
-        set_dimension(doc, jv_doc, tr_child=account_row)
+        set_dimension(live_doc, jv_doc, tr_child=account_row)
 
     jv_doc.save()
+    current_row.journal_entry = jv_doc.name
+    live_doc.save(ignore_permissions=True)
     jv_url = frappe.utils.get_url_to_form(jv_doc.doctype, jv_doc.name)
     frappe.msgprint(_("Journal Entry Created <a href='{0}'>{1}</a>").format(jv_url, jv_doc.name))
-    frappe.set_value(row.doctype, row.name, "journal_entry", jv_doc.name)
     return jv_doc
 
 
