@@ -1,0 +1,22 @@
+{
+ "background_color": "#e5f0fd",
+ "color": "#2f6fed",
+ "creation": "2026-09-17 09:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Number Card",
+ "document_type": "Trips",
+ "filters_json": "[[\"Trips\", \"trip_status\", \"=\", \"Pending\", false]]",
+ "function": "Count",
+ "idx": 0,
+ "is_public": 1,
+ "is_standard": 1,
+ "label": "Ongoing Trips",
+ "modified": "2026-09-17 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "VSD Fleet MS",
+ "name": "Ongoing Trips",
+ "owner": "Administrator",
+ "show_percentage_stats": 0,
+ "stats_time_interval": "Weekly",
+ "type": "Document Type"
+}

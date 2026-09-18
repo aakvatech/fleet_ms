@@ -1,0 +1,22 @@
+{
+ "background_color": "#fdf1df",
+ "color": "#e0891e",
+ "creation": "2026-09-17 09:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Number Card",
+ "document_type": "Fuel Requests",
+ "filters_json": "[[\"Fuel Requests\", \"status\", \"!=\", \"Fully Processed\", false]]",
+ "function": "Count",
+ "idx": 0,
+ "is_public": 1,
+ "is_standard": 1,
+ "label": "Fuel Requests",
+ "modified": "2026-09-17 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "VSD Fleet MS",
+ "name": "Fuel Requests",
+ "owner": "Administrator",
+ "show_percentage_stats": 0,
+ "stats_time_interval": "Weekly",
+ "type": "Document Type"
+}
