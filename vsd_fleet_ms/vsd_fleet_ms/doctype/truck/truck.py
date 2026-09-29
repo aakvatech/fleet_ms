@@ -43,4 +43,4 @@ class Truck(Document):
 			else:
 				self.status = "Disabled"
 		if self.status == "Disabled":
-			self.disabled == 1
+			self.disabled = 1
