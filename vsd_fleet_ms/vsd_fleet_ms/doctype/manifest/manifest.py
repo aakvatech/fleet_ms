@@ -38,9 +38,7 @@ class Manifest(Document):
 			return
 
 		# Fetch the default compartment capacity from Transport Settings
-		default_capacity = frappe.db.get_value(
-			"Transport Settings", "Transport Settings", "default_compartment_capacity"
-		)
+		default_capacity = frappe.db.get_single_value("Transport Settings", "default_compartment_capacity")
 
 		if not default_capacity:
 			frappe.throw("Default compartment capacity is not set in Transport Settings.")
