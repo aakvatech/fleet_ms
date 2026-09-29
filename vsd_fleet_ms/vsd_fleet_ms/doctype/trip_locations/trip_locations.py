@@ -10,6 +10,7 @@ from frappe.utils.nestedset import NestedSet, update_nsm
 
 EARTH_RADIUS = 6378137
 
+
 class TripLocations(NestedSet):
 	nsm_parent_field = "parent_location"
 
@@ -193,17 +194,15 @@ def get_children(doctype, parent=None, location=None, is_root=False):
 		parent = ""
 
 	return frappe.db.sql(
-		"""
+		f"""
 		select
 			name as value,
 			is_group as expandable
 		from
 			`tabTrip Locations` comp
 		where
-			ifnull(parent_location, "")={parent}
-		""".format(
-			parent=frappe.db.escape(parent)
-		),
+			ifnull(parent_location, "")={frappe.db.escape(parent)}
+		""",
 		as_dict=1,
 	)
 
