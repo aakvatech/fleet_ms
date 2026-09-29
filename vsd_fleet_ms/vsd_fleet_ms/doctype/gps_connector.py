@@ -8,7 +8,7 @@ def connect_to_server():
 	conn = None
 	try:
 		conn = "test"
-	except ex:
+	except Exception as ex:
 		print("Unable to connect the database: " + str(ex))
 		sys.exit(1)
 
@@ -132,7 +132,6 @@ def load_cargo(**args):
 	args = frappe._dict(args)
 	vehicle_plate_number = args.vehicle_plate_number
 	loading_date = args.loading_date
-	cargo = args.cargo
 	destination = args.destination
 	if vehicle_plate_number and vehicle_plate_number != "" and loading_date and loading_date != "":
 		connection = connect_to_server()
