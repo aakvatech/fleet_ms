@@ -41,7 +41,7 @@ class Trips(Document):
 			self.requested_fund_accounts_table = []
 
 	def validate(self):
-		self.sync_trip_status()
+		self.trip_status = self.get_synced_trip_status()
 		self.validate_active_trip_for_truck()
 		if self.transporter_type == "In House":
 			self.validate_fuel_requests()
@@ -121,7 +121,10 @@ class Trips(Document):
 		self.sync_truck_status()
 
 	def on_update_after_submit(self):
-		self.sync_trip_status()
+		# The document is already saved here, so write the status straight to the database
+		trip_status = self.get_synced_trip_status()
+		if trip_status != self.trip_status:
+			self.db_set("trip_status", trip_status, update_modified=False)
 		self.validate_active_trip_for_truck()
 		self.sync_truck_status()
 
@@ -249,11 +252,11 @@ class Trips(Document):
 				_("<b>Trip submission blocked due to pending financial items:</b><br>{0}").format(details)
 			)
 
-	def sync_trip_status(self):
+	def get_synced_trip_status(self):
 		if self.trip_status == "Breakdown":
-			return
+			return self.trip_status
 
-		self.trip_status = "Completed" if cint(self.trip_completed) == 1 else "Pending"
+		return "Completed" if cint(self.trip_completed) == 1 else "Pending"
 
 	def get_truck_number(self):
 		if self.truck_number:
