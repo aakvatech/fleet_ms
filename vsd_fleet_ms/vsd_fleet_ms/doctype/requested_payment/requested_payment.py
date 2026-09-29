@@ -16,7 +16,7 @@ from erpnext.accounts.utils import (
 from erpnext.controllers.accounts_controller import set_balance_in_account_currency
 from frappe import _
 from frappe.model.document import Document
-from frappe.utils import nowdate
+from frappe.utils import formatdate, nowdate
 
 
 class RequestedPayment(Document):
@@ -151,9 +151,6 @@ class RequestedPayment(Document):
 
 
 def get_outstanding_payments(self, account_currency):
-	# Timestamp
-	ts = time.time()
-
 	# Initialize values
 	total_amount = outstanding_amount = 0
 	due_date = datetime.datetime.now().date()
@@ -208,11 +205,6 @@ def validate_requested_funds(doc):
 			open_requests.append(requested_fund)
 
 	if make_request:
-		args = {
-			"reference_doctype": doc.doctype,
-			"reference_docname": doc.name,
-			"company": doc.company,
-		}
 		request_status = request_funds(
 			reference_doctype=doc.doctype,
 			reference_docname=doc.name,
@@ -293,34 +285,6 @@ def recommend_against_request(**args):
 
 
 @frappe.whitelist(allow_guest=True)
-def approve_request(**args):
-	args = frappe._dict(args)
-
-	# frappe.db.sql("UPDATE `tabRequested Funds Details` SET request_status = 'Approved', request_hidden_status = 0 WHERE name = %s", args.request_docname)
-	# return args.request_docname
-	# Mark the request as open
-	doc = frappe.get_doc("Requested Fund Details", args.request_docname)
-	doc.db_set("request_status", "Approved")
-	doc.db_set("request_hidden_status", "1")
-	doc.db_set("approved_by", args.user)
-	return "Request Updated"
-
-
-@frappe.whitelist(allow_guest=True)
-def reject_request(**args):
-	args = frappe._dict(args)
-
-	# frappe.db.sql("UPDATE `tabRequested Funds Details` SET request_status = 'Rejected', request_hidden_status = 0 WHERE name = %s", args.request_docname)
-	# return "OK"
-	# Mark the request as open
-	doc = frappe.get_doc("Requested Fund Details", args.request_docname)
-	doc.db_set("request_status", "Rejected")
-	doc.db_set("request_hidden_status", "2")
-	doc.db_set("approved_by", args.user)
-	return "Request Updated"
-
-
-@frappe.whitelist(allow_guest=True)
 def accounts_approval(**args):
 	args = frappe._dict(args)
 	local = json.loads(args.local)
@@ -375,7 +339,6 @@ def accounts_approval(**args):
 @frappe.whitelist(allow_guest=True)
 def accounts_cancel(**args):
 	args = frappe._dict(args)
-	local = json.loads(args.local)
 
 	if args.reference:
 		reference = frappe.get_doc("Requested Fund Details", args.reference)
@@ -516,7 +479,7 @@ def get_gl_dict(doc, data, args, account_currency=None):
 	if len(fiscal_years) > 1:
 		frappe.throw(
 			_("Multiple fiscal years exist for the date {0}. Please set company in Fiscal Year").format(
-				formatdate(self.posting_date)
+				formatdate(data.request_date)
 			)
 		)
 	else:
