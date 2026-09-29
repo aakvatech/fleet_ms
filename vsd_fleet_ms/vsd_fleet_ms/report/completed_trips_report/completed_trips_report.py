@@ -17,10 +17,22 @@ def get_columns():
 		{"fieldname": "name", "label": _("Trip"), "fieldtype": "Link", "options": "Trips", "width": 130},
 		{"fieldname": "date", "label": _("Trip Date"), "fieldtype": "Date", "width": 100},
 		{"fieldname": "trip_completed_date", "label": _("Completed Date"), "fieldtype": "Date", "width": 120},
-		{"fieldname": "truck_number", "label": _("Truck"), "fieldtype": "Link", "options": "Truck", "width": 110},
+		{
+			"fieldname": "truck_number",
+			"label": _("Truck"),
+			"fieldtype": "Link",
+			"options": "Truck",
+			"width": 110,
+		},
 		{"fieldname": "truck_licence_plate", "label": _("Plate Number"), "fieldtype": "Data", "width": 110},
 		{"fieldname": "driver_name", "label": _("Driver"), "fieldtype": "Data", "width": 150},
-		{"fieldname": "route", "label": _("Route"), "fieldtype": "Link", "options": "Trip Routes", "width": 150},
+		{
+			"fieldname": "route",
+			"label": _("Route"),
+			"fieldtype": "Link",
+			"options": "Trip Routes",
+			"width": 150,
+		},
 	]
 
 
@@ -31,7 +43,9 @@ def get_data(filters):
 		"""
 		SELECT name, date, trip_completed_date, truck_number, truck_licence_plate, driver_name, route
 		FROM `tabTrips`
-		WHERE trip_status = 'Completed' """ + conditions + """
+		WHERE trip_status = 'Completed' """
+		+ conditions
+		+ """
 		ORDER BY trip_completed_date DESC
 		""",
 		values,

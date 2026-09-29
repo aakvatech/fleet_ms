@@ -14,11 +14,29 @@ def execute(filters=None):
 
 def get_columns():
 	return [
-		{"fieldname": "truck_number", "label": _("Truck"), "fieldtype": "Link", "options": "Truck", "width": 120},
+		{
+			"fieldname": "truck_number",
+			"label": _("Truck"),
+			"fieldtype": "Link",
+			"options": "Truck",
+			"width": 120,
+		},
 		{"fieldname": "trip_count", "label": _("Trips"), "fieldtype": "Int", "width": 90},
 		{"fieldname": "total_quantity", "label": _("Total Fuel (Ltr)"), "fieldtype": "Float", "width": 130},
-		{"fieldname": "total_cost_tzs", "label": _("Total Cost (TZS)"), "fieldtype": "Currency", "options": "TZS", "width": 140},
-		{"fieldname": "total_cost_usd", "label": _("Total Cost (USD)"), "fieldtype": "Currency", "options": "USD", "width": 140},
+		{
+			"fieldname": "total_cost_tzs",
+			"label": _("Total Cost (TZS)"),
+			"fieldtype": "Currency",
+			"options": "TZS",
+			"width": 140,
+		},
+		{
+			"fieldname": "total_cost_usd",
+			"label": _("Total Cost (USD)"),
+			"fieldtype": "Currency",
+			"options": "USD",
+			"width": 140,
+		},
 	]
 
 
@@ -36,7 +54,9 @@ def get_data(filters):
 		FROM `tabTrips` t
 		INNER JOIN `tabFuel Requests Table` f
 			ON f.parent = t.name AND f.parentfield = 'fuel_request_history'
-		WHERE t.truck_number IS NOT NULL AND t.truck_number != '' """ + conditions + """
+		WHERE t.truck_number IS NOT NULL AND t.truck_number != '' """
+		+ conditions
+		+ """
 		GROUP BY t.truck_number
 		ORDER BY total_quantity DESC
 		""",

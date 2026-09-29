@@ -10,17 +10,53 @@ def execute(filters=None):
 
 def get_columns():
 	return [
-		{"fieldname": "name", "label": _("Sales Invoice"), "fieldtype": "Link", "options": "Sales Invoice", "width": 130},
+		{
+			"fieldname": "name",
+			"label": _("Sales Invoice"),
+			"fieldtype": "Link",
+			"options": "Sales Invoice",
+			"width": 130,
+		},
 		{"fieldname": "invoice_status", "label": _("Status"), "fieldtype": "Data", "width": 100},
 		{"fieldname": "trip", "label": _("Trip"), "fieldtype": "Link", "options": "Trips", "width": 120},
-		{"fieldname": "cargo_registration", "label": _("Cargo Registration"), "fieldtype": "Link", "options": "Cargo Registration", "width": 150},
-		{"fieldname": "customer", "label": _("Customer"), "fieldtype": "Link", "options": "Customer", "width": 160},
+		{
+			"fieldname": "cargo_registration",
+			"label": _("Cargo Registration"),
+			"fieldtype": "Link",
+			"options": "Cargo Registration",
+			"width": 150,
+		},
+		{
+			"fieldname": "customer",
+			"label": _("Customer"),
+			"fieldtype": "Link",
+			"options": "Customer",
+			"width": 160,
+		},
 		{"fieldname": "posting_date", "label": _("Posting Date"), "fieldtype": "Date", "width": 110},
 		{"fieldname": "due_date", "label": _("Due Date"), "fieldtype": "Date", "width": 110},
 		{"fieldname": "days_overdue", "label": _("Days Overdue"), "fieldtype": "Int", "width": 110},
-		{"fieldname": "grand_total", "label": _("Grand Total"), "fieldtype": "Currency", "options": "currency", "width": 130},
-		{"fieldname": "outstanding_amount", "label": _("Outstanding Amount"), "fieldtype": "Currency", "options": "currency", "width": 150},
-		{"fieldname": "currency", "label": _("Currency"), "fieldtype": "Link", "options": "Currency", "width": 90},
+		{
+			"fieldname": "grand_total",
+			"label": _("Grand Total"),
+			"fieldtype": "Currency",
+			"options": "currency",
+			"width": 130,
+		},
+		{
+			"fieldname": "outstanding_amount",
+			"label": _("Outstanding Amount"),
+			"fieldtype": "Currency",
+			"options": "currency",
+			"width": 150,
+		},
+		{
+			"fieldname": "currency",
+			"label": _("Currency"),
+			"fieldtype": "Link",
+			"options": "Currency",
+			"width": 90,
+		},
 	]
 
 

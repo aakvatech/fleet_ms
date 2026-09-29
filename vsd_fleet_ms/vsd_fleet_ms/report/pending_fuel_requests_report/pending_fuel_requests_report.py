@@ -14,18 +14,65 @@ def execute(filters=None):
 
 def get_columns():
 	return [
-		{"fieldname": "name", "label": _("Fuel Request"), "fieldtype": "Link", "options": "Fuel Requests", "width": 150},
+		{
+			"fieldname": "name",
+			"label": _("Fuel Request"),
+			"fieldtype": "Link",
+			"options": "Fuel Requests",
+			"width": 150,
+		},
 		{"fieldname": "transaction_date", "label": _("Transaction Date"), "fieldtype": "Date", "width": 110},
 		{"fieldname": "truck", "label": _("Truck"), "fieldtype": "Link", "options": "Truck", "width": 110},
 		{"fieldname": "driver_name", "label": _("Driver"), "fieldtype": "Data", "width": 150},
-		{"fieldname": "main_route", "label": _("Main Route"), "fieldtype": "Link", "options": "Trip Routes", "width": 150},
-		{"fieldname": "return_route", "label": _("Return Route"), "fieldtype": "Link", "options": "Trip Routes", "width": 150},
+		{
+			"fieldname": "main_route",
+			"label": _("Main Route"),
+			"fieldtype": "Link",
+			"options": "Trip Routes",
+			"width": 150,
+		},
+		{
+			"fieldname": "return_route",
+			"label": _("Return Route"),
+			"fieldtype": "Link",
+			"options": "Trip Routes",
+			"width": 150,
+		},
 		{"fieldname": "status", "label": _("Status"), "fieldtype": "Data", "width": 130},
-		{"fieldname": "requested_quantity", "label": _("Requested Quantity (Ltr)"), "fieldtype": "Float", "width": 160},
-		{"fieldname": "requested_cost_tzs", "label": _("Requested Cost (TZS)"), "fieldtype": "Currency", "options": "TZS", "width": 150},
-		{"fieldname": "requested_cost_usd", "label": _("Requested Cost (USD)"), "fieldtype": "Currency", "options": "USD", "width": 150},
-		{"fieldname": "reference_doctype", "label": _("Reference Doctype"), "fieldtype": "Link", "options": "DocType", "width": 130},
-		{"fieldname": "reference_docname", "label": _("Reference"), "fieldtype": "Dynamic Link", "options": "reference_doctype", "width": 150},
+		{
+			"fieldname": "requested_quantity",
+			"label": _("Requested Quantity (Ltr)"),
+			"fieldtype": "Float",
+			"width": 160,
+		},
+		{
+			"fieldname": "requested_cost_tzs",
+			"label": _("Requested Cost (TZS)"),
+			"fieldtype": "Currency",
+			"options": "TZS",
+			"width": 150,
+		},
+		{
+			"fieldname": "requested_cost_usd",
+			"label": _("Requested Cost (USD)"),
+			"fieldtype": "Currency",
+			"options": "USD",
+			"width": 150,
+		},
+		{
+			"fieldname": "reference_doctype",
+			"label": _("Reference Doctype"),
+			"fieldtype": "Link",
+			"options": "DocType",
+			"width": 130,
+		},
+		{
+			"fieldname": "reference_docname",
+			"label": _("Reference"),
+			"fieldtype": "Dynamic Link",
+			"options": "reference_doctype",
+			"width": 150,
+		},
 	]
 
 
@@ -73,7 +120,9 @@ def get_data(filters):
 			), 0) AS requested_cost_usd
 		FROM `tabFuel Requests` fr
 		LEFT JOIN `tabTrips` t ON fr.reference_doctype = 'Trips' AND fr.reference_docname = t.name
-		WHERE fr.status != 'Fully Processed' """ + conditions + """
+		WHERE fr.status != 'Fully Processed' """
+		+ conditions
+		+ """
 		ORDER BY transaction_date DESC
 		""",
 		values,

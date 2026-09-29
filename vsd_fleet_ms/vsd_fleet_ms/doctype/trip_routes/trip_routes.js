@@ -85,4 +85,3 @@ frappe.ui.form.on('Fixed Expenses Table', {
         frm.events.calculate_total_expenses(frm);
     }
 });
-

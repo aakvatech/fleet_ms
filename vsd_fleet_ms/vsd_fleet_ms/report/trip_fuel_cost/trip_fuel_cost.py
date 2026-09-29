@@ -47,7 +47,9 @@ def get_data(filters):
 			FL.disbursement_type, FL.supplier, FL.status, FL.approved_by, FL.approved_date
 		FROM `tabTrips` T
 		INNER JOIN `tabFuel Requests Table` FL ON FL.parent = T.name AND FL.parentfield = 'fuel_request_history'
-		WHERE 1 = 1 """ + conditions + """
+		WHERE 1 = 1 """
+		+ conditions
+		+ """
 		ORDER BY T.date DESC
 		""",
 		values,

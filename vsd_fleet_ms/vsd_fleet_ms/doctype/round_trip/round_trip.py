@@ -4,6 +4,7 @@
 import frappe
 from frappe.model.document import Document
 
+
 class RoundTrip(Document):
 	def after_insert(self):
 		self.sync_trip_links()
@@ -13,9 +14,7 @@ class RoundTrip(Document):
 
 	def sync_trip_links(self):
 		current_trip_ids = {row.trip_id for row in (self.trip_details or []) if row.trip_id}
-		existing_trip_ids = set(
-			frappe.get_all("Trips", filters={"round_trip": self.name}, pluck="name")
-		)
+		existing_trip_ids = set(frappe.get_all("Trips", filters={"round_trip": self.name}, pluck="name"))
 
 		for trip_id in existing_trip_ids - current_trip_ids:
 			trip = frappe.get_doc("Trips", trip_id)

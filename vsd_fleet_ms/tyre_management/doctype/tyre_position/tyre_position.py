@@ -5,5 +5,4 @@ from frappe.model.document import Document
 
 
 class TyrePosition(Document):
-    pass
-
+	pass

@@ -16,10 +16,28 @@ def get_columns():
 	return [
 		{"fieldname": "reference", "label": _("Trip"), "fieldtype": "Link", "options": "Trips", "width": 130},
 		{"fieldname": "date", "label": _("Trip Date"), "fieldtype": "Date", "width": 100},
-		{"fieldname": "route", "label": _("Route"), "fieldtype": "Link", "options": "Trip Routes", "width": 150},
+		{
+			"fieldname": "route",
+			"label": _("Route"),
+			"fieldtype": "Link",
+			"options": "Trip Routes",
+			"width": 150,
+		},
 		{"fieldname": "invoice_count", "label": _("Invoices"), "fieldtype": "Int", "width": 90},
-		{"fieldname": "revenue_usd", "label": _("Revenue (USD)"), "fieldtype": "Currency", "options": "USD", "width": 130},
-		{"fieldname": "revenue_tzs", "label": _("Revenue (TZS)"), "fieldtype": "Currency", "options": "TZS", "width": 130},
+		{
+			"fieldname": "revenue_usd",
+			"label": _("Revenue (USD)"),
+			"fieldtype": "Currency",
+			"options": "USD",
+			"width": 130,
+		},
+		{
+			"fieldname": "revenue_tzs",
+			"label": _("Revenue (TZS)"),
+			"fieldtype": "Currency",
+			"options": "TZS",
+			"width": 130,
+		},
 	]
 
 
@@ -40,7 +58,9 @@ def get_data(filters):
 		INNER JOIN `tabCargo Registration` cr ON cr.trip = t.name
 		INNER JOIN `tabCargo Detail` cd ON cd.parent = cr.name AND cd.invoice IS NOT NULL AND cd.invoice != ''
 		INNER JOIN `tabSales Invoice` si ON si.name = cd.invoice AND si.docstatus = 1
-		WHERE 1 = 1 """ + conditions + """
+		WHERE 1 = 1 """
+		+ conditions
+		+ """
 		GROUP BY t.name
 		ORDER BY t.date DESC
 		""",

@@ -73,7 +73,7 @@ frappe.ui.form.on('Fuel Requests', {
 
 
 frappe.ui.form.on('Fuel Requests Table', {
-    
+
     form_render(frm, cdt, cdn) {
         frm.fields_dict.approved_requests.grid.wrapper.find('.btn[data-fieldname="create_purchase_order"]').hide();
         frm.fields_dict.requested_fuel.grid.wrapper.find('.grid-delete-row').hide();
@@ -82,7 +82,7 @@ frappe.ui.form.on('Fuel Requests Table', {
         frm.fields_dict.requested_fuel.grid.wrapper.find('.grid-append-row').hide();
         frm.fields_dict.requested_fuel.grid.wrapper.find('.grid-insert-row-below').hide();
         frm.fields_dict.requested_fuel.grid.wrapper.find('.grid-insert-row').hide();
-        
+
     }
 });
 

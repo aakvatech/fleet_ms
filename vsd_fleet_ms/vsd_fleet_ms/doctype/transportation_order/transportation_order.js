@@ -363,7 +363,7 @@ frappe.ui.form.on("Transport Assignments", {
 	route: function (frm, cdt, cdn) {
 		frm.events.show_submit_button(frm);
 	},
-	
+
 	create_vehicle_trip_record: function (frm, cdt, cdn) {
 		const doc = locals[cdt][cdn];
 		console.log(doc.assigned_vehicle);

@@ -4,14 +4,14 @@
 import frappe
 from frappe.model.document import Document
 
+
 class TruckDriver(Document):
-	
 	def before_save(self):
 		if self.status != "Active":
-			trucks = frappe.get_all("Truck", filters={"trans_ms_driver":self.name})
+			trucks = frappe.get_all("Truck", filters={"trans_ms_driver": self.name})
 			if trucks:
 				for truck in trucks:
-					single_truck = frappe.get_doc("Truck",truck.name)
-					single_truck.trans_ms_driver = ''
-					single_truck.trans_ms__driver_name = ''
+					single_truck = frappe.get_doc("Truck", truck.name)
+					single_truck.trans_ms_driver = ""
+					single_truck.trans_ms__driver_name = ""
 					single_truck.save()

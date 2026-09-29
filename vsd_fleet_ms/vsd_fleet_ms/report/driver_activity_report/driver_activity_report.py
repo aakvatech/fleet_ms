@@ -14,10 +14,22 @@ def execute(filters=None):
 
 def get_columns():
 	return [
-		{"fieldname": "driver", "label": _("Driver"), "fieldtype": "Link", "options": "Truck Driver", "width": 130},
+		{
+			"fieldname": "driver",
+			"label": _("Driver"),
+			"fieldtype": "Link",
+			"options": "Truck Driver",
+			"width": 130,
+		},
 		{"fieldname": "full_name", "label": _("Full Name"), "fieldtype": "Data", "width": 150},
 		{"fieldname": "status", "label": _("Status"), "fieldtype": "Select", "width": 100},
-		{"fieldname": "current_truck", "label": _("Current Truck"), "fieldtype": "Link", "options": "Truck", "width": 120},
+		{
+			"fieldname": "current_truck",
+			"label": _("Current Truck"),
+			"fieldtype": "Link",
+			"options": "Truck",
+			"width": 120,
+		},
 		{"fieldname": "total_trips", "label": _("Total Trips"), "fieldtype": "Int", "width": 100},
 		{"fieldname": "completed_trips", "label": _("Completed Trips"), "fieldtype": "Int", "width": 130},
 		{"fieldname": "pending_trips", "label": _("Pending Trips"), "fieldtype": "Int", "width": 110},
@@ -38,7 +50,9 @@ def get_data(filters):
 			(SELECT COUNT(*) FROM `tabTrips` WHERE assigned_driver = d.name AND trip_status = 'Completed') AS completed_trips,
 			(SELECT COUNT(*) FROM `tabTrips` WHERE assigned_driver = d.name AND trip_status = 'Pending') AS pending_trips
 		FROM `tabTruck Driver` d
-		WHERE 1 = 1 """ + conditions + """
+		WHERE 1 = 1 """
+		+ conditions
+		+ """
 		ORDER BY total_trips DESC
 		""",
 		values,

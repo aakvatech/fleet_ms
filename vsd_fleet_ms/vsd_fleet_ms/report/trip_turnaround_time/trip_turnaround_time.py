@@ -15,9 +15,21 @@ def execute(filters=None):
 def get_columns():
 	return [
 		{"fieldname": "name", "label": _("Trip"), "fieldtype": "Link", "options": "Trips", "width": 130},
-		{"fieldname": "truck_number", "label": _("Truck"), "fieldtype": "Link", "options": "Truck", "width": 110},
+		{
+			"fieldname": "truck_number",
+			"label": _("Truck"),
+			"fieldtype": "Link",
+			"options": "Truck",
+			"width": 110,
+		},
 		{"fieldname": "driver_name", "label": _("Driver"), "fieldtype": "Data", "width": 150},
-		{"fieldname": "route", "label": _("Route"), "fieldtype": "Link", "options": "Trip Routes", "width": 150},
+		{
+			"fieldname": "route",
+			"label": _("Route"),
+			"fieldtype": "Link",
+			"options": "Trip Routes",
+			"width": 150,
+		},
 		{"fieldname": "date", "label": _("Start Date"), "fieldtype": "Date", "width": 100},
 		{"fieldname": "trip_completed_date", "label": _("Completed Date"), "fieldtype": "Date", "width": 120},
 		{"fieldname": "days_taken", "label": _("Days Taken"), "fieldtype": "Int", "width": 100},
@@ -33,7 +45,9 @@ def get_data(filters):
 			name, truck_number, driver_name, route, date, trip_completed_date,
 			DATEDIFF(trip_completed_date, date) AS days_taken
 		FROM `tabTrips`
-		WHERE trip_status = 'Completed' AND date IS NOT NULL AND trip_completed_date IS NOT NULL """ + conditions + """
+		WHERE trip_status = 'Completed' AND date IS NOT NULL AND trip_completed_date IS NOT NULL """
+		+ conditions
+		+ """
 		ORDER BY days_taken DESC
 		""",
 		values,

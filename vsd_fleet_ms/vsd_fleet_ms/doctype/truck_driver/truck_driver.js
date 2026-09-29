@@ -5,5 +5,5 @@ frappe.ui.form.on('Truck Driver', {
 	// refresh: function(frm) {
 
 	// }
-	
+
 });
