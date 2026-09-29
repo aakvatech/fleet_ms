@@ -49,6 +49,7 @@ class TripLocations(NestedSet):
 		return features
 
 	def set_location_features(self, features):
+		location_latitude_longitude = self.location_latitude_longitude
 		if not location_latitude_longitude:
 			location_latitude_longitude = '{"type":"FeatureCollection","features":[]}'
 
