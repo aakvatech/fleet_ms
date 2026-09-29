@@ -2,9 +2,7 @@
 # For license information, please see license.txt
 
 
-import datetime
 import json
-import time
 
 import frappe
 from frappe import _
@@ -214,10 +212,6 @@ def create_transport_order(**args):
 	args = frappe._dict(args)
 
 	existing_transport_order = frappe.db.get_value("Transportation Order", {"file_number": args.file_number})
-
-	# Timestamp
-	ts = time.time()
-	timestamp = datetime.datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
 
 	if not existing_transport_order:
 		request = frappe.new_doc("Transportation Order")
