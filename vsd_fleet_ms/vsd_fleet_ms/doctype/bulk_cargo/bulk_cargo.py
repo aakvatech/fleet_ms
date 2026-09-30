@@ -2,6 +2,7 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 from frappe.utils import nowdate, flt
+from vsd_fleet_ms.utils.fleet_company_fields import get_transport_company
 
 class BulkCargo(Document):
     def validate(self):
@@ -149,7 +150,7 @@ def create_sales_invoice(name):
             "customer": bulk_cargo.customer_name,
             "currency": frappe.defaults.get_global_default("currency"),  # <-- fixed here
             "posting_date": nowdate(),
-            "company": frappe.defaults.get_global_default("company"),
+            "company": get_transport_company(),
             "items": items
         })
 

@@ -3,6 +3,7 @@
 
 frappe.ui.form.on('Cargo Registration', {
 	onload: function(frm){
+		setFleetCompanyDefault(frm);
 		if(!frm.doc.posting_date) {
 			frm.set_value('posting_date', frappe.datetime.nowdate());
 		}
@@ -56,6 +57,17 @@ frappe.ui.form.on('Cargo Registration', {
 		}
 	},
 });
+
+const setFleetCompanyDefault = (frm) => {
+	if (!frm.is_new()) return;
+	frappe.db.get_single_value("Transport Settings", "company").then((company) => {
+		const fallback = (frappe.boot && frappe.boot.sysdefaults && frappe.boot.sysdefaults.company) || "";
+		const target_company = company || fallback;
+		if (target_company) {
+			frm.set_value("company", target_company);
+		}
+	});
+};
 
 frappe.ui.form.on('Cargo Detail', {
 	form_render: function (frm, cdt, cdn) {
