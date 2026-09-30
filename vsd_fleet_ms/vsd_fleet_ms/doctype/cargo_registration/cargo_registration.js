@@ -82,7 +82,7 @@ frappe.ui.form.on('Cargo Detail', {
 	net_weight: function(frm, cdt, cdn){
 		var row = locals[cdt][cdn];
 		console.log("hi");
-		
+
 		// Convert kg to tonnes (1 tonne = 1000 kg)
 		if (row.net_weight) {
 			row.net_weight_tonne = row.net_weight / 1000;
@@ -267,7 +267,7 @@ function generateManifestTable(data) {
     return tableHtml;
 }
 function handle_Assign_Button_Click(args_array) {
-	
+
 	// console.log(args_array.manifest)
     frappe.call({
 		args: {
@@ -283,7 +283,7 @@ function handle_Assign_Button_Click(args_array) {
 	})
 }
 function handle_create_manifest_Click(args_array) {
-	
+
 	// console.log(args_array.manifest)
     frappe.call({
 		args: {

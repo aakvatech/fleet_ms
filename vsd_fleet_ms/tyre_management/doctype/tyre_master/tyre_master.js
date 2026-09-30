@@ -4,4 +4,3 @@
 frappe.ui.form.on("Tyre Master", {
   refresh: function () {},
 });
-

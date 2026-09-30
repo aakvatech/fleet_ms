@@ -5,5 +5,4 @@ from frappe.model.document import Document
 
 
 class TyreLedger(Document):
-    pass
-
+	pass

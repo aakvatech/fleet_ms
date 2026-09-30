@@ -14,10 +14,28 @@ def execute(filters=None):
 
 def get_columns():
 	return [
-		{"fieldname": "expense_type", "label": _("Expense"), "fieldtype": "Link", "options": "Fixed Expenses", "width": 200},
+		{
+			"fieldname": "expense_type",
+			"label": _("Expense"),
+			"fieldtype": "Link",
+			"options": "Fixed Expenses",
+			"width": 200,
+		},
 		{"fieldname": "request_count", "label": _("Number of Requests"), "fieldtype": "Int", "width": 140},
-		{"fieldname": "total_tzs", "label": _("Total (TZS)"), "fieldtype": "Currency", "options": "TZS", "width": 130},
-		{"fieldname": "total_usd", "label": _("Total (USD)"), "fieldtype": "Currency", "options": "USD", "width": 130},
+		{
+			"fieldname": "total_tzs",
+			"label": _("Total (TZS)"),
+			"fieldtype": "Currency",
+			"options": "TZS",
+			"width": 130,
+		},
+		{
+			"fieldname": "total_usd",
+			"label": _("Total (USD)"),
+			"fieldtype": "Currency",
+			"options": "USD",
+			"width": 130,
+		},
 	]
 
 
@@ -32,7 +50,9 @@ def get_data(filters):
 			SUM(CASE WHEN request_currency = 'TZS' THEN request_amount ELSE 0 END) AS total_tzs,
 			SUM(CASE WHEN request_currency = 'USD' THEN request_amount ELSE 0 END) AS total_usd
 		FROM `tabRequested Fund Details`
-		WHERE expense_type IS NOT NULL AND expense_type != '' """ + conditions + """
+		WHERE expense_type IS NOT NULL AND expense_type != '' """
+		+ conditions
+		+ """
 		GROUP BY expense_type
 		ORDER BY total_tzs DESC
 		""",

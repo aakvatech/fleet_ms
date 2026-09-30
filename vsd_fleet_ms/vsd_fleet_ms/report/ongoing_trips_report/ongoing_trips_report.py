@@ -16,10 +16,22 @@ def get_columns():
 	return [
 		{"fieldname": "name", "label": _("Trip"), "fieldtype": "Link", "options": "Trips", "width": 130},
 		{"fieldname": "date", "label": _("Trip Date"), "fieldtype": "Date", "width": 100},
-		{"fieldname": "truck_number", "label": _("Truck"), "fieldtype": "Link", "options": "Truck", "width": 110},
+		{
+			"fieldname": "truck_number",
+			"label": _("Truck"),
+			"fieldtype": "Link",
+			"options": "Truck",
+			"width": 110,
+		},
 		{"fieldname": "truck_licence_plate", "label": _("Plate Number"), "fieldtype": "Data", "width": 110},
 		{"fieldname": "driver_name", "label": _("Driver"), "fieldtype": "Data", "width": 150},
-		{"fieldname": "route", "label": _("Route"), "fieldtype": "Link", "options": "Trip Routes", "width": 150},
+		{
+			"fieldname": "route",
+			"label": _("Route"),
+			"fieldtype": "Link",
+			"options": "Trip Routes",
+			"width": 150,
+		},
 		{"fieldname": "transporter_type", "label": _("Transporter"), "fieldtype": "Data", "width": 110},
 	]
 
@@ -31,7 +43,9 @@ def get_data(filters):
 		"""
 		SELECT name, date, truck_number, truck_licence_plate, driver_name, route, transporter_type
 		FROM `tabTrips`
-		WHERE trip_status = 'Pending' """ + conditions + """
+		WHERE trip_status = 'Pending' """
+		+ conditions
+		+ """
 		ORDER BY date DESC
 		""",
 		values,

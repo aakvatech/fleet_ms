@@ -6,9 +6,9 @@ frappe.ui.form.on('Manifest', {
 		if (frm.doc.has_trailers == 0){
 		frm.doc.manifest_cargo_details.forEach(function(row) {
 			cur_frm.set_df_property("manifest_cargo_details", "cargo_allocation", "read_only", 1, row.idx);
-		  });	
-		  cur_frm.refresh_field("manifest_cargo_details")	
-		}	  
+		  });
+		  cur_frm.refresh_field("manifest_cargo_details")
+		}
 	},
 	transporter_type: (frm) => {
         // Get the transporter type value
@@ -63,7 +63,7 @@ frappe.ui.form.on('Manifest', {
 			frm.doc.manifest_cargo_details.forEach(function(row) {
 				cur_frm.set_df_property("manifest_cargo_details", "cargo_allocation", "read_only", 1, row.idx);
 			  });
-			  cur_frm.refresh_field("manifest_cargo_details")	
+			  cur_frm.refresh_field("manifest_cargo_details")
 			}
 		if(frm.doc.docstatus == 1 && !frm.doc.vehicle_trip){
 			var args_array = [];
@@ -75,7 +75,7 @@ frappe.ui.form.on('Manifest', {
 					trip_route:frm.doc.route,
 					truck:frm.doc.truck
 				}
-			
+
 				frm.add_custom_button(__('Vehicle Trip'), function () {
 					frappe.call({
 						args: {
@@ -114,7 +114,7 @@ frappe.ui.form.on('Manifest', {
 				}, __("Create"));
 			}
 		}
-		
+
 		var trailer_names = []
 
 		if (frm.doc.trailer_1){
@@ -139,11 +139,11 @@ frappe.ui.form.on('Manifest', {
 			if (frm.doc.trailer_1) {
 				var trailer_1 = frm.doc.trailer_1;
 				trailers.push(trailer_1);
-				
+
 				if (frm.doc.trailer_2) {
 					var trailer_2 = frm.doc.trailer_2;
 					trailers.push(trailer_2);
-					
+
 					if (frm.doc.trailer_3) {
 						var trailer_3 = frm.doc.trailer_3;
 						trailers.push(trailer_3);
@@ -198,7 +198,7 @@ frappe.ui.form.on('Manifest', {
 			trailer_names.push(frm.doc.trailer_3)
 		}
 		filters_for_trailers(trailer_names)
-		
+
 		if(!frm.doc.posting_date) {
 			frm.set_value('posting_date', frappe.datetime.nowdate());
 			frm.set_df_property('posting_date', 'read_only', 1);
@@ -240,8 +240,8 @@ frappe.ui.form.on('Manifest', {
 		// 		};
 		// 	});
 		// }
-		
-		
+
+
 	},
 	trailer_1: function(frm){
 		if (!frm.doc.trailer_1){
@@ -266,7 +266,7 @@ frappe.ui.form.on('Manifest', {
 			trailer_names.push(frm.doc.trailer_3)
 		}
 		filters_for_trailers(trailer_names)
-		
+
 	},
 	trailer_2: function(frm){
 		if (!frm.doc.trailer_2){
@@ -275,7 +275,7 @@ frappe.ui.form.on('Manifest', {
 			frm.refresh_field("trailer_3");
 			frm.refresh_field("trailer3_type");
 		}
-		
+
 		var trailer_names = []
 
 		if (frm.doc.trailer_1){
@@ -319,22 +319,22 @@ frappe.ui.form.on('Manifest', {
 	}
 });
 frappe.ui.form.on('Manifest Cargo Details', {
-	
+
 	cargo_allocation: function(frm,cdt,cdn){
 		var row = locals[cdt][cdn]
 		row.specific_cargo_allocated = ''
 		frm.refresh_field("manifest_cargo_details")
-		
+
 		if (row.cargo_allocation == "Trailers"){
 				var trailers = [];
 				if (frm.doc.trailer_1) {
 					var trailer_1 = frm.doc.trailer_1;
 					trailers.push(trailer_1);
-					
+
 					if (frm.doc.trailer_2) {
 						var trailer_2 = frm.doc.trailer_2;
 						trailers.push(trailer_2);
-						
+
 						if (frm.doc.trailer_3) {
 							var trailer_3 = frm.doc.trailer_3;
 							trailers.push(trailer_3);
@@ -498,7 +498,7 @@ function showCargoDialog(data) {
 }
 
 function handle_Assign_Button_Click(args_array) {
-	
+
 	// console.log(args_array.manifest)
     frappe.call({
 		args: {

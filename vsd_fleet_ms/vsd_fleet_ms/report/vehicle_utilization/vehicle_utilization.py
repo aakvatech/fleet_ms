@@ -38,7 +38,9 @@ def get_data(filters):
 			(SELECT COUNT(*) FROM `tabTrips` WHERE truck_number = t.name AND trip_status = 'Breakdown') AS breakdown_trips,
 			(SELECT MAX(date) FROM `tabTrips` WHERE truck_number = t.name) AS last_trip_date
 		FROM `tabTruck` t
-		WHERE 1 = 1 """ + conditions + """
+		WHERE 1 = 1 """
+		+ conditions
+		+ """
 		ORDER BY total_trips DESC
 		""",
 		values,

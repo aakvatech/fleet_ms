@@ -12,7 +12,7 @@ frappe.ui.form.on('Truck', {
 					"status": "Active"
 				}
 			}
-			
+
 		})
 	},
 	onload: function (frm) {

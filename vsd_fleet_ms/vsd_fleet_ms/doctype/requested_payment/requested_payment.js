@@ -7,7 +7,7 @@ frappe.ui.form.on('Requested Payment', {
 		var html = '<button style="background-color: green; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.approve_request(\'' + frm + '\');">Approve</button> ';
 		html += '<button style="background-color: red; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.reject_request(\'' + frm + '\');">Reject</button>'
 		$(frm.fields_dict.html1.wrapper).html(html);
-		
+
 		//cur_frm.disable_save();
 		frappe.after_ajax(function(){
 			frm.events.show_hide_sections(frm);
@@ -17,7 +17,7 @@ frappe.ui.form.on('Requested Payment', {
 		$(frm.wrapper).on("grid-row-render", function(e, grid_row) {
 			if (grid_row.doc.request_status == "Requested") {
 				$(grid_row.columns.request_status).css({"font-weight": "bold","color": "blue"});
-			}	
+			}
 			else if(grid_row.doc.request_status == "Approved")
 			{
 				$(grid_row.columns.request_status).css({"font-weight": "bold", "color": "green"});
@@ -28,7 +28,7 @@ frappe.ui.form.on('Requested Payment', {
 			}
 		});
 	},
-	
+
 	refresh: function(frm){
 		// console.log(frm);
 		var disburseFundsButton = cur_frm.fields_dict['accounts_approval'];
@@ -36,11 +36,11 @@ frappe.ui.form.on('Requested Payment', {
 		$('*[data-fieldname="requested_funds"]').find('.grid-remove-rows').hide();
 		$('*[data-fieldname="requested_funds"]').find('.grid-remove-all-rows').hide();
 		$('*[data-fieldname="requested_funds"]').find('.grid-add-row').hide();
-		
+
 		frappe.after_ajax(function(){
 			frm.events.show_hide_sections(frm);
 		});
-		
+
 		//For total requested
 		var total_request_tsh = 0;
 		var total_request_usd = 0;
@@ -55,17 +55,17 @@ frappe.ui.form.on('Requested Payment', {
 				total_request_usd += row.request_amount;
 			}
 		});
-		
-		//If all requests have been processed, change approval status			
+
+		//If all requests have been processed, change approval status
 		if(total_request_tsh == 0 && total_request_usd == 0 && frm.doc.approval_status != "Processed")
 		{
 			frm.set_value('approval_status', 'Processed');
 			frm.save_or_update();
 		}
-		
+
 		cur_frm.get_field("request_total_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Approved</p><b>USD ' + total_request_usd.toLocaleString() + ' <br> TZS ' + total_request_tsh.toLocaleString() + '</b>';
-	
-		
+
+
 		if (cur_frm.doc.requested_funds.length > 0){
 			frm.set_value('payment_status', 'Waiting Approval');
 			frm.save_or_update();
@@ -83,9 +83,9 @@ frappe.ui.form.on('Requested Payment', {
 				total_approved_usd += row.request_amount;
 			}
 		});
-		
+
 		cur_frm.get_field("total_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Approved</p><b>USD ' + total_approved_usd.toLocaleString() + ' <br> TZS ' + total_approved_tsh.toLocaleString() + '</b>';
-		
+
 		//For total paid amount
 		var total_tsh = 0;
 		var total_usd = 0;
@@ -99,7 +99,7 @@ frappe.ui.form.on('Requested Payment', {
 				total_usd += row.request_amount;
 			}
 		});
-		
+
 		var total_paid_tsh = 0;
 		var total_paid_usd = 0;
 		cur_frm.doc.accounts_approval.forEach(function(row){
@@ -112,7 +112,7 @@ frappe.ui.form.on('Requested Payment', {
 				total_paid_usd += row.request_amount;
 			}
 		});
-		
+
 		//For payment status (If all payments have been paid, payment status == 'Paid')
 		if(total_usd >= 0 && total_tsh >= 0 && total_usd == total_paid_usd && total_tsh == total_paid_tsh && frm.doc.payment_status != "Paid")
 		{
@@ -124,9 +124,9 @@ frappe.ui.form.on('Requested Payment', {
 			frm.set_value('payment_status', 'Waiting Payment');
 			frm.save_or_update();
 		}
-		
+
 		cur_frm.get_field("account_approval_buttons").wrapper.innerHTML = '<p class="text-muted small">Total Amount Paid</p><b>USD ' + total_paid_usd.toLocaleString() + ' <br> TZS ' + total_paid_tsh.toLocaleString() + '</b>';
-		
+
 		}
 		//Make payment button
 		frm.add_custom_button(__('Make Payment'),
@@ -134,7 +134,7 @@ frappe.ui.form.on('Requested Payment', {
 				frm.events.make_payment();
 			}
 		);
-		
+
 		frm.add_custom_button(__('Accounting Ledger'), function() {
 			frappe.route_options = {
 				voucher_no: frm.doc.name,
@@ -144,14 +144,14 @@ frappe.ui.form.on('Requested Payment', {
 			frappe.set_route("query-report", "General Ledger");
 		}, __("View"));
 	},
-	
+
 	make_payment: function() {
 		frappe.model.open_mapped_doc({
 			method: "vsd_fleet_ms.vsd_fleet_ms.doctype.requested_payment.requested_payment.make_payment",
 			frm: cur_frm
 		})
 	},
-	
+
 	validate_payment: function(frm){
 		var to_return = true;
 		frm.doc.payment_reference.forEach(function(row){
@@ -162,7 +162,7 @@ frappe.ui.form.on('Requested Payment', {
 		});
 		return to_return;
 	},
-	
+
 	show_hide_sections: function(frm){
 		frm.toggle_display(['request_total_amount', 'html1'], (frm.doc.requested_funds.length > 0));
 		//frm.toggle_display('section_previous_requested_funds', (frm.doc.previous_requested_funds.length > 0));
@@ -170,7 +170,7 @@ frappe.ui.form.on('Requested Payment', {
 		//frm.toggle_display('total_paid_amount', (frm.doc.previous_requested_funds.length > 0));
 		//frm.toggle_display(['requested_funds', 'request_total_amount', 'section_previous_requested_funds', 'total_approved_amount', 'payment_reference', 'total_paid_amount'], true);
 	},
-	
+
 	get_account_currency(frm, cdt, cdn, account){
 		if(account){
 			frappe.call({
@@ -219,16 +219,16 @@ frappe.ui.form.on('Requested Fund Accounts Table', {
 				frappe.model.set_value(cdt, cdn, 'cost_center', r.message.cost_center);
 			}
         });
-		
+
 		if(!locals[cdt][cdn].posting_date){
 			frappe.model.set_value(cdt, cdn, 'posting_date', frappe.datetime.get_today());
 		}
-		
+
 		if(locals[cdt][cdn].conversion_rate == 0){
 			frappe.model.set_value(cdt, cdn, 'conversion_rate', 1);
 		}
 	},
-	
+
 	expense_type: function(frm, cdt, cdn){
 		frappe.call({
 			method: "erpnext.hr.doctype.expense_claim.expense_claim.get_expense_claim_account",
@@ -246,7 +246,7 @@ frappe.ui.form.on('Requested Fund Accounts Table', {
 			}
 		});
 	},
-	
+
 	expense_account: function(frm, cdt, cdn){
 		if(locals[cdt][cdn].expense_account){
 			var expense_account_currency = frm.events.get_account_currency(frm, cdt, cdn, locals[cdt][cdn].expense_account);
@@ -255,7 +255,7 @@ frappe.ui.form.on('Requested Fund Accounts Table', {
 			}
 		}
 	},
-	
+
 	payable_account: function(frm, cdt, cdn){
 		if(locals[cdt][cdn].payable_account){
 			var payable_account_currency = frm.events.get_account_currency(frm, cdt, cdn, locals[cdt][cdn].payable_account);
@@ -508,7 +508,7 @@ cur_frm.cscript.populate_child = function(reference_doctype, reference_docname){
 		var request_total_amount_tsh = 0;
 		var request_total_amount_usd = 0;
 		var reference_doc = frappe.get_doc(reference_doctype, reference_docname);
-		
+
 		//If its reqrom s, there is main and return requested funds
 		if('Trips' == reference_doctype)
 		{
@@ -548,7 +548,7 @@ cur_frm.cscript.populate_child = function(reference_doctype, reference_docname){
 					cur_frm.refresh_field("previous_requested_funds");
 				}
 			});
-			
+
 			//For return trip
 			reference_doc.return_requested_funds.forEach(function(row){
 				//if(row.request_hidden_status == "0")

@@ -8,7 +8,11 @@ from frappe import _
 def execute(filters=None):
 	filters = filters or {}
 
-	if filters.get("from_date") and filters.get("to_date") and filters.get("from_date") > filters.get("to_date"):
+	if (
+		filters.get("from_date")
+		and filters.get("to_date")
+		and filters.get("from_date") > filters.get("to_date")
+	):
 		frappe.throw(_("From Date must be before To Date {0}").format(filters.get("to_date")))
 
 	columns = get_columns()
@@ -25,12 +29,48 @@ def get_columns():
 		{"fieldname": "driver_name", "label": _("Driver"), "fieldtype": "Data", "width": 150},
 		{"fieldname": "route", "label": _("Route"), "fieldtype": "Data", "width": 150},
 		{"fieldname": "status", "label": _("Status"), "fieldtype": "Data", "width": 110},
-		{"fieldname": "revenue_usd", "label": _("Revenue (USD)"), "fieldtype": "Currency", "options": "USD", "width": 120},
-		{"fieldname": "expenses_usd", "label": _("Expenses (USD)"), "fieldtype": "Currency", "options": "USD", "width": 120},
-		{"fieldname": "profit_usd", "label": _("Profit (USD)"), "fieldtype": "Currency", "options": "USD", "width": 120},
-		{"fieldname": "revenue_tzs", "label": _("Revenue (TZS)"), "fieldtype": "Currency", "options": "TZS", "width": 130},
-		{"fieldname": "expenses_tzs", "label": _("Expenses (TZS)"), "fieldtype": "Currency", "options": "TZS", "width": 130},
-		{"fieldname": "profit_tzs", "label": _("Profit (TZS)"), "fieldtype": "Currency", "options": "TZS", "width": 130},
+		{
+			"fieldname": "revenue_usd",
+			"label": _("Revenue (USD)"),
+			"fieldtype": "Currency",
+			"options": "USD",
+			"width": 120,
+		},
+		{
+			"fieldname": "expenses_usd",
+			"label": _("Expenses (USD)"),
+			"fieldtype": "Currency",
+			"options": "USD",
+			"width": 120,
+		},
+		{
+			"fieldname": "profit_usd",
+			"label": _("Profit (USD)"),
+			"fieldtype": "Currency",
+			"options": "USD",
+			"width": 120,
+		},
+		{
+			"fieldname": "revenue_tzs",
+			"label": _("Revenue (TZS)"),
+			"fieldtype": "Currency",
+			"options": "TZS",
+			"width": 130,
+		},
+		{
+			"fieldname": "expenses_tzs",
+			"label": _("Expenses (TZS)"),
+			"fieldtype": "Currency",
+			"options": "TZS",
+			"width": 130,
+		},
+		{
+			"fieldname": "profit_tzs",
+			"label": _("Profit (TZS)"),
+			"fieldtype": "Currency",
+			"options": "TZS",
+			"width": 130,
+		},
 	]
 
 
@@ -80,7 +120,9 @@ def get_data(filters):
 				WHERE parenttype = 'Trips' AND parentfield = 'fuel_request_history' AND parent = `tabTrips`.name AND currency = 'TZS'
 			) AS fuel_expenses_tzs
 		FROM `tabTrips`
-		WHERE 1 = 1 """ + conditions + """
+		WHERE 1 = 1 """
+		+ conditions
+		+ """
 		""",
 		values,
 		as_dict=1,
@@ -93,21 +135,23 @@ def get_data(filters):
 		expenses_usd = (row.fund_expenses_usd or 0) + (row.fuel_expenses_usd or 0)
 		expenses_tzs = (row.fund_expenses_tzs or 0) + (row.fuel_expenses_tzs or 0)
 
-		data.append({
-			"reference": row.reference,
-			"posting_date": row.posting_date,
-			"transporter_name": row.transporter_name,
-			"vehicle_plate_number": row.vehicle_plate_number,
-			"driver_name": row.driver_name,
-			"route": row.route,
-			"status": row.status,
-			"revenue_usd": revenue_usd,
-			"expenses_usd": expenses_usd,
-			"profit_usd": revenue_usd - expenses_usd,
-			"revenue_tzs": revenue_tzs,
-			"expenses_tzs": expenses_tzs,
-			"profit_tzs": revenue_tzs - expenses_tzs,
-		})
+		data.append(
+			{
+				"reference": row.reference,
+				"posting_date": row.posting_date,
+				"transporter_name": row.transporter_name,
+				"vehicle_plate_number": row.vehicle_plate_number,
+				"driver_name": row.driver_name,
+				"route": row.route,
+				"status": row.status,
+				"revenue_usd": revenue_usd,
+				"expenses_usd": expenses_usd,
+				"profit_usd": revenue_usd - expenses_usd,
+				"revenue_tzs": revenue_tzs,
+				"expenses_tzs": expenses_tzs,
+				"profit_tzs": revenue_tzs - expenses_tzs,
+			}
+		)
 
 	return data
 
