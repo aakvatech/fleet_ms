@@ -10,18 +10,11 @@ Manage fleets, cargo, trips, fuel, tyres and transport finances in one connected
 
 </div>
 
-<table>
-<tr>
-<td align="center">🚛<br><b>Fleet Operations</b></td>
-<td align="center">🗺️<br><b>Trips & Cargo</b></td>
-<td align="center">⛽<br><b>Fuel & Expenses</b></td>
-</tr>
-<tr>
-<td align="center">🛞<br><b>Tyre Tracking</b></td>
-<td align="center">📊<br><b>Analytics</b></td>
-<td align="center">🔗<br><b>Integrations</b></td>
-</tr>
-</table>
+<div align="center">
+
+<img src="docs/assets/fleet-ms-features.svg" alt="Fleet Operations · Trips & Cargo · Fuel & Expenses · Tyre Tracking · Analytics · Integrations" width="760">
+
+</div>
 
 <p align="right"><sub>by <a href="https://www.aakvatech.com">Aakvatech</a></sub></p>
 
