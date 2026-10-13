@@ -29,12 +29,16 @@ Fleet MS is an open-source fleet and transport management application for logist
 
 ## Key Features
 
-- **Fleet Management:** Manage trucks, trailers, drivers, vehicle records and inspections.
-- **Cargo & Transport Orders:** Register cargo, organize transport orders and prepare manifests.
-- **Trips & Routes:** Plan routes, assign resources and track trips, including side trips and breakdowns.
-- **Fuel & Expenses:** Manage fuel requests, operational funds, approvals and trip costs.
-- **Tyre Tracking:** Manage tyre masters, installation, removal, position changes, transfers, inspections, usage and movement history.
-- **Reporting:** Analyze trips, fuel consumption, utilization, revenue and transport profitability.
+- **Fleet Management:** Maintain truck and trailer specifications, driver profiles, vehicle documents, inspections and fleet availability to support daily transport operations.
+- **Cargo & Transport Orders:** Register customer cargo, create transportation orders, prepare manifests and coordinate vehicle and driver assignments for dispatch.
+- **Trips & Routes:** Manage routes, destinations, trip assignments, round trips and side trips, including breakdown handling and journey resumption.
+- **Fuel & Expenses:** Control fuel requests, consumption, trip expenses, operational fund requests and approvals, with related ERPNext accounting, purchasing and stock transactions.
+- **Tyre Tracking:** Manage tyre records, installation, removal, position changes, transfers, inspections, usage and movement history throughout the tyre lifecycle.
+- **Reporting:** Monitor fleet utilization, trip revenue and profitability, fuel consumption, turnaround times and operational performance through dashboards and reports.
+
+## Operational Flow
+
+Fleet MS brings transport planning, vehicle and driver assignment, trip execution, operational controls and ERPNext financial reporting into one coordinated workflow.
 
 ## ERPNext & Optional Integrations
 
