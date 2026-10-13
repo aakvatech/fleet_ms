@@ -12,7 +12,9 @@ Manage fleets, cargo, trips, fuel, tyres and transport finances in one connected
 
 <div align="center">
 
-<img src="docs/assets/fleet-ms-features.svg" alt="Fleet Operations · Trips & Cargo · Fuel & Expenses · Tyre Tracking · Analytics · Integrations" width="760">
+<p><strong>🚛 Fleet Operations &nbsp;&nbsp;&nbsp; 🗺️ Trips &amp; Cargo &nbsp;&nbsp;&nbsp; ⛽ Fuel &amp; Expenses</strong></p>
+
+<p><strong>🛞 Tyre Tracking &nbsp;&nbsp;&nbsp; 📊 Analytics &nbsp;&nbsp;&nbsp; 🔗 Integrations</strong></p>
 
 </div>
 
