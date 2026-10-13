@@ -6,7 +6,10 @@
 
 Manage fleets, cargo, trips, fuel, tyres and transport finances in one connected platform.
 
-**ERPNext** · **Frappe Framework** · **Open Source** · **MIT License**
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](license.txt)
+[![ERPNext v15](https://img.shields.io/badge/ERPNext-v15-green.svg)](https://erpnext.com/)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
+[![Frappe Framework](https://img.shields.io/badge/Frappe-Framework-orange.svg)](https://frappeframework.com/)
 
 </div>
 
