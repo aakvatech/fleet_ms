@@ -40,6 +40,8 @@ Fleet MS is an open-source fleet and transport management application for logist
 
 Fleet MS brings transport planning, vehicle and driver assignment, trip execution, operational controls and ERPNext financial reporting into one coordinated workflow.
 
+![Fleet MS Operational Flow](docs/assets/fleet_ms_operational_flow.svg)
+
 ## ERPNext & Optional Integrations
 
 Fleet MS extends **ERPNext Accounting, Selling, Buying and Stock** workflows.
