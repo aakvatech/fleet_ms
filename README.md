@@ -1,12 +1,11 @@
-# VSD Fleet MS
+# Fleet MS
 
 **Fleet and transport operations management for ERPNext / Frappe v15**
 
-VSD Fleet MS is an ERPNext application for transport and fleet operations. It brings vehicles, drivers, cargo, transport orders, manifests, trips, fuel, operational payments, inspections, tyre management, dashboards, and transport reporting into one ERPNext environment.
+Fleet MS is an ERPNext application for transport and fleet operations. It brings vehicles, drivers, cargo, transport orders, manifests, trips, fuel, operational payments, inspections, tyre management, dashboards, and transport reporting into one ERPNext environment.
 
 The app is intended for transport and logistics companies, private fleets, and organizations that need operational fleet records to work together with ERPNext accounting, buying, selling, stock, HR, and master data.
 
-> **Current branch:** `version-15-hotfix`  
 > **App package:** `vsd_fleet_ms`  
 > **App version:** `15.0.0`  
 > **Frappe compatibility:** `>=15.0.0,<16.0.0`  
@@ -188,7 +187,6 @@ Because these integrations are part of operational workflows, install and test F
 | Python | `>=3.10` |
 | ERPNext | Required |
 | App package | `vsd_fleet_ms` |
-| Default repository branch | `version-15-hotfix` |
 | License | MIT |
 
 The Frappe dependency above is declared in `pyproject.toml`.
@@ -212,7 +210,7 @@ Before installing Fleet MS:
 From your bench directory:
 
 ```bash
-bench get-app --branch version-15-hotfix https://github.com/aakvatech/fleet_ms.git
+bench get-app --branch version-15 https://github.com/aakvatech/fleet_ms.git
 bench --site your-site.local install-app vsd_fleet_ms
 bench --site your-site.local migrate
 ```
@@ -234,8 +232,8 @@ Before updating a production site, review changes and take a backup.
 
 ```bash
 cd /path/to/frappe-bench/apps/vsd_fleet_ms
-git checkout version-15-hotfix
-git pull --ff-only origin version-15-hotfix
+git checkout version-15
+git pull --ff-only origin version-15
 
 cd /path/to/frappe-bench
 bench --site your-site.local migrate
@@ -415,7 +413,9 @@ Repository: https://github.com/aakvatech/fleet_ms
 
 ---
 
-## License
+## Credits and License
+
+Fleet MS was forked from the original **VSD Fleet** project. We acknowledge its original developers and contributors. The GitHub fork relationship and project history preserve this attribution.
 
 MIT. See `license.txt`.
 
