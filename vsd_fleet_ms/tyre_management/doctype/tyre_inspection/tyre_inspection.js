@@ -2,6 +2,10 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Tyre Inspection", {
+  setup: function (frm) {
+    frm.set_query("tyre", () => ({ filters: { status: ["!=", "Scrapped"] } }));
+  },
+
   tyre: function (frm) {
     if (!frm.doc.tyre) return;
 
