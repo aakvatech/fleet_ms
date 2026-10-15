@@ -7,6 +7,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "details_tab",
   "tyre_item",
   "item_name",
   "serial_no",
@@ -34,9 +35,15 @@
   "purchase_cost",
   "column_break_cost",
   "total_repair_cost",
-  "cost_per_km"
+  "cost_per_km",
+  "connections_tab"
  ],
  "fields": [
+  {
+   "fieldname": "details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Details"
+  },
   {
    "description": "Stock item with Is Tyre and Has Serial No enabled",
    "fieldname": "tyre_item",
@@ -216,11 +223,17 @@
    "fieldtype": "Currency",
    "label": "Cost per KM",
    "read_only": 1
+  },
+  {
+   "fieldname": "connections_tab",
+   "fieldtype": "Tab Break",
+   "label": "Connections",
+   "show_dashboard": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-10-15 16:00:00.000000",
+ "modified": "2026-10-15 17:00:00.000000",
  "modified_by": "Administrator",
  "module": "Tyre Management",
  "name": "Tyre Master",
