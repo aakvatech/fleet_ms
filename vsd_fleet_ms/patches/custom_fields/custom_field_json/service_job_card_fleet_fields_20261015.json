@@ -28,7 +28,6 @@
   "label": "Tyre Movement Type",
   "fieldtype": "Select",
   "options": "Installation\nRemoval\nPositional Change\nVehicle Transfer\nSend for Repair\nReturn from Repair\nScrap",
-  "default": "Installation",
   "insert_after": "tyre_serial"
  },
  {
