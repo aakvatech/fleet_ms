@@ -2,40 +2,33 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Tyre Movement", {
-  refresh: function (frm) {
-    frm.set_query("tyre_serial", function () {
-      return {
-        filters: {
-          status: ["!=", "Scrapped"],
-        },
-      };
-    });
+  setup(frm) {
+    // Which statuses each movement accepts is checked on the server.
+    frm.set_query("tyre_serial", () => ({ filters: { status: ["!=", "Scrapped"] } }));
   },
 
-  movement_type: function (frm) {
-    if (frm.doc.movement_type === "Installation") {
-      frm.set_value("from_vehicle_type", "");
-      frm.set_value("from_vehicle", "");
-      frm.set_value("from_position", "");
-    }
-
-    if (frm.doc.movement_type === "Removal") {
-      frm.set_value("to_vehicle_type", "");
-      frm.set_value("to_vehicle", "");
-      frm.set_value("to_position", "");
+  refresh(frm) {
+    if (frm.doc.stock_entry) {
+      frm.add_custom_button(__("Stock Entry"), () => frappe.set_route("Form", "Stock Entry", frm.doc.stock_entry), __("View"));
     }
   },
 
-  tyre_serial: function (frm) {
-    if (!frm.doc.tyre_serial || frm.doc.movement_type === "Installation") {
-      return;
-    }
+  movement_type(frm) {
+    frm.trigger("tyre_serial");
+  },
 
-    frappe.db.get_doc("Tyre Master", frm.doc.tyre_serial).then((doc) => {
-      if (!doc) return;
-      frm.set_value("from_vehicle_type", doc.current_vehicle_type || "");
-      frm.set_value("from_vehicle", doc.current_vehicle || "");
-      frm.set_value("from_position", doc.position || "");
+  tyre_serial(frm) {
+    if (!frm.doc.tyre_serial) return;
+
+    frappe.db.get_doc("Tyre Master", frm.doc.tyre_serial).then((tyre) => {
+      const fitted = tyre.status === "In Service";
+      frm.set_value("from_vehicle_type", fitted ? tyre.current_vehicle_type : "");
+      frm.set_value("from_vehicle", fitted ? tyre.current_vehicle : "");
+      frm.set_value("from_position", fitted ? tyre.position : "");
+      if (frm.doc.movement_type === "Positional Change") {
+        frm.set_value("to_vehicle_type", tyre.current_vehicle_type);
+        frm.set_value("to_vehicle", tyre.current_vehicle);
+      }
     });
   },
 });
