@@ -134,6 +134,9 @@ def create_tyre_movement_from_service_job_card(doc, method=None):
 				movement.to_vehicle_type = to_vehicle_type
 				movement.to_vehicle = to_vehicle
 				movement.to_position = tyre_position
+				if to_vehicle_type == "Truck":
+					# The job card reading belongs to its truck, which receives the tyre.
+					movement.to_odometer_km = movement.odometer_km
 
 		movement.insert(ignore_permissions=True)
 		movement.submit()
@@ -173,7 +176,7 @@ def is_tyre_scrapped_in_ledger(tyre_serial):
 
 
 def get_selected_vehicle(doc, tyre_install_on):
-	truck_value = (getattr(doc, "service_item_name", None) or "").strip()
+	truck_value = get_job_card_truck(doc)
 	trailer_value = (getattr(doc, "trailer", None) or "").strip()
 
 	if tyre_install_on == "Truck" and truck_value:
@@ -188,7 +191,7 @@ def is_selected_vehicle_matches_tyre(tyre, selected_vehicle_type, selected_vehic
 
 
 def get_transfer_target_vehicle(doc, selected_vehicle_type, selected_vehicle):
-	truck_value = (getattr(doc, "service_item_name", None) or "").strip()
+	truck_value = get_job_card_truck(doc)
 	trailer_value = (getattr(doc, "trailer", None) or "").strip()
 
 	if selected_vehicle_type == "Trailers":
@@ -206,3 +209,21 @@ def get_transfer_target_vehicle(doc, selected_vehicle_type, selected_vehicle):
 		return ("", "")
 
 	return ("", "")
+
+
+def get_job_card_truck(doc):
+	"""Truck of the job card's Service Vehicle: same name, or a Truck with that plate.
+
+	A Service Vehicle is named by its registration number; a Truck by its truck number.
+	"""
+	service_vehicle = (getattr(doc, "service_item_name", None) or "").strip()
+	if not service_vehicle or frappe.db.exists("Truck", service_vehicle):
+		return service_vehicle
+	return frappe.db.get_value("Truck", {"license_plate": service_vehicle}) or ""
+
+
+@frappe.whitelist()
+def get_truck_for_service_vehicle(service_vehicle: str) -> str:
+	"""Used by the Service Job Card form to filter tyres fitted on the job card truck."""
+	frappe.has_permission("Truck", "read", throw=True)
+	return get_job_card_truck(frappe._dict(service_item_name=service_vehicle))
