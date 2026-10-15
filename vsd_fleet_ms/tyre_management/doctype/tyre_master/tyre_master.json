@@ -1,97 +1,136 @@
 {
  "actions": [],
- "allow_rename": 1,
- "autoname": "field:serial_number",
+ "allow_rename": 0,
+ "autoname": "field:serial_no",
  "creation": "2026-02-18 11:40:00.000000",
  "default_view": "List",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "serial_number",
-  "tyre_type",
-  "tyre_size",
-  "position",
+  "tyre_item",
+  "item_name",
+  "serial_no",
   "brand",
+  "column_break_item",
   "status",
-  "cumulative_usage",
-  "retread_count",
+  "warehouse",
+  "tyre_size",
+  "tyre_type",
   "section_break_1",
   "current_vehicle_type",
   "current_vehicle",
+  "position",
   "column_break_1",
+  "installation_date",
+  "install_odometer_km",
   "last_odometer_km",
-  "installation_date"
+  "condition_section",
+  "current_tread_depth_mm",
+  "last_inspection_date",
+  "column_break_condition",
+  "retread_count",
+  "cost_section",
+  "cumulative_usage",
+  "purchase_cost",
+  "column_break_cost",
+  "total_repair_cost",
+  "cost_per_km"
  ],
  "fields": [
   {
-   "fieldname": "serial_number",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Serial Number",
-   "reqd": 1,
-   "unique": 1
-  },
-  {
-   "fieldname": "tyre_type",
-   "fieldtype": "Data",
-   "label": "Tyre Type"
-  },
-  {
-   "fieldname": "tyre_size",
-   "fieldtype": "Data",
-   "label": "Tyre Size"
-  },
-  {
-   "fieldname": "position",
+   "description": "Stock item with Is Tyre and Has Serial No enabled",
+   "fieldname": "tyre_item",
    "fieldtype": "Link",
-   "label": "Position",
-   "options": "Tyre Position",
+   "in_standard_filter": 1,
+   "label": "Tyre Item",
+   "options": "Item"
+  },
+  {
+   "fetch_from": "tyre_item.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "label": "Item Name",
    "read_only": 1
   },
   {
+   "description": "Serial No of the tyre item, created when the tyre is received into stock",
+   "fieldname": "serial_no",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Serial No",
+   "options": "Serial No",
+   "unique": 1
+  },
+  {
+   "fetch_from": "tyre_item.brand",
    "fieldname": "brand",
    "fieldtype": "Data",
-   "label": "Brand"
+   "label": "Brand",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_item",
+   "fieldtype": "Column Break"
   },
   {
    "default": "In Store",
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Status",
    "options": "In Store\nIn Service\nUnder Repair\nScrapped",
    "read_only": 1
   },
   {
-   "default": "0",
-   "fieldname": "cumulative_usage",
-   "fieldtype": "Float",
-   "label": "Cumulative Usage",
+   "fetch_from": "serial_no.warehouse",
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "Warehouse",
+   "options": "Warehouse",
    "read_only": 1
   },
   {
-   "default": "0",
-   "fieldname": "retread_count",
-   "fieldtype": "Int",
-   "label": "Retread Count"
+   "fetch_from": "tyre_item.tyre_size",
+   "fieldname": "tyre_size",
+   "fieldtype": "Data",
+   "label": "Tyre Size",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "tyre_item.tyre_type",
+   "fieldname": "tyre_type",
+   "fieldtype": "Data",
+   "label": "Tyre Type",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_1",
    "fieldtype": "Section Break",
-   "label": "Current Assignment"
+   "label": "Current Fitment"
   },
   {
    "fieldname": "current_vehicle_type",
    "fieldtype": "Select",
-   "label": "Truck/Trailer",
+   "label": "Current Vehicle Type",
    "options": "Truck\nTrailers",
    "read_only": 1
   },
   {
    "fieldname": "current_vehicle",
    "fieldtype": "Dynamic Link",
-   "label": "Truck/Trailer No",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Current Vehicle",
    "options": "current_vehicle_type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "position",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Position",
+   "options": "Tyre Position",
    "read_only": 1
   },
   {
@@ -99,22 +138,88 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "last_odometer_km",
-   "fieldtype": "Float",
-   "hidden": 1,
-   "label": "Last Odometer/KM",
-   "read_only": 1
-  },
-  {
    "fieldname": "installation_date",
    "fieldtype": "Date",
    "label": "Installation Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "install_odometer_km",
+   "fieldtype": "Float",
+   "label": "Odometer at Fitment (KM)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_odometer_km",
+   "fieldtype": "Float",
+   "label": "Last Recorded Odometer (KM)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "condition_section",
+   "fieldtype": "Section Break",
+   "label": "Condition"
+  },
+  {
+   "fieldname": "current_tread_depth_mm",
+   "fieldtype": "Float",
+   "label": "Current Tread Depth (mm)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_inspection_date",
+   "fieldtype": "Date",
+   "label": "Last Inspection Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_condition",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "retread_count",
+   "fieldtype": "Int",
+   "label": "Retread Count",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cost_section",
+   "fieldtype": "Section Break",
+   "label": "Usage and Cost"
+  },
+  {
+   "fieldname": "cumulative_usage",
+   "fieldtype": "Float",
+   "label": "Total KM Run",
+   "read_only": 1
+  },
+  {
+   "description": "Valuation rate when the tyre was received",
+   "fieldname": "purchase_cost",
+   "fieldtype": "Currency",
+   "label": "Purchase Cost"
+  },
+  {
+   "fieldname": "column_break_cost",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_repair_cost",
+   "fieldtype": "Currency",
+   "label": "Total Repair / Retread Cost",
+   "read_only": 1
+  },
+  {
+   "description": "(Purchase Cost + Repair Cost) / Total KM Run",
+   "fieldname": "cost_per_km",
+   "fieldtype": "Currency",
+   "label": "Cost per KM",
    "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-02-18 11:40:00.000000",
+ "modified": "2026-10-13 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "Tyre Management",
  "name": "Tyre Master",
@@ -139,8 +244,11 @@
    "write": 1
   }
  ],
+ "search_fields": "tyre_item,current_vehicle,status",
+ "show_title_field_in_link": 0,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
+ "title_field": "serial_no",
  "track_changes": 1
 }
