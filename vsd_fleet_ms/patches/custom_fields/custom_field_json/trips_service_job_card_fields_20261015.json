@@ -1,0 +1,34 @@
+[
+ {
+  "dt": "Trips",
+  "fieldname": "service_job_card",
+  "label": "Service Job Card",
+  "fieldtype": "Link",
+  "options": "Service Job Card",
+  "insert_after": "costing_section"
+ },
+ {
+  "dt": "Trips",
+  "fieldname": "column_break_service_job_card",
+  "fieldtype": "Column Break",
+  "insert_after": "service_job_card"
+ },
+ {
+  "dt": "Trips",
+  "fieldname": "service_charges",
+  "label": "Service Charges",
+  "fieldtype": "Currency",
+  "fetch_from": "service_job_card.service_charges",
+  "read_only": 1,
+  "insert_after": "column_break_service_job_card"
+ },
+ {
+  "dt": "Trips",
+  "fieldname": "spares_cost",
+  "label": "Spares Cost",
+  "fieldtype": "Currency",
+  "fetch_from": "service_job_card.spares_cost",
+  "read_only": 1,
+  "insert_after": "service_charges"
+ }
+]
