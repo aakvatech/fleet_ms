@@ -98,7 +98,7 @@
    "fieldname": "from_vehicle_type",
    "fieldtype": "Select",
    "label": "From Truck/Trailer",
-   "options": "Truck\nTrailers"
+   "options": "\nTruck\nTrailers"
   },
   {
    "depends_on": "eval:doc.movement_type!='Installation'",
@@ -123,7 +123,7 @@
    "fieldname": "to_vehicle_type",
    "fieldtype": "Select",
    "label": "To Truck/Trailer",
-   "options": "Truck\nTrailers"
+   "options": "\nTruck\nTrailers"
   },
   {
    "depends_on": "eval:in_list(['Installation','Positional Change','Vehicle Transfer','Return from Repair'], doc.movement_type)",
@@ -239,7 +239,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-10-13 10:00:00.000000",
+ "modified": "2026-10-15 16:00:00.000000",
  "modified_by": "Administrator",
  "module": "Tyre Management",
  "name": "Tyre Movement",
