@@ -1,6 +1,11 @@
 # Copyright (c) 2026, VV SYSTEMS DEVELOPER LTD and contributors
 
 import frappe
+from frappe import _
+
+from vsd_fleet_ms.tyre_management.doctype.tyre_movement.tyre_movement import (
+	ALLOWED_FROM_STATUS,
+)
 
 
 def create_tyre_movement_from_service_job_card(doc, method=None):
@@ -13,6 +18,8 @@ def create_tyre_movement_from_service_job_card(doc, method=None):
 		)
 		return
 
+	savepoint = "tyre_movement_from_service_job_card"
+	frappe.db.savepoint(savepoint)
 	try:
 		if not frappe.db.exists("DocType", "Transport Settings"):
 			return
@@ -65,6 +72,14 @@ def create_tyre_movement_from_service_job_card(doc, method=None):
 			movement.to_vehicle = selected_vehicle
 			movement.to_position = tyre_position
 
+		elif tyre_movement_type == "Return from Repair":
+			# Coming back from the repair shop: fit on the selected vehicle.
+			if not tyre_position:
+				return skip("Please set Tyre Position for Return from Repair.")
+			movement.to_vehicle_type = selected_vehicle_type
+			movement.to_vehicle = selected_vehicle
+			movement.to_position = tyre_position
+
 		elif tyre_movement_type == "Positional Change":
 			if not tyre.current_vehicle_type or not tyre.current_vehicle:
 				return skip(f"Tyre {tyre_serial} is not currently installed.")
@@ -108,7 +123,7 @@ def create_tyre_movement_from_service_job_card(doc, method=None):
 			if not movement.from_position:
 				return skip("Please set Tyre Position.")
 
-			if tyre_movement_type in ["Vehicle Transfer", "Return from Repair"]:
+			if tyre_movement_type == "Vehicle Transfer":
 				to_vehicle_type, to_vehicle = get_transfer_target_vehicle(
 					doc, selected_vehicle_type, selected_vehicle
 				)
@@ -123,26 +138,24 @@ def create_tyre_movement_from_service_job_card(doc, method=None):
 		movement.insert(ignore_permissions=True)
 		movement.submit()
 	except Exception:
-		# Do not block Service Job Card submit for optional tyre integration.
+		# Do not block Service Job Card submit for optional tyre integration,
+		# but drop any half-made movement or stock entry.
+		frappe.db.rollback(save_point=savepoint)
 		frappe.log_error(frappe.get_traceback(), "Tyre movement auto-create from Service Job Card failed")
 		frappe.msgprint(
-			"Tyre Movement auto-creation failed. Check Error Log for details.",
-			title="Tyre Movement Not Created",
+			_("Tyre Movement auto-creation failed. Check Error Log for details."),
+			title=_("Tyre Movement Not Created"),
 			indicator="red",
 			alert=True,
 		)
 
 
 def is_tyre_available_for_auto_movement(tyre, movement_type):
-	if tyre.status == "Scrapped":
-		return False
+	if movement_type in ("Installation", "Return from Repair"):
+		return tyre.status in ALLOWED_FROM_STATUS[movement_type]
 
-	if movement_type == "Installation":
-		# Installation should be for not-installed tyres only.
-		return tyre.status in ["In Store", "Under Repair"]
-
-	# All other moves require an already installed tyre.
-	return tyre.status == "In Service" and bool(tyre.current_vehicle_type) and bool(tyre.current_vehicle)
+	# Other moves from a job card act on a tyre fitted on the job card vehicle.
+	return tyre.is_fitted()
 
 
 def is_tyre_scrapped_in_ledger(tyre_serial):
@@ -161,7 +174,7 @@ def is_tyre_scrapped_in_ledger(tyre_serial):
 
 def get_selected_vehicle(doc, tyre_install_on):
 	truck_value = (getattr(doc, "service_item_name", None) or "").strip()
-	trailer_value = (getattr(doc, "custom_trailer", None) or "").strip()
+	trailer_value = (getattr(doc, "trailer", None) or "").strip()
 
 	if tyre_install_on == "Truck" and truck_value:
 		return ("Truck", truck_value)
@@ -176,7 +189,7 @@ def is_selected_vehicle_matches_tyre(tyre, selected_vehicle_type, selected_vehic
 
 def get_transfer_target_vehicle(doc, selected_vehicle_type, selected_vehicle):
 	truck_value = (getattr(doc, "service_item_name", None) or "").strip()
-	trailer_value = (getattr(doc, "custom_trailer", None) or "").strip()
+	trailer_value = (getattr(doc, "trailer", None) or "").strip()
 
 	if selected_vehicle_type == "Trailers":
 		if truck_value:
