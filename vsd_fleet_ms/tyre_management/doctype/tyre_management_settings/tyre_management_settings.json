@@ -1,0 +1,120 @@
+{
+ "actions": [],
+ "creation": "2026-10-13 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "stock_section",
+  "enable_stock_integration",
+  "company",
+  "auto_create_tyres",
+  "column_break_stock",
+  "store_warehouse",
+  "in_service_warehouse",
+  "repair_warehouse",
+  "scrap_expense_account",
+  "condition_section",
+  "min_tread_depth_mm"
+ ],
+ "fields": [
+  {
+   "fieldname": "stock_section",
+   "fieldtype": "Section Break",
+   "label": "Stock Integration"
+  },
+  {
+   "default": "0",
+   "description": "Move the tyre Serial No between the warehouses below as tyres are fitted, removed and repaired, and issue it out of stock on Scrap. When off, tyres stay in the warehouse they were received into.",
+   "fieldname": "enable_stock_integration",
+   "fieldtype": "Check",
+   "label": "Enable Stock Integration"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "mandatory_depends_on": "enable_stock_integration",
+   "options": "Company"
+  },
+  {
+   "default": "1",
+   "description": "Create a Tyre Master for each serial of an Is Tyre item received into stock: Purchase Receipt, Purchase Invoice with Update Stock ticked, or Material Receipt. On by default, even before this page is saved.",
+   "fieldname": "auto_create_tyres",
+   "fieldtype": "Check",
+   "label": "Create Tyre on Receipt"
+  },
+  {
+   "fieldname": "column_break_stock",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "New and removed tyres. Tyre rows on receipts default to this warehouse and cannot be received anywhere else.",
+   "fieldname": "store_warehouse",
+   "fieldtype": "Link",
+   "label": "Tyre Store Warehouse",
+   "mandatory_depends_on": "enable_stock_integration",
+   "options": "Warehouse"
+  },
+  {
+   "description": "Tyres fitted on trucks and trailers",
+   "fieldname": "in_service_warehouse",
+   "fieldtype": "Link",
+   "label": "In-Service Warehouse",
+   "mandatory_depends_on": "enable_stock_integration",
+   "options": "Warehouse"
+  },
+  {
+   "description": "Tyres at the repair shop or retreader",
+   "fieldname": "repair_warehouse",
+   "fieldtype": "Link",
+   "label": "Repair / Retread Warehouse",
+   "mandatory_depends_on": "enable_stock_integration",
+   "options": "Warehouse"
+  },
+  {
+   "description": "Expense account for the Material Issue on Scrap. Uses the company default when empty",
+   "fieldname": "scrap_expense_account",
+   "fieldtype": "Link",
+   "label": "Scrap Expense Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "condition_section",
+   "fieldtype": "Section Break",
+   "label": "Condition Limits"
+  },
+  {
+   "default": "3",
+   "description": "Inspections below this depth recommend Replace",
+   "fieldname": "min_tread_depth_mm",
+   "fieldtype": "Float",
+   "label": "Minimum Tread Depth (mm)"
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-10-15 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Tyre Management",
+ "name": "Tyre Management Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Stock User"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
