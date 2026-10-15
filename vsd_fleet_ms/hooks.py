@@ -12,6 +12,13 @@ app_license = "MIT"
 # app_include_css = "/assets/vsd_fleet_ms/css/vsd_fleet_ms.css"
 # app_include_js = "/assets/vsd_fleet_ms/js/vsd_fleet_ms.js"
 
+# Default tyre rows to the Tyre Store warehouse on receiving documents.
+doctype_js = {
+	"Purchase Receipt": "public/js/tyre_receipt.js",
+	"Purchase Invoice": "public/js/tyre_receipt.js",
+	"Stock Entry": "public/js/tyre_receipt.js",
+}
+
 # include js, css files in header of web template
 # web_include_css = "/assets/vsd_fleet_ms/css/vsd_fleet_ms.css"
 # web_include_js = "/assets/vsd_fleet_ms/js/vsd_fleet_ms.js"
@@ -62,14 +69,8 @@ app_license = "MIT"
 # ------------
 
 # before_install = "vsd_fleet_ms.install.before_install"
-after_install = [
-	"vsd_fleet_ms.utils.service_job_card_tyre_fields.ensure_service_job_card_tyre_fields",
-	"vsd_fleet_ms.utils.trips_service_job_card_fields.ensure_trips_service_job_card_fields",
-]
-after_migrate = [
-	"vsd_fleet_ms.utils.service_job_card_tyre_fields.ensure_service_job_card_tyre_fields",
-	"vsd_fleet_ms.utils.trips_service_job_card_fields.ensure_trips_service_job_card_fields",
-]
+after_install = "vsd_fleet_ms.utils.custom_fields.after_install"
+after_app_install = "vsd_fleet_ms.utils.custom_fields.after_app_install"
 
 # Uninstallation
 # ------------
@@ -117,7 +118,20 @@ after_migrate = [
 doc_events = {
 	"Service Job Card": {
 		"on_submit": "vsd_fleet_ms.utils.tyre_service_integration.create_tyre_movement_from_service_job_card"
-	}
+	},
+	"Item": {"validate": "vsd_fleet_ms.utils.tyre_item.validate_tyre_item"},
+	"Purchase Receipt": {
+		"validate": "vsd_fleet_ms.utils.tyre_receipt.validate_tyre_receipt_warehouse",
+		"on_submit": "vsd_fleet_ms.utils.tyre_receipt.create_tyres_from_receipt",
+	},
+	"Purchase Invoice": {
+		"validate": "vsd_fleet_ms.utils.tyre_receipt.validate_tyre_receipt_warehouse",
+		"on_submit": "vsd_fleet_ms.utils.tyre_receipt.create_tyres_from_receipt",
+	},
+	"Stock Entry": {
+		"validate": "vsd_fleet_ms.utils.tyre_receipt.validate_tyre_receipt_warehouse",
+		"on_submit": "vsd_fleet_ms.utils.tyre_receipt.create_tyres_from_receipt",
+	},
 }
 
 # Scheduled Tasks
@@ -144,7 +158,7 @@ doc_events = {
 # Testing
 # -------
 
-# before_tests = "vsd_fleet_ms.install.before_tests"
+before_tests = "vsd_fleet_ms.utils.before_tests.before_tests"
 
 # Overriding Methods
 # ------------------------------

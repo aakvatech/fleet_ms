@@ -1,0 +1,68 @@
+[
+ {
+  "dt": "Item",
+  "fieldname": "is_tyre",
+  "label": "Is Tyre",
+  "fieldtype": "Check",
+  "insert_after": "is_stock_item",
+  "description": "Each serial number of this item is tracked as a tyre in Tyre Management"
+ },
+ {
+  "dt": "Item",
+  "fieldname": "tyre_details_section",
+  "label": "Tyre Details",
+  "fieldtype": "Section Break",
+  "insert_after": "serial_no_series",
+  "depends_on": "eval:doc.is_tyre"
+ },
+ {
+  "dt": "Item",
+  "fieldname": "tyre_size",
+  "label": "Tyre Size",
+  "fieldtype": "Data",
+  "insert_after": "tyre_details_section",
+  "description": "e.g. 315/80R22.5"
+ },
+ {
+  "dt": "Item",
+  "fieldname": "tyre_type",
+  "label": "Tyre Type",
+  "fieldtype": "Select",
+  "options": "\nSteer\nDrive\nTrailer\nAll Position",
+  "insert_after": "tyre_size"
+ },
+ {
+  "dt": "Item",
+  "fieldname": "tyre_pattern",
+  "label": "Tread Pattern",
+  "fieldtype": "Data",
+  "insert_after": "tyre_type"
+ },
+ {
+  "dt": "Item",
+  "fieldname": "tyre_column_break",
+  "fieldtype": "Column Break",
+  "insert_after": "tyre_pattern"
+ },
+ {
+  "dt": "Item",
+  "fieldname": "tyre_ply_rating",
+  "label": "Ply Rating / Load Index",
+  "fieldtype": "Data",
+  "insert_after": "tyre_column_break"
+ },
+ {
+  "dt": "Item",
+  "fieldname": "tyre_new_tread_depth_mm",
+  "label": "New Tread Depth (mm)",
+  "fieldtype": "Float",
+  "insert_after": "tyre_ply_rating"
+ },
+ {
+  "dt": "Item",
+  "fieldname": "tyre_expected_life_km",
+  "label": "Expected Life (KM)",
+  "fieldtype": "Float",
+  "insert_after": "tyre_new_tread_depth_mm"
+ }
+]

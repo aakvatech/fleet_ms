@@ -21,13 +21,16 @@
   "section_break_4",
   "air_pressure",
   "tread_depth",
-  "damage_notes"
+  "column_break_readings",
+  "damage_notes",
+  "amended_from"
  ],
  "fields": [
   {
    "fieldname": "tyre",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Tyre",
    "options": "Tyre Master",
    "reqd": 1
@@ -41,7 +44,6 @@
    "reqd": 1
   },
   {
-   "default": "Administrator",
    "fieldname": "inspector",
    "fieldtype": "Link",
    "label": "Inspector",
@@ -57,6 +59,8 @@
    "label": "Odometer/KM"
   },
   {
+   "default": "Observe",
+   "description": "Set to Replace automatically when tread depth is below the minimum in settings",
    "fieldname": "recommended_action",
    "fieldtype": "Select",
    "in_list_view": 1,
@@ -65,19 +69,18 @@
   },
   {
    "fieldname": "section_break_2",
-   "fieldtype": "Section Break",
-   "label": "Current Assignment"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "vehicle_type",
    "fieldtype": "Data",
-   "label": "Truck/Trailer",
+   "label": "Vehicle Type",
    "read_only": 1
   },
   {
    "fieldname": "vehicle",
    "fieldtype": "Data",
-   "label": "Truck/Trailer No",
+   "label": "Vehicle",
    "read_only": 1
   },
   {
@@ -94,28 +97,41 @@
   {
    "fieldname": "section_break_4",
    "fieldtype": "Section Break",
-   "label": "Inspection Details"
+   "label": "Readings"
   },
   {
    "fieldname": "air_pressure",
    "fieldtype": "Float",
-   "label": "Air Pressure"
+   "label": "Air Pressure (PSI)"
   },
   {
    "fieldname": "tread_depth",
    "fieldtype": "Float",
-   "label": "Tread Depth"
+   "label": "Tread Depth (mm)"
+  },
+  {
+   "fieldname": "column_break_readings",
+   "fieldtype": "Column Break"
   },
   {
    "fieldname": "damage_notes",
    "fieldtype": "Small Text",
-   "label": "Visible Damage / Notes"
+   "label": "Damage Notes"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Tyre Inspection",
+   "print_hide": 1,
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-02-18 11:50:00.000000",
+ "modified": "2026-10-13 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "Tyre Management",
  "name": "Tyre Inspection",

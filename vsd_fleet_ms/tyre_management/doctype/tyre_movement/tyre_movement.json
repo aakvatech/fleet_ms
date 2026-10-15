@@ -1,6 +1,6 @@
 {
  "actions": [],
- "allow_rename": 1,
+ "allow_rename": 0,
  "autoname": "TYRE-MOV-.YYYY.-.#####",
  "creation": "2026-02-18 11:45:00.000000",
  "default_view": "List",
@@ -8,9 +8,12 @@
  "engine": "InnoDB",
  "field_order": [
   "tyre_serial",
+  "tyre_item",
   "movement_type",
-  "odometer_km",
+  "column_break_header",
   "transaction_date",
+  "odometer_km",
+  "to_odometer_km",
   "movement_details_section",
   "from_vehicle_type",
   "from_vehicle",
@@ -19,31 +22,52 @@
   "to_vehicle_type",
   "to_vehicle",
   "to_position",
+  "repair_section",
+  "is_retreaded",
+  "column_break_repair",
+  "repair_cost",
+  "result_section",
+  "usage_km",
+  "stock_entry",
   "service_job_card",
+  "column_break_result",
+  "previous_status",
+  "previous_install_odometer_km",
+  "previous_installation_date",
   "section_break_remarks",
-  "remarks"
+  "remarks",
+  "amended_from"
  ],
  "fields": [
   {
    "fieldname": "tyre_serial",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Tyre Serial",
+   "in_standard_filter": 1,
+   "label": "Tyre",
    "options": "Tyre Master",
    "reqd": 1
+  },
+  {
+   "fetch_from": "tyre_serial.tyre_item",
+   "fieldname": "tyre_item",
+   "fieldtype": "Link",
+   "label": "Tyre Item",
+   "options": "Item",
+   "read_only": 1
   },
   {
    "fieldname": "movement_type",
    "fieldtype": "Select",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Movement Type",
    "options": "Installation\nRemoval\nPositional Change\nVehicle Transfer\nSend for Repair\nReturn from Repair\nScrap",
    "reqd": 1
   },
   {
-   "fieldname": "odometer_km",
-   "fieldtype": "Float",
-   "label": "Odometer/KM"
+   "fieldname": "column_break_header",
+   "fieldtype": "Column Break"
   },
   {
    "default": "Today",
@@ -53,29 +77,41 @@
    "reqd": 1
   },
   {
+   "description": "Reading of the vehicle the tyre leaves; for Installation and Return to vehicle, the reading of the receiving vehicle",
+   "fieldname": "odometer_km",
+   "fieldtype": "Float",
+   "label": "Odometer/KM"
+  },
+  {
+   "depends_on": "eval:doc.movement_type=='Vehicle Transfer'",
+   "fieldname": "to_odometer_km",
+   "fieldtype": "Float",
+   "label": "Receiving Vehicle Odometer/KM"
+  },
+  {
    "fieldname": "movement_details_section",
    "fieldtype": "Section Break",
    "label": "Movement Details"
   },
   {
-   "depends_on": "eval:doc.movement_type != 'Installation'",
+   "depends_on": "eval:doc.movement_type!='Installation'",
    "fieldname": "from_vehicle_type",
    "fieldtype": "Select",
-   "label": "Source Truck/Trailer",
-   "options": "Truck\nTrailers"
+   "label": "From Truck/Trailer",
+   "options": "\nTruck\nTrailers"
   },
   {
-   "depends_on": "eval:doc.movement_type != 'Installation'",
+   "depends_on": "eval:doc.movement_type!='Installation'",
    "fieldname": "from_vehicle",
    "fieldtype": "Dynamic Link",
-   "label": "Truck/Trailer No",
+   "label": "From Truck/Trailer No",
    "options": "from_vehicle_type"
   },
   {
-   "depends_on": "eval:doc.movement_type != 'Installation'",
+   "depends_on": "eval:doc.movement_type!='Installation'",
    "fieldname": "from_position",
    "fieldtype": "Link",
-   "label": "Source Position",
+   "label": "From Position",
    "options": "Tyre Position"
   },
   {
@@ -83,25 +119,68 @@
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval:doc.movement_type == 'Installation' || doc.movement_type == 'Positional Change' || doc.movement_type == 'Vehicle Transfer' || doc.movement_type == 'Return from Repair'",
+   "depends_on": "eval:in_list(['Installation','Positional Change','Vehicle Transfer','Return from Repair'], doc.movement_type)",
    "fieldname": "to_vehicle_type",
    "fieldtype": "Select",
    "label": "To Truck/Trailer",
-   "options": "Truck\nTrailers"
+   "options": "\nTruck\nTrailers"
   },
   {
-   "depends_on": "eval:doc.movement_type == 'Installation' || doc.movement_type == 'Positional Change' || doc.movement_type == 'Vehicle Transfer' || doc.movement_type == 'Return from Repair'",
+   "depends_on": "eval:in_list(['Installation','Positional Change','Vehicle Transfer','Return from Repair'], doc.movement_type)",
+   "description": "Leave empty on Return from Repair to put the tyre back in store",
    "fieldname": "to_vehicle",
    "fieldtype": "Dynamic Link",
    "label": "To Truck/Trailer No",
    "options": "to_vehicle_type"
   },
   {
-   "depends_on": "eval:doc.movement_type == 'Installation' || doc.movement_type == 'Positional Change' || doc.movement_type == 'Vehicle Transfer' || doc.movement_type == 'Return from Repair'",
+   "depends_on": "eval:in_list(['Installation','Positional Change','Vehicle Transfer','Return from Repair'], doc.movement_type)",
    "fieldname": "to_position",
    "fieldtype": "Link",
-   "label": "Target Position",
+   "label": "To Position",
    "options": "Tyre Position"
+  },
+  {
+   "depends_on": "eval:doc.movement_type=='Return from Repair'",
+   "fieldname": "repair_section",
+   "fieldtype": "Section Break",
+   "label": "Repair / Retread"
+  },
+  {
+   "description": "Tick when the tyre came back retreaded",
+   "fieldname": "is_retreaded",
+   "fieldtype": "Check",
+   "label": "Retreaded"
+  },
+  {
+   "fieldname": "column_break_repair",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "repair_cost",
+   "fieldtype": "Currency",
+   "label": "Repair / Retread Cost"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "result_section",
+   "fieldtype": "Section Break",
+   "label": "Result"
+  },
+  {
+   "fieldname": "usage_km",
+   "fieldtype": "Float",
+   "label": "KM Run in this Fitment",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "stock_entry",
+   "fieldtype": "Link",
+   "label": "Stock Entry",
+   "no_copy": 1,
+   "options": "Stock Entry",
+   "read_only": 1
   },
   {
    "fieldname": "service_job_card",
@@ -111,20 +190,56 @@
    "read_only": 1
   },
   {
+   "fieldname": "column_break_result",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "previous_status",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Previous Status",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "previous_install_odometer_km",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "Previous Fitment Odometer",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "previous_installation_date",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "label": "Previous Installation Date",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
    "fieldname": "section_break_remarks",
-   "fieldtype": "Section Break",
-   "label": "Remarks"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "remarks",
    "fieldtype": "Small Text",
    "label": "Remarks"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Tyre Movement",
+   "print_hide": 1,
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-02-18 11:45:00.000000",
+ "modified": "2026-10-15 16:00:00.000000",
  "modified_by": "Administrator",
  "module": "Tyre Management",
  "name": "Tyre Movement",
