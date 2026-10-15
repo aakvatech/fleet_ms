@@ -35,7 +35,7 @@
   "fieldname": "tyre_install_on",
   "label": "Movement On",
   "fieldtype": "Select",
-  "options": "Truck\nTrailers",
+  "options": "\nTruck\nTrailers",
   "depends_on": "eval:doc.tyre_movement_type",
   "insert_after": "tyre_movement_type"
  },
