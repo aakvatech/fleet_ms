@@ -24,6 +24,8 @@ class TestTyreMaster(TyreFixtures, FrappeTestCase):
 			self.assertEqual(tyre.warehouse, self.store)
 			self.assertEqual(tyre.purchase_cost, TYRE_RATE)
 			self.assertEqual(tyre.tyre_size, "315/80R22.5")
+			# Not fitted yet, so no vehicle side; a Select must not default to "Truck".
+			self.assertFalse(tyre.current_vehicle_type)
 
 	def test_receipt_creates_tyres_before_settings_are_saved(self):
 		frappe.db.delete("Singles", {"doctype": "Tyre Management Settings", "field": "auto_create_tyres"})
