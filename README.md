@@ -48,7 +48,7 @@ bench --site your-site.local install-app vsd_fleet_ms
 bench --site your-site.local migrate
 ```
 
-**Compatibility note:** This branch uses legacy `setup.py` packaging; Frappe v16 installation compatibility has not been independently verified. Test on a staging bench before production use.
+**Compatibility note:** This branch uses the `pyproject.toml` build configuration for package installation. Frappe v16 runtime and Pilot installation compatibility must still be verified on a staging bench before production use.
 
 After installation, configure Transport Settings, fleet masters, permissions and the required ERPNext accounts and warehouses.
 
