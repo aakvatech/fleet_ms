@@ -18,6 +18,7 @@
     "require_purchase_order_for_fuel",
     "require_journal_entry_for_funds",
     "enable_service_ms",
+    "create_tyre_movement_from_service_job_card",
     "accounting_dimension_tab",
     "accounting_dimension_section",
     "accounting_dimension"
@@ -105,12 +106,19 @@
       "label": "Enable Service MS Integration",
       "default": 0,
       "description": "Enable Fleet integration with Service MS"
+    },
+    {
+      "fieldname": "create_tyre_movement_from_service_job_card",
+      "fieldtype": "Check",
+      "label": "Create Tyre Movement from Service Job Card",
+      "default": 0,
+      "description": "Automatically create Tyre Movement when Service Job Card is submitted"
     }
   ],
   "index_web_pages_for_search": 1,
   "issingle": 1,
   "links": [],
-  "modified": "2025-01-10 09:32:21.295315",
+  "modified": "2026-11-27 16:00:00.000000",
   "modified_by": "Administrator",
   "module": "VSD Fleet MS",
   "name": "Transport Settings",
